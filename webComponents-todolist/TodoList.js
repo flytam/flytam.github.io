@@ -2,6 +2,7 @@ class TodoList extends HTMLElement {
   constructor() {
     super();
     this.shadowdom = this.attachShadow({ mode: "open" });
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   get data() {
@@ -19,13 +20,18 @@ class TodoList extends HTMLElement {
     this.setAttribute("data", JSON.stringify(val));
     this.render();
   }
-  connectedCallback() {
-    this.render();
-    this.shadowdom.addEventListener('sub',(e) =>{
-        this.remove(e.detail.index)
-    })
+
+  handleRemove(e) {
+    this.remove(e.detail.index);
   }
 
+  connectedCallback() {
+    this.render();
+    this.shadowdom.addEventListener("sub", this.handleRemove);
+  }
+  disconnectedCallback() {
+    this.shadowdom.removeEventListener("sub", this.handleRemove);
+  }
   //渲染内容
   render() {
     // 简便起见，每次渲染前先清空shadowdom的内容
