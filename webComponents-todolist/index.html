@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>web-components</title>
+    <script src="./TodoList.js"></script>
+    <script src="./TodoIterm.js"></script>
+  </head>
+  <body>
+    <template id="list-item">
+      <style>
+        * {
+          color: red;
+        }
+      </style>
+      <li><slot name="text">nothing write</slot><button id="sub">-</button></li>
+    </template>
+    <!-- <todo-list></todo-list> -->
+    <div>
+        <input id='input'/>
+        <button id='add'>+</button>
+    </div>
+    <script>
+        // 加载web compoennts
+        const List = customElements.get('todo-list');
+        const todoList = new List()
+
+        document.body.appendChild(todoList)
+        document.getElementById('add').onclick = function(){
+           const value = document.getElementById('input').value
+           todoList.addIterm(value)
+        }
+     </script>
+  </body>
+</html>
