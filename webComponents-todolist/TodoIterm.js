@@ -4,7 +4,6 @@ class TodoIterm extends HTMLElement {
     const template = document.getElementById("list-item");
     const templateContent = template.content;
     const shadowdom = this.attachShadow({ mode: "open" });
-
     shadowdom.appendChild(templateContent.cloneNode(true));
     shadowdom.getElementById("sub").onclick = e => {
       const event = new CustomEvent("sub", {
