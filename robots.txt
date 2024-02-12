@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Sitemap: https://blog.flytam.vip/sitemap.xml
+Sitemap: https://blog.flytam.vip/baidusitemap.xml
+Host: https://blog.flytam.vip
