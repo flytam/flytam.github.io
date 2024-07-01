@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            互联网寒冬，一年经验字节跳动、虾皮、快手、拼多多前端面试总结 |
+        
+        Geek前端
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek前端
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">互联网寒冬，一年经验字节跳动、虾皮、快手、拼多多前端面试总结</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2020-10-24 20:57:54</span>
+        <span class="mobile">2020-10-24 20:57</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+
+<p>年中的时候因个人原因，打算离开腾讯，到外面看看，投了若干简历，最终面试了字节跳动、虾皮、快手、拼多多这4家公司。有的喜有的忧，本文是对本次面试的一个总结。</p>
+<h4 id="快手"><a href="#快手" class="headerlink" title="快手"></a>快手</h4><p>快手是最早约的面试，在boss直聘上投完大概几天就约了。也是我本次第一家面试的公司。时间某个工作日的晚上8点，那天早早溜回家面试了，是在牛客网上进行的</p>
+<p>主要问的问题如下：</p>
+<ul>
+<li><p><code>react</code>16新增了哪些生命周期、有什么作用，为什么去掉某些15的生命周期（写过码看过文档都能答上了）</p>
+</li>
+<li><p>fiber怎样的，如何实现异步渲染（链表/可中断）</p>
+</li>
+<li><p><code>redux</code>和<code>redux-saga</code>的区别和原理</p>
+</li>
+<li><p>项目中用到的<code>saga-duck</code>是个什么东西</p>
+</li>
+<li><p><code>useEffect</code>的实现原理（坦白说自己没看过react的实现，就说了下preact的实现）</p>
+</li>
+<li><p>异步渲染和旧版的diff的区别</p>
+</li>
+<li><p>babel实现转码的过程（词法/语法分析）</p>
+</li>
+<li><p>项目的技术栈怎么选型（这种问题好几次都被问到，感觉我真的不太知道怎么答）</p>
+</li>
+<li><p>小程序底层实现原理了解多少（说了下双线程模型/预加载<code>webview</code>）</p>
+</li>
+<li><p>项目nodeJs应用异常退出如何处理(pm2/uncaughtException事件等)、日志上报怎么做（输出重定向到文件，elk服务传传到kibana）</p>
+</li>
+<li><p>graphic schema怎么设计（说了下我对于项目中的理解，资源维度，感觉回答不太好）</p>
+</li>
+<li><p>有哪些技术驱动业务的案例（说了下这个<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/babel-plugin-resolve-config-json" >插件<i class="fas fa-external-link-alt"></i></a>的思路和<code>webpack</code>一些优化）</p>
+</li>
+</ul>
+<p>最后写了一道算法：最大乘积子序列，有正负数的情况。应该对应于这个<a class="link"   target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/maximum-product-subarray/" >leetcode<i class="fas fa-external-link-alt"></i></a>题目。这里我理解错题意以为这个序列是可以不连续的，而且对于理解错的题意也用了一种错误的写法，用了<code>o(n2)</code>的一种实现。然后面试官提示说<code>o(n)</code>，最后还是没做出来。这个题目其实自己在之前的刷题的时候自己也是比较顺利能解出来了，这里有点可惜，面试临场代码能力还是有待加强</p>
+<p>最后面试官大概讲了下部门情况，他们那边是深圳快影前端团队，目前规模还不大，正在大力招人。最后还问了下我如何看待目前部门工程化建设不足的问题，我表示这是一个很好的机会去挑战自己（hhh）。</p>
+<p>当时这次面试之前，差不多两年没面试了（上一次面试还是2018年的8月），很多地方自己感觉也是表现不太好。虽然面试官最后说了认为我是一个比较优秀的同学，让我当时迷之自信误以为会有下一轮。过了一周没有任何答复后，去boss直聘上问了下hr，答复说算法有待加强，第一次面试凉凉～</p>
+<h4 id="拼多多"><a href="#拼多多" class="headerlink" title="拼多多"></a>拼多多</h4><p>拼多多投的是广州的部门，好像是小程序团队，通过一个同学内推的</p>
+<p>一面 47分钟。某天晚上9点</p>
+<ul>
+<li><p><code>redux</code>的理念(说了下<code>action</code> <code>dispatch</code> <code>state啥的</code>，单向数据流)</p>
+</li>
+<li><p><code>react-redux</code>中<code>connect</code>怎么实现(高阶组件、<code>context</code>注入store、subscribe订阅store数据变化)</p>
+</li>
+<li><p><code>mixin</code> hoc 继承的区别，优缺点</p>
+</li>
+<li><p><code>react</code> diff如何实现</p>
+</li>
+<li><p><code>react</code> 旧版的diff用深度优先还是广度优先。为什么用深度优先，广度优先能实现吗（其实我认为广度也能实现的，面试官问广度有啥不好，我确实不知道..）</p>
+</li>
+<li><p>diff的时间复杂度？为什么？(o(n)。提了下react优化o(n3)-&gt;o(n))</p>
+</li>
+<li><p><code>react-router</code>实现原理(hash/html5 history)</p>
+</li>
+<li><p>客户端路由<code>hash</code>/<code>history</code>实现的区别、原理</p>
+</li>
+<li><p>有哪些常见的<code>http</code>头</p>
+</li>
+<li><p><code>websocket</code>/轮询的好处和缺点 （性能、兼容性）</p>
+</li>
+<li><p><code>websocket</code>的握手过程（<code>urgrade websocket</code>）</p>
+</li>
+<li><p><code>tcp</code>的握手过程</p>
+</li>
+<li><p>tcp/udp的区别</p>
+</li>
+<li><p>一个应用场景redux触发几次action如何设计（这个问题感觉有点迷，不知道有啥问，我回答也有点迷，面试官说可以了…）</p>
+</li>
+<li><p>尽可能多实现pdd app导航布局实现（就是类似4等分div并列排布）</p>
+</li>
+<li><p>如何清除浮动</p>
+</li>
+<li><p>BFC实现原理</p>
+</li>
+<li><p>开放题：pdd首页假设没有任何优化，尽可能多的想优化的办法（懒加载、打包优化、webpack速度、代码压缩、雪碧图、http2 balabala….）</p>
+</li>
+</ul>
+<p>二面 周日 下午2.30 35分钟</p>
+<ul>
+<li><p>css的盒子模型（content-box border-box）</p>
+</li>
+<li><p>实现动画有哪些方法 (js css)</p>
+</li>
+<li><p>react mixing hoc 继承 hook之间的区别/优缺点</p>
+</li>
+<li><p>浏览器渲染出一个页面的过程</p>
+</li>
+<li><p>vue/react技术选型</p>
+</li>
+<li><p>项目相关，项目重构开发如何并行balabala…</p>
+</li>
+<li><p>项目中工程化进行了哪些优化</p>
+</li>
+<li><p>项目中继续进行优化会从哪些方面去做(说了下webpack5 module fedration)</p>
+</li>
+<li><p>nodejs项目的性能优化</p>
+</li>
+<li><p>linux文件权限（4 2 1 ）</p>
+</li>
+<li><p>前端监控怎样实现 (数据采集、上报、展示之类)</p>
+</li>
+</ul>
+<p>三面 本来约了去星期天广州现场的，结果车票都买好了，前几天，hr说部门架构调整，岗位暂时不开放了。又凉了～</p>
+<p>拼多多的面试时间还是很合适的，周天+晚上9点，基本可以避免上班的尴尬（毕竟11 11 6…）。问的问题也中规中矩吧。不过也无缘了。拼多多的两轮是比较少有的不需要手写代码的，都是电话面试。</p>
+<h4 id="虾皮"><a href="#虾皮" class="headerlink" title="虾皮"></a>虾皮</h4><p>虾皮通过一个同学内推的，面的金融部门</p>
+<p>虾皮都是qq视频面试+腾讯文档word写代码</p>
+<p>一面 周二早上</p>
+<ul>
+<li><p>http 302 301 307之间的区别</p>
+</li>
+<li><p>301和302对于seo来说哪个更好 (301)</p>
+</li>
+<li><p>跨域是什么、如何解决</p>
+</li>
+<li><p>jsonp有什么缺点</p>
+</li>
+<li><p>图片base64和外链的应用场景，各有什么优缺点(base64减少请求数，但是会增加额外的体积)</p>
+</li>
+<li><p>http缓存机制</p>
+</li>
+<li><p>https的握手过程是怎样的</p>
+</li>
+<li><p>set/map的区别</p>
+</li>
+<li><p>hook的局限性</p>
+</li>
+<li><p>setState和hook的区别</p>
+</li>
+<li><p>decorator的作用，编译后是怎样的(@decorator -&gt; decorator(target)…)</p>
+</li>
+<li><p>symbol是什么，一般用来做什么</p>
+</li>
+<li><p>csrf 是什么 如何防范</p>
+</li>
+<li><p>sql注入是什么，如何防范</p>
+</li>
+<li><p>react 调用setState之后发生了什么</p>
+</li>
+<li><p>nodejs事件循环机制</p>
+</li>
+<li><p>pm2的原理，有哪些模式(cluster fork)</p>
+</li>
+<li><p>docker和k8s有了解多少(k8s听过没用过)</p>
+</li>
+<li><p>移动端端一个元素拖动，如何实现和优化（节流、改变位置）</p>
+</li>
+</ul>
+<p>-<code> for in</code>/<code>for of</code> 看代码输出</p>
+<ul>
+<li><p>几道看代码说输出（忘了具体题目了）</p>
+</li>
+<li><p>描述链表的反转怎样实现，复杂度多少</p>
+</li>
+</ul>
+<p>编程</p>
+<ul>
+<li>实现<code>instanceOf</code></li>
+<li>实现一个对象被<code>for of</code>遍历</li>
+<li>实现链表的添加、删除。复杂度多少</li>
+</ul>
+<p>一面考的都是一些基础知识，需要一定牢固的基础知识准备才行</p>
+<p>二面 时间 一面之后的下午</p>
+<ul>
+<li><p>给了两段效果上都可以实现child 继承 parent，细节上的差别</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">child</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">parent</span>(<span class="params"></span>)&#123;&#125;</span><br><span class="line">child.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">__proto__</span> = parent.<span class="property"><span class="keyword">prototype</span></span></span><br><span class="line">child.<span class="property"><span class="keyword">prototype</span></span> = <span class="keyword">new</span> <span class="title function_">parent</span>()</span><br></pre></td></tr></table></figure></li>
+<li><p>一些代码看输出的题目。考点有函数<code>this</code>指向的问题</p>
+</li>
+<li><p>如何监听html外链资源加载失败(面试官又追问了<code>onerror</code> 和<code>addEventListener</code>的error都能吗。面试官说onerror不行，具体我没试过…)</p>
+</li>
+<li><p><code>Mutation Observer</code>、<code>Intersection Observer</code>使用场景（Intersection听过没用过）</p>
+</li>
+<li><p><code>127.0.0.1</code>和<code>0.0.0.0</code>差别（一个只能通过<code>localhost</code> ，一个可以通过本机ip或者localhost都行）</p>
+</li>
+<li><p>利用promise js sleep函数实现</p>
+</li>
+<li><p>jsx转换后是怎样的</p>
+</li>
+<li><p><code>redux</code> <code>compose</code>函数做什么的，中间件呢 </p>
+</li>
+<li><p><code>redux-saga</code>是什么，和<code>redux-thunk</code>有什么区别</p>
+</li>
+<li><p>dva有了解吗</p>
+</li>
+<li><p><code>umi.js</code>有用过吗</p>
+</li>
+<li><p><code>req.pipe(res)</code></p>
+</li>
+<li><p>stream 如何处理数据消费和数据生产的速率不一致问题</p>
+</li>
+<li><p>writeable stream <code>drain</code>事件是做什么的（这是和一个控制读写速率有关的事件）</p>
+</li>
+</ul>
+<p>二面考得比较细，问了很多看代码问输出的问题，也问了一些比较细节的问题，有些细节的地方确实实际也没接触过。</p>
+<h4 id="字节"><a href="#字节" class="headerlink" title="字节"></a>字节</h4><p>字节是通过一个同学内推的。字节也是自己比较中意的公司之一吧。为了准备字节面试，刷了不少leetcode，虽然好像面试也没怎么考，但是通过这段时间刷leetcode，不得不承认感觉自己的代码能力也有一定提升</p>
+<p>某个周日晚上20点</p>
+<p>一面</p>
+<ul>
+<li><p>常用的http状态码(101 200 204 301 302 304 307 400 404 500…)</p>
+</li>
+<li><p>301和302的区别(永久/临时)</p>
+</li>
+<li><p>前端路由怎样实现(<code>hashchange</code>事件 hack history.pushState)</p>
+</li>
+<li><p>前端路由直接刷新404怎样处理(404时重定向到index.html 如nginx)</p>
+</li>
+<li><p>从前端到后端全链路如何设计实现一个登陆的流程(session方案、jwt)</p>
+</li>
+<li><p>什么是跨域，怎样处理</p>
+</li>
+<li><p>简单请求和复杂请求的区别</p>
+</li>
+<li><p>浏览器的缓存策略说下</p>
+</li>
+<li><p>domain属性解决跨域。几种domain设置对跨域是否生效</p>
+</li>
+<li><p>ts 泛型做什么的，infer关键字的作用</p>
+</li>
+</ul>
+<p>题目</p>
+<ul>
+<li><p>实现typescript的<code>Paramters</code>、<code>ReturnType</code> (考察infer关键字使用)</p>
+</li>
+<li><p>实现<code>Promise.all</code> (每个promise resolve结果存数组，最后一个promise返回时，把数组返回)</p>
+</li>
+<li><p>实现一个并发请求控制函数，限制并发数</p>
+</li>
+<li></li>
+</ul>
+<p>二面 一面之后马上进行了二面</p>
+<ul>
+<li><p>jwt的原理（以前用过，比较好说）</p>
+</li>
+<li><p>xss和csrf是怎样的，如何去解决</p>
+</li>
+<li><p><code>pureComponent</code>和<code>Component</code>的区别(前者<code>shouldComponentUpdate</code>默认比较props)</p>
+</li>
+<li><p><code>react</code> hoc hook解决了什么问题</p>
+</li>
+<li><p>有哪些常用的react hook，它们做了什么(<code>useState</code> <code>useReducer`` useContext</code>等等…)</p>
+</li>
+<li><p>项目实现一个中间层的意义（前端全链路日志打通）</p>
+</li>
+<li><p><code>setState</code>同步还是异步</p>
+</li>
+<li><p><code>setState</code>传递对象和函数有什么区别？如何选择</p>
+</li>
+<li><p>合成事件怎样的，有什么好处</p>
+</li>
+<li><p>事件冒泡和事件捕获的区别、react中的冒泡和捕获呢（react中都是合成事件，无论冒泡和捕获，对应于原生事件都是冒泡）</p>
+</li>
+<li><p>怎样看待加班（hhh 加班很正常啦，在腾讯的时候也是每天加班）</p>
+</li>
+<li><p>为啥选择跳槽</p>
+</li>
+</ul>
+<p>题目</p>
+<ul>
+<li><p>实现<code>css</code>垂直、水平居中</p>
+</li>
+<li><p>实现<code>bind</code>函数</p>
+</li>
+<li><p>实现快速排序</p>
+</li>
+</ul>
+<p>三面 三面是leader面，某个周二下午进行</p>
+<ul>
+<li><p>为什么之前拿了实习offer没来/下一份工作有怎样的预期</p>
+</li>
+<li><p><code>graphql</code>相比<code>restful</code>的区别、优点缺点()</p>
+</li>
+<li><p>为啥选择了<code>redux-saga</code>作为解决方案(解决异步优雅/提供很多工具函数)。<code>redux</code>的异步中间件方案有哪些，对比。<code>saga</code>对比<code>dva</code>？</p>
+</li>
+<li><p>graphql的鉴权在哪里做</p>
+</li>
+<li><p>协程是什么（语言层面实现的并发），Go/nodeJs怎样去实现协程（Go使用go关键字、<code>node</code>可以使用<code>Generator</code>实现、我理解<code>react</code>16的异步渲染也是协程的实现）</p>
+</li>
+<li><p><code>react</code> <code>fiber</code>的机制是怎样的</p>
+</li>
+<li><p>锁机制的作用，node和Go如何处理死锁</p>
+</li>
+<li><p>Go/node实现并发怎么做</p>
+</li>
+<li><p>node和Go的优缺点怎样理解</p>
+</li>
+</ul>
+<p>编程</p>
+<ul>
+<li>实现一个<code>useState</code></li>
+</ul>
+<p>三面可能因为简历写了自己写过一些Go（其实我只是个人项目的一些玩具），面试官问了不少node和Go的问题，然后我就先表明Go自己只是简单学过，然后就按照我的理解回答node和Go的问题..幸好感觉回答得也7788吧</p>
+<p>四面 因为某些原因，前3面发了offer后我选择换了部门，于是就有了4面</p>
+<ul>
+<li><p>介绍项目 项目难点 </p>
+</li>
+<li><p>项目做了哪些优化</p>
+</li>
+<li><p>一个广告页面，如何统计在不同平台上的停留时间</p>
+</li>
+<li><p>为何选择换工作</p>
+</li>
+</ul>
+<p>四面基本上都是聊项目，难得没有做题。我们准备面试的时候一定也要先整理下自己的项目的一些难点之类的，所以四面过程还是比较轻松的</p>
+<p>字节感觉总体难度是这4个公司面试难度最大的，写代码也是最多的，而且感觉面试的时候写代码真的比平时加了不少<code>debuff</code>，这个还是非常考验心理素质和代码能力的。最后还是有惊无险拿了字节跳动的offer啦～</p>
+<h3 id="写在最后"><a href="#写在最后" class="headerlink" title="写在最后"></a>写在最后</h3><p>最终拿了虾皮和字节的offer，最后选择了入职字节～这就是本次跳槽面试经历小总结。忠告各位：目前大环境也确实不好，各位跳槽要慎重，千万别裸辞～</p>
+<p>码字不易，据说点赞的人都能收割offer～</p>
+<p>最后广告时间，字节跳动社招/校招内推火热进行中，扫码二维码投递即可，投递后可以联系<code>673800357@qq.com</code>随时查看进度&amp;简历修改意见</p>
+<p><img src="https://imgkr.cn-bj.ufileos.com/c3c95b53-177d-4a9a-8a3b-6743e8677e52.png"></p>
+<p><img src="https://imgkr.cn-bj.ufileos.com/493d4835-41a9-4326-a294-c1e58a08a57b.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：互联网寒冬，一年经验字节跳动、虾皮、快手、拼多多前端面试总结</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2020-10-24 20:57:54</li>
+        <li>
+            Post link：https://blog.flytam.vip/互联网寒冬，一年经验字节跳动、虾皮、快手、拼多多前端面试总结.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E9%9D%A2%E8%AF%95/">#面试</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/77.9K%20Star%20%E7%9A%84%20Axios%20%E9%A1%B9%E7%9B%AE%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E5%AE%9E%E7%8E%B0%E8%AF%B7%E6%B1%82%E9%87%8D%E8%AF%95.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">77.9K Star 的 Axios 项目如何优雅实现请求重试</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/deno%20%E5%88%9D%E4%BD%93%E9%AA%8C%EF%BC%8C%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAnode%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB%E5%88%B0deno%E9%9C%80%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">deno 初体验，实战记录一个node项目迁移到deno需要做什么</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+            <div class="comment-container">
+                <div class="comments-container">
+    <div id="comment-anchor"></div>
+    <div class="comment-area-title">
+        <i class="fas fa-comments">&nbsp;Comments</i>
+    </div>
+    
+
+        
+            
+    <div class="twikoo-container">
+        <script 
+                src="https://cdn.staticfile.org/twikoo/1.6.32/twikoo.all.min.js"
+        ></script>
+        <div id="twikoo-comment"></div>
+        <script >
+            function loadTwikoo() {
+                twikoo.init({
+                    el: '#twikoo-comment',
+                    envId: 'https://comment.flytam.vip',
+                    region: '',
+                });
+            }
+
+            if ('false') {
+                const loadTwikooTimeout = setTimeout(() => {
+                    loadTwikoo();
+                    clearTimeout(loadTwikooTimeout);
+                }, 1000);
+            } else {
+                window.addEventListener('DOMContentLoaded', loadTwikoo);
+            }
+        </script>
+    </div>
+
+
+
+        
+    
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+            <li class="go-comment">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E6%89%8B"><span class="nav-text">快手</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%BC%E5%A4%9A%E5%A4%9A"><span class="nav-text">拼多多</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%99%BE%E7%9A%AE"><span class="nav-text">虾皮</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E8%8A%82"><span class="nav-text">字节</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E5%9C%A8%E6%9C%80%E5%90%8E"><span class="nav-text">写在最后</span></a>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>
