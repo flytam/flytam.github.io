@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            前端 js 异常那些事 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">前端 js 异常那些事</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-05-03 11:10:31</span>
+        <span class="mobile">2024-05-03 11:10</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/react-%E5%8E%9F%E7%94%9F/">react 原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/react-%E5%8E%9F%E7%94%9F/">react 原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>人无完人，所以代码总会出异常的，异常并不可怕，关键是怎么处理</p>
+<h2 id="什么是异常"><a href="#什么是异常" class="headerlink" title="什么是异常"></a>什么是异常</h2><p><strong>程序发生了意想不到的情况，影响到了程序的正确运行</strong></p>
+<p>从根本上来说，异常就是一个普通的对象，其保存了异常发生的相关信息，比如错误码、错误信息等。以 JS 中的标准内置对象 Error 为例，其标准属性有 message。许多宿主环境额外增加了 filename 和 stack 等属性</p>
+<p>错误只有被 throw，才会产生异常，不被抛出的错误不会产生异常。比如直接<code>new Error()</code>甚至打印 Error 但是不 throw，也是不会产生异常</p>
+<h2 id="异常的分类"><a href="#异常的分类" class="headerlink" title="异常的分类"></a>异常的分类</h2><h4 id="编译时异常"><a href="#编译时异常" class="headerlink" title="编译时异常"></a>编译时异常</h4><p>源代码在编译成可执行代码之前产生的异常，无需执行即有异常。编译、语法解析发生错误。编译型语言对于这种很常见的，但是解析型的 js 也是会有编译型异常。通常是非合法的 js 语句、ts 编译报错</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="number">1</span> <span class="comment">// Uncaught SyntaxError: Unexpected number</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">test</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">await</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码本身不会执行就抛异常，不会处理到打印 1 的阶段。这种情况通常不会有实际影响，因为 babel/ts 等工具处理时就会直接报错。除非不经编译直接写代码，例如有时候我们直接写在 html 中写的一些代码</p>
+<h4 id="运行时异常"><a href="#运行时异常" class="headerlink" title="运行时异常"></a>运行时异常</h4><p>代码被执行之后产生的异常。这些通常是很难提前发现的，因为代码实际运行中会遇到。比较常见的如<code>TypeError: Cannot read properties of undefined</code>这样的读取了<code>undefined</code>的属性。运行时异常对比编译时异常的特点是代码执行到异常代码前都是会正常执行的</p>
+<p>执行到<code>a.b.c</code>前的打印能成功，异常抛出后后面的语句就不能执行了。运行时异常即可是这种引擎层面抛出的也可以是代码手动抛出的</p>
+<p>而上面说的编译时异常，即使异常语句前的正常语句也是不会执行</p>
+<h2 id="异常传播"><a href="#异常传播" class="headerlink" title="异常传播"></a>异常传播</h2><p>异常抛出就像事件冒泡一样具有传递性。如果一个异常没有被 catch，它会沿着函数调用栈一层层传播直到栈空。</p>
+<p>异常会不断传播直到遇到第一个 catch。 如果都没有捕获，会抛出类似 unCaughtError，表示发生了一个异常，未被捕获的异常通常会被打印在控制台上</p>
+<h4 id="error-对象"><a href="#error-对象" class="headerlink" title="error 对象"></a>error 对象</h4><p><code>Error</code>本身作为函数直接调用和被 new 调用的效果是一样的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const a = Error(&#x27;a&#x27;)</span><br><span class="line"></span><br><span class="line">const b = new Error(&#x27;b&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>javascript 规范中总共有 8 中错误类型构造函数</p>
+<ul>
+<li>Error – 错误对象</li>
+<li>SyntaxError –解析过程语法错误（上面提到的编译时异常）</li>
+<li>TypeError – 不属于有效类型（上面举例的运行时异常）</li>
+<li>ReferenceError – 无效引用（严格模式下直接访问一个未定义的变量）</li>
+<li>RangeError – 数值超出有效范围</li>
+<li>URIError – 解析 URI 编码出错</li>
+<li>EvalError – 调用 eval 函数错误</li>
+<li>InternalError – Javascript 引擎内部错误的异常抛出， “递归太多”</li>
+</ul>
+<p>Error 是错误的基类，其他类型都继承 Error 这个类</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(<span class="title class_">SyntaxError</span>) === <span class="title class_">Error</span>);    <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(<span class="title class_">TypeError</span>) === <span class="title class_">Error</span>);   <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(<span class="title class_">ReferenceError</span>) === <span class="title class_">Error</span>);   <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(<span class="title class_">RangeError</span>) === <span class="title class_">Error</span>);   <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(<span class="title class_">URIError</span>) === <span class="title class_">Error</span>);   <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title class_">Object</span>.<span class="title function_">getPrototypeOf</span>(<span class="title class_">EvalError</span>) === <span class="title class_">Error</span>);   <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>默认的 error 对象只有一个 message 信息，很多时候对于错误的细分是很不好使，一般可以通过扩展这个错误对象，抛异常时抛出自定义的错误对象，在异常处理或时实现更精细化的处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">ApiError</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Error</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">message, code</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">super</span>(message);</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">code</span> = code</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> err = <span class="keyword">new</span> <span class="title class_">ApiError</span>(<span class="string">&#x27;xxx&#x27;</span>, <span class="number">404</span>)</span><br><span class="line"></span><br><span class="line">err <span class="keyword">instanceof</span>  <span class="title class_">ApiError</span></span><br></pre></td></tr></table></figure>
+
+<p>一种常见的应用就是在 axios 处理的异常中抛出一个扩展的 ApiError 对象，传递错误信息、错误等，在错误处理时对于这种错误进行特殊处理。如自定义上报、catch 住不作为 js 异常上报。不进行这种处理的话平时比较常见的情况就是会造成 slardar 的中 js 错误部分会有很多 axios 抛出的噪音</p>
+<p>除了扩展错误对象，目前有一个处于 stage 4 的 Error Cause 提案 <a class="link"   target="_blank" rel="noopener" href="https://github.com/tc39/proposal-error-cause%E3%80%82%E8%BF%99%E4%B8%AA%E6%8F%90%E6%A1%88%E4%B9%9F%E6%98%AF%E7%94%B1%E9%98%BF%E9%87%8C%E6%8E%A8%E8%BF%9B%E7%9A%84%E5%9B%BD%E5%86%85%E7%9A%84%E9%A6%96%E4%B8%AAes%E6%8F%90%E6%A1%88" >https://github.com/tc39/proposal-error-cause。这个提案也是由阿里推进的国内的首个es提案<i class="fas fa-external-link-alt"></i></a></p>
+<blockquote>
+<p>Chrome 96 版本目前还不可用，firefox 可用</p>
+</blockquote>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/115e09c55b7141ac8ac992f752469b2c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=684&h=368&s=49868&e=png&b=ffffff"></p>
+<p>通过传递给 Error 构造函数的第二个参数一个 cause 属性为一个 Error 对象，即可看到是哪个错误具体产生当前的错误，对于一些调用链路比较深的可可能存在多个异常抛出情况这个特性还是相当好用的，可以准确追踪。Error Cause 当然用自定义扩展错误也能够实现这个功能</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">doJob</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> rawResource = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;//domain/resource-a&#x27;</span>)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Download raw resource failed&#x27;</span>, &#123; <span class="attr">cause</span>: err &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line">  <span class="keyword">const</span> jobResult = <span class="title function_">doComputationalHeavyJob</span>(rawResource);</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">&#x27;//domain/upload&#x27;</span>, &#123; <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>, <span class="attr">body</span>: jobResult &#125;)</span><br><span class="line">    .<span class="title function_">catch</span>(<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Upload job result failed&#x27;</span>, &#123; <span class="attr">cause</span>: err &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">doJob</span>();</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Caused by&#x27;</span>, e.<span class="property">cause</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// Error: Upload job result failed</span></span><br><span class="line"><span class="comment">// Caused by TypeError: Failed to fetch</span></span><br></pre></td></tr></table></figure>
+
+<p>Error 的相关 api</p>
+<ul>
+<li>改变堆栈帧数</li>
+</ul>
+<p>默认情况下，V8 引发的几乎所有错误都具有一个 stack 属性，该属性保存最顶层的 10 个堆栈帧，格式为字符串 <code>at xxx</code></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/aa06058f95364452a2c9d8cf5d02793c~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1090&h=178&s=54446&e=png&b=fef5f5"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error.stackTraceLimit</span><br></pre></td></tr></table></figure>
+
+<p><code>Error.stackTraceLimit</code> 属性指定堆栈跟踪收集的堆栈帧数。默认值为 <code>10</code>，可以设置为任何有效的 JavaScript 数值。 更改将影响值更改后捕获的任何堆栈跟踪。如果设置为非数字值，或设置为负数，则堆栈跟踪将不会捕获任何帧</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a55aea0730e948f1905b246fba44c0ac~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=538&h=378&s=35553&e=png&b=fefefe"></p>
+<ul>
+<li>收集自定义异常</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Error</span>.<span class="title function_">captureStackTrace</span>(error, constructorOpt)</span><br></pre></td></tr></table></figure>
+
+<p>这个 API 可以给自定义对象追加 stack 属性，达到模拟 Error 的效果，追加的 stack 表示调用 <code>Error.captureStackTrace()</code> 的代码中的位置的字符串。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">CustomError</span>(<span class="params">message</span>) &#123;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">message</span> = message;</span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">name</span> = <span class="title class_">CustomError</span>.<span class="property">name</span>;</span><br><span class="line">  <span class="title class_">Error</span>.<span class="title function_">captureStackTrace</span>(<span class="variable language_">this</span>); <span class="comment">// 给对象追加stack属性</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">CustomError</span>(<span class="string">&#x27;msg&#x27;</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(e)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/18a3f459d2284749a87f0ced62a63a2b~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1212&h=210&s=70842&e=png&b=fffefe"></p>
+<p>需要注意的是<code>stack</code>属性对于不同浏览器的格式是不一致的，通常而言监控 sdk 会统一做处理</p>
+<p>这个方法支持传递一个<code>constructorOpt</code>参数，表示所有 <code>constructorOpt</code> 以上的帧，包括 <code>constructorOpt</code>，都将从生成的堆栈跟踪中省略。具体的差异如下</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/4569a1fe0e4a4a2fb83cd1cf31f13528~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1242&h=336&s=56655&e=png&b=ffffff"></p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1730aaca4dc54bd381a0d437be13b088~tplv-k3u1fbpfcp-jj-mark:0:0:0:0:q75.image#?w=1082&h=304&s=50166&e=png&b=ffffff"></p>
+<p>使用这个参数可以用于调用栈过深时隐藏深层次的一些调用细节</p>
+<ul>
+<li>sourcemap 还原错误</li>
+</ul>
+<p>还原错误也是利用了 error 对象的 stack 属性。可以使用<code>stacktracey</code>和<code>source-map</code>实现根据错误堆栈还原到实际发生错误的代码</p>
+<p>线上代码经过压缩后一般只有 1 行，对于定位原始错误是很困难的。并且默认的<code>e.stack</code>属性是个字符串，可以借助<code>stacktracey</code>进行解析并结合<code>source-map</code>进行反解</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sourceMap = <span class="built_in">require</span>(<span class="string">&#x27;source-map&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">SourceMapConsumer</span> = sourceMap.<span class="property">SourceMapConsumer</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Stacktracey</span> = <span class="built_in">require</span>(<span class="string">&#x27;stacktracey&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> errorStack = <span class="string">&#x27;...&#x27;</span>; <span class="comment">// 错误信息</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceMapFileContent = <span class="string">&#x27;...&#x27;</span>; <span class="comment">// sourcemap文件内容</span></span><br><span class="line"><span class="keyword">const</span> tracey = <span class="keyword">new</span> <span class="title class_">Stacktracey</span>(errorStack); <span class="comment">// 解析错误信息</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceMapContent = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(sourceMapFileContent);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> consumer = <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">SourceMapConsumer</span>(sourceMapContent);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> frame <span class="keyword">of</span> tracey) &#123; <span class="comment">// 这里的frame就是stack中的一行所解析出来的内容</span></span><br><span class="line">    <span class="comment">// originalPosition不仅仅是行列信息，还有错误发生的文件 originalPosition.source</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> originalPosition = consumer.<span class="title function_">originalPositionFor</span>(&#123;</span><br><span class="line">        <span class="attr">line</span>: frame.<span class="property">line</span>,</span><br><span class="line">        <span class="attr">column</span>: frame.<span class="property">column</span>,</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 拿到错误所对应的源码以及上面的行列号</span></span><br><span class="line">    <span class="keyword">const</span> sourceContent = consumer.<span class="title function_">sourceContentFor</span>(originalPosition.<span class="property">source</span>);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(sourceContent);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="自动、手动抛出"><a href="#自动、手动抛出" class="headerlink" title="自动、手动抛出"></a>自动、手动抛出</h4><p>异常可手动抛出也可自动抛出</p>
+<p>自动抛出：代码执行报错由引擎抛出。这种由于逻辑缺失容错造成的自动抛出错误应该是要尽最大程度杜绝并防范的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> a = &#123;&#125;</span><br><span class="line"></span><br><span class="line">a.<span class="property">b</span>.<span class="property">c</span> = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+<p>手动抛出：直接调用<code>throw</code></p>
+<p>那什么时候应该手动抛出异常呢？一个指导原则就是已经预知到程序不能正确进行下去了。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">switch</span> (type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="attr">a</span>:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="attr">b</span>:</span><br><span class="line">    <span class="keyword">break</span>;</span><br><span class="line">    <span class="attr">default</span>:</span><br><span class="line">     <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;xxxx&#x27;</span>)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="抛出异常还是返回特定错误信息"><a href="#抛出异常还是返回特定错误信息" class="headerlink" title="抛出异常还是返回特定错误信息"></a>抛出异常还是返回特定错误信息</h4><p>对于上面提到可预知的异常需要终止流程，也可以使用抛出异常或者返回特定数据来让调用方感知。</p>
+<ul>
+<li>抛出异常</li>
+</ul>
+<p>好处，调用方无需判断返回值，抛出异常默认就不会走后面的逻辑代码了。常见于 axios 对于 code 非 0 的异常抛出处理并自定义上报。再结合上面提到的扩展 error 对象，可以在监控上报前判断属于特定错误不作为 js 上报，避免网络异常造成的 js 错误增加噪音</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">instance.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(<span class="keyword">async</span> (<span class="attr">res</span>: <span class="title class_">AxiosResponse</span>&lt;<span class="title class_">Result</span>&gt;) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (res?.<span class="property">data</span>?.<span class="property">statusCode</span> !== <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">ApiError</span>(<span class="string">&#x27;xx&#x27;</span>, res?.<span class="property">data</span>?.<span class="property">statusCode</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>不抛异常而是返回特定信息</li>
+</ul>
+<p>如果上述的代码不抛出异常而是直接返回 res 的话，每一处调用就都要手动判断 code。接口 http 返回 http code 200 而响应体 code 不等于 0 也属于不抛异常而是返回特定信息的方式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> res = <span class="keyword">await</span> <span class="title function_">api</span>()</span><br><span class="line"><span class="keyword">if</span> (res.<span class="property">code</span> !==<span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><h4 id="同步、异步"><a href="#同步、异步" class="headerlink" title="同步、异步"></a>同步、异步</h4><p>try-catch 作为 JavaScript 中处理异常的一种标准方式，如果 try 块中的任何同步代码发生了错误，就会立即退出代码执行过程，然后执行 catch 块。此时 catch 块会接收到一个包含错误信息的对象。try-catch 使用时也可以搭配 finnally 使用。 finally 一经使用，其代码无论如何都会执行。对于异步调用可封装成 promise 的 catch 方法进行调用或借助 async/await 语法糖使用 try/catch</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"> <span class="title function_">fn</span>()</span><br><span class="line">&#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br><span class="line"><span class="title function_">fn</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span>&#123;&#125;, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// catch</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="title function_">fn</span>().<span class="title function_">catch</span>(<span class="function">() =&gt;</span> &#123;&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123; <span class="keyword">await</span> <span class="title function_">fn</span>() &#125; <span class="keyword">catch</span>(e) &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可能到处 try catch 确实不是一种优雅的方式，可以进行适当的封装</p>
+<ol>
+<li> 对于异步 promise 调用可以直接使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/scopsy/await-to-js" >await-to-js<i class="fas fa-external-link-alt"></i></a>，利用 Promise 的特性，分别在 promise.then 和 promise.catch 中返回不同的数组，其中 fulfilled 的时候返回数组第一项为 null，第二个是结果。rejected 的时候，返回数组第一项为错误信息，第二项为 undefined。使用的时候，判断第一项是否为空，即可知道是否有错误</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> to <span class="keyword">from</span> <span class="string">&#x27;await-to-js&#x27;</span>;</span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">asyncTask</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">let</span> err, user, savedTask;</span><br><span class="line">     [err, user] = <span class="keyword">await</span> <span class="title function_">to</span>(<span class="title class_">UserModel</span>.<span class="title function_">findById</span>(<span class="number">1</span>));</span><br><span class="line">     <span class="keyword">if</span>(!user) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">CustomerError</span>(<span class="string">&#x27;No user found&#x27;</span>);</span><br><span class="line">     [err, savedTask] = <span class="keyword">await</span> <span class="title function_">to</span>(<span class="title class_">TaskModel</span>(&#123;<span class="attr">userId</span>: user.<span class="property">id</span>, <span class="attr">name</span>: <span class="string">&#x27;Demo Task&#x27;</span>&#125;));</span><br><span class="line"></span><br><span class="line">     <span class="keyword">if</span>(err) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">CustomError</span>(<span class="string">&#x27;Error occurred while saving task&#x27;</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(user.<span class="property">notificationsEnabled</span>) &#123;</span><br><span class="line">       <span class="keyword">const</span> [err] = <span class="keyword">await</span> <span class="title function_">to</span>(<span class="title class_">NotificationService</span>.<span class="title function_">sendNotification</span>(user.<span class="property">id</span>, <span class="string">&#x27;Task Created&#x27;</span>));</span><br><span class="line">       <span class="keyword">if</span> (err) <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">&#x27;Just log the error and continue flow&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li> 对于 class 方法调用适当使用装饰器进行 catch</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">CatchAsync</span>(<span class="params">errorLabel = <span class="string">&#x27;&#x27;</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">target: unknown, key: string, descriptor: PropertyDescriptor</span>) &#123;</span><br><span class="line">        errorLabel = errorLabel || key</span><br><span class="line">        <span class="keyword">const</span> originFn = descriptor.<span class="property">value</span></span><br><span class="line">        descriptor.<span class="property">value</span> = <span class="keyword">async</span> <span class="keyword">function</span> (<span class="params">...rest: unknown[]</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">await</span> originFn.<span class="title function_">call</span>(<span class="variable language_">this</span>, ...rest)</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">               <span class="comment">// do something</span></span><br><span class="line">                <span class="keyword">throw</span> e</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">CatchSync</span>(<span class="params">errorLabel = <span class="string">&#x27;&#x27;</span></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">target: unknown, key: string, descriptor: PropertyDescriptor</span>) &#123;</span><br><span class="line">        errorLabel = errorLabel || key</span><br><span class="line">        <span class="keyword">const</span> originFn = descriptor.<span class="property">value</span></span><br><span class="line">        descriptor.<span class="property">value</span> = <span class="keyword">function</span> (<span class="params">...rest: unknown[]</span>) &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> originFn.<span class="title function_">call</span>(<span class="variable language_">this</span>, ...rest)</span><br><span class="line">            &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">                <span class="comment">// do something</span></span><br><span class="line">                <span class="keyword">throw</span> e</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line">    @<span class="title class_">CatchAsync</span>(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">    <span class="keyword">async</span> <span class="title function_">request</span>(<span class="params"></span>) &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Promise catch 小细节</p>
+<blockquote>
+<p>以下两种写法的区别</p>
+</blockquote>
+<p><code>then(f1,f2) vs then(f1).catch(f2)</code></p>
+<p>绝大多数情况下是相同的。</p>
+<p>区别在于第一种写法 f2 无法捕获 f1 中的异常。第二种写法 f2 能捕获 f1 中的异常</p>
+<h4 id="全局兜底"><a href="#全局兜底" class="headerlink" title="全局兜底"></a>全局兜底</h4><p>对于无需手动捕获或者没有捕获的异常最终会抛到全局。通过全局<code>error</code> 和<code>unhandledrejection</code>进行监听并处理。监听全局异常和未捕获的 Promise 异常并进行相关处理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">onReject</span>(<span class="params">e</span>) &#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="title function_">report</span>(e)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;unhandledrejection&#x27;</span>, onReject, <span class="literal">true</span>)</span><br><span class="line"><span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;error&#x27;</span>, <span class="variable language_">this</span>.<span class="property">onError</span>, <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>window.onerror</code>和<code>window.addEventListener error</code>的区别</p>
+<ul>
+<li><code>window.onerror</code> 函数返回 true 可以阻止执行默认事件处理函数（即控制台没有 error 打印出来）</li>
+<li><code>window.addEventListener error</code>若为捕获阶段，则可额外捕获静态资源的加载错误。<code>window.onerror</code>则无法捕获静态资源的加载错误</li>
+</ul>
+<h2 id="React-中的异常"><a href="#React-中的异常" class="headerlink" title="React 中的异常"></a>React 中的异常</h2><h4 id="白屏异常"><a href="#白屏异常" class="headerlink" title="白屏异常"></a>白屏异常</h4><blockquote>
+<p>React 处理阶段的同步代码报错，整个组件树挂了导致卸载掉，页面展示白屏</p>
+</blockquote>
+<ul>
+<li>生命周期函数报错</li>
+<li>render 方法报错</li>
+<li>构造函数报错</li>
+</ul>
+<p>上述提到的是同步代码报错，异步代码的报错是不会产生页面白屏，只是会产生一些 console 中的 error。同理，因为事件回调函数的处理不是在 React 处理阶段（初始化或者事件处理<code>setState</code>驱动 react 进行下次渲染的），所以事件处理函数中的报错同样不会触发白屏</p>
+<h4 id="Error-Boundary"><a href="#Error-Boundary" class="headerlink" title="Error Boundary"></a><code>Error Boundary</code></h4><p>既然白屏问题如此严重，必须要有一种方式帮助开发者来感知 React 中的白屏问题。 于是 React16 就有了<code>Error Boundary</code>来用来捕获渲染时错误的概念，在 React 新增了两个生命周期<code>componentDidCatch</code>和<code>static getDerivedStateFromError</code>用于捕获渲染时的错误，也仅能捕获上面提到的白屏异常（如异步错误等也是没有办法被捕获到），也就是说如果我们在<code>Error Boundary</code>中捕获到错误并上报，这个错误通常是非常严重的。<code>Error Boundary</code>只可用于捕获子组件中发生的异常（自身出现渲染错误也是无法捕获的）</p>
+<blockquote>
+<p>无法捕获的异常</p>
+</blockquote>
+<ul>
+<li><blockquote>
+<p>事件处理</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>异步代码（例如 <code>setTimeout</code> 或 <code>requestAnimationFrame</code> 回调函数）</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>服务端渲染</p>
+</blockquote>
+</li>
+<li><blockquote>
+<p>它自身抛出来的错误（并非它的子组件）</p>
+</blockquote>
+</li>
+<li>componentDidCatch</li>
+</ul>
+<p>用于出错时去执行的副作用代码，比如错误上报、错误兜底等</p>
+<ul>
+<li>static getDerivedStateFromError</li>
+</ul>
+<p>在出错后触发，改函数返回的值能进行 setState 更新，触发一次重新 render 来渲染错误时的 fallback 组件。如果这次渲染仍然出现渲染错误，页面仍然会白屏，而不是执行类似 render error -&gt; getDerivedStateFromError -&gt; render error 这样的死循环</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Demo</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;</span><br><span class="line">    state = &#123;</span><br><span class="line">        <span class="attr">error</span>: <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="title function_">getDerivedStateFromError</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="attr">error</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidCatch</span>(<span class="params">error, info</span>)&#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123;</span><br><span class="line">            <span class="attr">error</span>: <span class="literal">true</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">state</span>.<span class="property">error</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>error<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Child中发生渲染错误</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;<span class="name">Child</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>`</p>
+<ul>
+<li><code>static getDerivedStateFromError</code>渲染阶段调用的，所以不允许出现副作用</li>
+<li><code>componentDidCatch</code>【commit】阶段被调用，所以允许出现副作用</li>
+</ul>
+<p>目前 React 的 Error Boundary 提供的两个生命周期只存在于 class 组件；并没有相应的 hooks 能实现类似的功能</p>
+<blockquote>
+<p>There are no Hook equivalents to the uncommon <code>getSnapshotBeforeUpdate</code>, <code>getDerivedStateFromError</code> and <code>componentDidCatch</code> lifecycles yet, but we plan to add them soon.</p>
+</blockquote>
+<p>但是有一个比较有趣的是，Preact 提供了相应的 hook <a class="link"   target="_blank" rel="noopener" href="https://preactjs.com/guide/v10/hooks/#useerrorboundary" >useErrorBoundary<i class="fas fa-external-link-alt"></i></a>去实现 Error Boundary。preact 中的<code>useErrorBoundary</code>的功能和<code>getDerivedStateFromError</code>、<code>componentDidCatch</code>是一模一样的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// error = The error that was caught or `undefined` if nothing errored.</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// resetError = Call this function to mark an error as resolved. It&#x27;s</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   up to your app to decide what that means and if it is possible</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//   to recover from errors.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [error, resetError] = <span class="title function_">useErrorBoundary</span>();</span><br></pre></td></tr></table></figure>
+
+<p>用法也是非常简单，子组件触发异常会触发函数组件的 render 并且 error 是对应的错误信息，并且还提供了对应的 resetError 去重置错误。至于为何 Preact 能先于 React 支持功能，原因在于对于 Preact 的实现来说，它的函数组件和 class 组件都是实例化成一样的实例，函数组件的 hook 中直接定义<code>componentDidCatch</code>进行处理，componentDidCatch 捕获到错误后通过<code>setState</code>设置错误对象驱动下一次的 render 来拯救白屏</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">useErrorBoundary</span>(<span class="params">cb</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> state = <span class="title function_">getHookState</span>(currentIndex++, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> errState = <span class="title function_">useState</span>();</span><br><span class="line"></span><br><span class="line">    state.<span class="property">_value</span> = cb;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!currentComponent.<span class="property">componentDidCatch</span>) &#123;</span><br><span class="line"></span><br><span class="line">        currentComponent.<span class="property">componentDidCatch</span> = <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (state.<span class="property">_value</span>) state.<span class="title function_">_value</span>(err);</span><br><span class="line"></span><br><span class="line">            errState[<span class="number">1</span>](err);</span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> [</span><br><span class="line"></span><br><span class="line">        errState[<span class="number">0</span>],</span><br><span class="line"></span><br><span class="line">        <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">            errState[<span class="number">1</span>](<span class="literal">undefined</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>虽然这是一个 react 的 Error Boundary 只存在于 class 组件，但是对于子组件是函数组件的情况下，相关 hooks 的异常（<code>useEffect</code>、<code>useLayoutEffect</code>）一样是能捕获到的</p>
+<h4 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h4><p>这么基础常用的 error-boundary 通常来说不需要我们手动去搞。开源社区已经有了成熟的封装解决方案<a class="link"   target="_blank" rel="noopener" href="https://github.com/bvaughn/react-error-boundary" >react-error-boundary<i class="fas fa-external-link-alt"></i></a>。它基于 React 提供的 error boundary 能力提供了开箱即用的功能，使用的时候只需要将我们的组件作为<code>ErrorBoundary</code>的子组件传入即可，并且 ErrorBoundary 还提供 FallbackComponent 属性供出错时渲染 fallback 内容、错误恢复等许多更进阶的功能。并且也提供了 HOC 的方式供使用</p>
+<h5 id="Error-Boundary-包子组件"><a href="#Error-Boundary-包子组件" class="headerlink" title="Error Boundary 包子组件"></a>Error Boundary 包子组件</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;<span class="title class_">ErrorBoundary</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;react-error-boundary&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">ErrorFallback</span>(<span class="params">&#123;error, resetErrorBoundary&#125;</span>) &#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line"></span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">role</span>=<span class="string">&quot;alert&quot;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">p</span>&gt;</span>Something went wrong:<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">pre</span>&gt;</span>&#123;error.message&#125;<span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">button</span> <span class="attr">onClick</span>=<span class="string">&#123;resetErrorBoundary&#125;</span>&gt;</span>Try again<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">  )&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> ui = (</span><br><span class="line"></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">ErrorBoundary</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml"></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">    <span class="attr">FallbackComponent</span>=<span class="string">&#123;ErrorFallback&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="language-xml"></span></span></span><br><span class="line"><span class="tag"><span class="language-xml">  &gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">ComponentThatMayError</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">ErrorBoundary</span>&gt;</span></span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;withErrorBoundary&#125; <span class="keyword">from</span> <span class="string">&#x27;react-error-boundary&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ComponentWithErrorBoundary</span> = <span class="title function_">withErrorBoundary</span>(<span class="title class_">ComponentThatMayError</span>, &#123;</span><br><span class="line"></span><br><span class="line">  <span class="title class_">FallbackComponent</span>: <span class="title class_">ErrorBoundaryFallbackComponent</span>,</span><br><span class="line"></span><br><span class="line">  <span class="title function_">onError</span>(<span class="params">error, info</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do something with the error</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// E.g. log to an error logging client here</span></span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// or</span></span><br><span class="line"></span><br><span class="line">@<span class="title function_">withErrorBoundary</span>(&#123;</span><br><span class="line">  <span class="title class_">FallbackComponent</span>: <span class="title class_">ErrorBoundaryFallbackComponent</span>,</span><br><span class="line">  <span class="title function_">onError</span>(<span class="params">error, info</span>) &#123;</span><br><span class="line">    <span class="comment">// Do something with the error</span></span><br><span class="line">    <span class="comment">// E.g. log to an error logging client here</span></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">ComponentThatMayError</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Component</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ui = <span class="language-xml"><span class="tag">&lt;<span class="name">ComponentWithErrorBoundary</span> /&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p>在需要使用的地方对我们的组件进行一层包装即可。这时候可能会一种需求，手动包一层太麻烦了，为啥 react 不提供一个配置字段每个组件自带 error boundary 呢？</p>
+<p>万能的开源社区也有人通过 babel 插件实现了这个能力<a class="link"   target="_blank" rel="noopener" href="https://github.com/vodkabears/babel-plugin-transform-react-error-boundary" >babel-plugin-transform-react-error-boundary<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="attr">test</span>: <span class="regexp">/.jsx?$/</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">exclude</span>: <span class="regexp">/node_modules/</span>,</span><br><span class="line"></span><br><span class="line">    <span class="attr">use</span>: &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">loader</span>: <span class="string">&#x27;babel-loader&#x27;</span>,</span><br><span class="line"></span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line"></span><br><span class="line">            <span class="attr">plugins</span>: [</span><br><span class="line"></span><br><span class="line">                [ <span class="string">&#x27;babel-plugin-transform-react-error-boundary&#x27;</span>, &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="title class_">ErrorBoundary</span>: <span class="string">&#x27;common/components/ErrorBoundary/index.js&#x27;</span></span><br><span class="line"></span><br><span class="line">                &#125; ]</span><br><span class="line"></span><br><span class="line">            ]</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过配置一个自定义的 Error Boundary 路径，即可实现所有的组件包一个 ErrorBoundary 了，再结合<code>react-error-boundary</code>一顿操作，<del>页面再也不会白屏了</del>。具体实现就是通过 babel 实现以下这样的转换</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">TestComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> /&gt;</span></span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ErrorBoundary</span> = <span class="built_in">require</span>(<span class="string">&#x27;./path/to/my/ErrorBoundary.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">TestComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">ErrorBoundary</span>&gt;</span>&#123;this.__r__()&#125;<span class="tag">&lt;/<span class="name">ErrorBoundary</span>&gt;</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    __r__) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> /&gt;</span></span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面提到 <code>Error boundaries</code>是不支持 ssr 场景的，所以又有人做了一个针对 ssr 的 babel 插件</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/doochik/babel-plugin-transform-react-ssr-try-catch" >babel-plugin-transform-react-ssr-try-catch<i class="fas fa-external-link-alt"></i></a>。 通过对 render 函数进行 trycatch 实现类似的功能</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line"></span><br><span class="line">        <span class="punctuation">[</span><span class="string">&quot;react-ssr-try-catch&quot;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// global errorHandler</span></span><br><span class="line"></span><br><span class="line">            <span class="attr">&quot;errorHandler&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./path/to/my/SSRErrorHandler.js&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// component error render method</span></span><br><span class="line"></span><br><span class="line">            <span class="attr">&quot;errorRenderMethod&quot;</span><span class="punctuation">:</span> <span class="string">&quot;renderErrorState&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">]</span></span><br><span class="line"></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyCompoenent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.PureComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>/&gt;</span></span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 转换</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ReactSSRErrorHandler</span> = <span class="built_in">require</span>(<span class="string">&#x27;./path/to/my/SSRErrorHandler.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyCompoenent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.PureComponent</span> &#123;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">__originalRenderMethod__</span>();</span><br><span class="line"></span><br><span class="line">      &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line"></span><br><span class="line">          <span class="keyword">return</span> <span class="title class_">ReactSSRErrorHandler</span>(e, <span class="variable language_">this</span>.<span class="property">constructor</span>.<span class="property">name</span>, <span class="variable language_">this</span>);</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="title function_">__originalRenderMethod__</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> /&gt;</span></span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="实现更多的功能"><a href="#实现更多的功能" class="headerlink" title="实现更多的功能"></a>实现更多的功能</h5><p>Error Boundary 除了用于捕获错误，这个特性也可以用来实现 React Suspense 相关的功能</p>
+<ol>
+<li> Suspense + Lazy</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用法</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">ProfilePage</span> = <span class="title function_">lazy</span>(<span class="function">() =&gt;</span> <span class="keyword">import</span>(<span class="string">&#x27;./ProfilePage&#x27;</span>));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">Suspense</span> <span class="attr">fallback</span>=<span class="string">&#123;</span>&lt;<span class="attr">Spinner</span> /&gt;</span>&#125;&gt;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;<span class="name">ProfilePage</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">Suspense</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 最简化实现Lazy + Suspense</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">lazy</span>(<span class="params">loader</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> prom;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> component;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> error;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">Lazy</span>(<span class="params">props</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!prom) &#123;</span><br><span class="line"></span><br><span class="line">            prom = <span class="title function_">loader</span>();</span><br><span class="line"></span><br><span class="line">            prom.<span class="title function_">then</span>(</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="params">exports</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">                    component = <span class="built_in">exports</span>.<span class="property">default</span> || <span class="built_in">exports</span>;</span><br><span class="line"></span><br><span class="line">                &#125;,</span><br><span class="line"></span><br><span class="line">                <span class="function"><span class="params">e</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">                    error = e;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            );</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">throw</span> error;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Lazy组件的render中，若组件未加载完成，抛出一个promise异常供Suspense的componentDidCatch捕获</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (!component) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">throw</span> prom;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">createElement</span>(component, props);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Lazy</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">Suspense</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line"></span><br><span class="line">    state = &#123;</span><br><span class="line"></span><br><span class="line">        <span class="attr">isLoading</span>: <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidCatch</span>(<span class="params">error</span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">_mounted</span>) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> error.<span class="property">then</span> === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line"></span><br><span class="line">                <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123; <span class="attr">isLoading</span>: <span class="literal">true</span> &#125;);</span><br><span class="line"></span><br><span class="line">                error.<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">_mounted</span>) &#123;</span><br><span class="line"></span><br><span class="line">                        <span class="variable language_">this</span>.<span class="title function_">setState</span>(&#123; <span class="attr">isLoading</span>: <span class="literal">false</span> &#125;)</span><br><span class="line"></span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_mounted</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">componentWillUnmount</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_mounted</span> = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> &#123; children, fallback &#125; = <span class="variable language_">this</span>.<span class="property">props</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> &#123; isLoading &#125; = <span class="variable language_">this</span>.<span class="property">state</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> isLoading ? fallback : children;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li> Suspense + render 中的【同步】数据获取</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">fetchApi</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">   <span class="comment">// 异步api</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">resolve</span>(<span class="string">&quot;数据&quot;</span>);</span><br><span class="line">        &#125;, <span class="number">3000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">useData</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> [data,setData] = <span class="title function_">useState</span>()</span><br><span class="line">    <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="title function_">fetchApi</span>().<span class="title function_">then</span>(<span class="function">(<span class="params">x</span>) =&gt;</span> <span class="title function_">setData</span>(x))</span><br><span class="line"></span><br><span class="line">    &#125;,[])</span><br><span class="line">    <span class="keyword">return</span> data</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ProfilePage</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">   <span class="keyword">const</span> data = <span class="title function_">useData</span>()</span><br><span class="line">    <span class="keyword">if</span> (!data) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Loading</span>/&gt;</span></span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;data&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">fetchApi</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">   <span class="comment">// 异步api</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">resolve</span>(<span class="string">&quot;数据&quot;</span>);</span><br><span class="line">        &#125;, <span class="number">3000</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> getData = <span class="title function_">createFetcher</span>(fetchApi);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">ProfilePage</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">   <span class="keyword">const</span> data = <span class="title function_">getData</span>()</span><br><span class="line"></span><br><span class="line">   <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;data&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">Demo</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Suspense</span> <span class="attr">fallback</span>=<span class="string">&#123;</span>&lt;<span class="attr">Loading</span> /&gt;</span>&#125;&gt;</span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">ProfilePage</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml"></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">Suspense</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> cached = &#123;&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">createFetcher</span> = (<span class="params">promiseTask</span>) =&gt; &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> ref = cached;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ref !== cached) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> ref</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> task = <span class="title function_">promiseTask</span>();</span><br><span class="line"></span><br><span class="line">        task.<span class="title function_">then</span>(<span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">            ref = res</span><br><span class="line"></span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (ref === cached) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">throw</span> task</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Vue-中的异常"><a href="#Vue-中的异常" class="headerlink" title="Vue 中的异常"></a>Vue 中的异常</h2><p>vue 提供了 4 个异常处理的 API，分别是 <code>errorHandler，errorCaptured，renderError，warnHandler</code>。</p>
+<h4 id="errorHandler"><a href="#errorHandler" class="headerlink" title="errorHandler"></a>errorHandler</h4><p>我们最常用的是全局配置中注册的 <code>errorHandler</code>，例如异常上报场景，可用如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Vue</span>.<span class="property">config</span>.<span class="property">errorHandler</span> = <span class="keyword">function</span> (<span class="params">error, vm, info</span>) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">Slardar</span> &amp;&amp; <span class="variable language_">window</span>.<span class="title class_">Slardar</span>(<span class="string">&#x27;Sentry&#x27;</span>, <span class="function">(<span class="params">Sentry</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">      <span class="title class_">Sentry</span>.<span class="title function_">captureMessage</span>(error);</span><br><span class="line"></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>errorHandler</code> 可以捕获 <code>render</code>（vue 模板）、生命周期钩子、watch 回调、methods 方法等函数内的<strong>同步代码异常</strong>，info 参数会接收到报错函数类型（render/mounted/…）；<strong>如果这些函数返回 promise ，则 promise 异常也会被捕获；</strong></p>
+<h4 id="errorCaptured"><a href="#errorCaptured" class="headerlink" title="errorCaptured"></a>errorCaptured</h4><p><code>errorCaptured</code> 入参和 <code>errorHandler</code> 一样，它是 vue 组件的钩子函数，作用是<strong>捕获来自后代组件（注意不包含本组件）的错误。</strong> vue 中的错误传播规则可以总结为，<strong>从子到父传播，依次触发各组件的</strong> <code>errorCaptured</code> <strong>钩子，若某</strong> <code>errorCaptured</code> <strong>返回 false，则停止传播，否则最终会传播到全局的</strong> <code>errorHandler</code> <strong>；</strong></p>
+<p>使用场景：我们可以在组件库等场景使用 <code>errorCaptured</code>，捕获内部异常并上报，从而避免和业务代码报错混淆；</p>
+<h4 id="renderError"><a href="#renderError" class="headerlink" title="renderError"></a>renderError</h4><p><code>renderError</code> 只在开发者环境下工作，当 <code>render</code> 函数报错时，其错误将会作为第二个参数传递到 <code>renderError</code>，<code>renderError</code> 返回的 <code>vnode</code> 将会被渲染。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="title class_">Vue</span>(&#123;</span><br><span class="line"></span><br><span class="line">  render (h) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;oops&#x27;</span>)</span><br><span class="line"></span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  renderError (h, err) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">h</span>(<span class="string">&#x27;pre&#x27;</span>, &#123; <span class="attr">style</span>: &#123; <span class="attr">color</span>: <span class="string">&#x27;red&#x27;</span> &#125;&#125;, err.<span class="property">stack</span>)</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;).$mount(<span class="string">&#x27;#app&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>使用场景：<code>renderError</code>可用于开发环节实时把组件错误渲染到页面；</p>
+<h4 id="warnHandler"><a href="#warnHandler" class="headerlink" title="warnHandler"></a>warnHandler</h4><p><code>warnHandler</code> 和 <code>errorHandler</code>一样是全局配置项，但 <code>warnHandler</code> 只在开发者环境下生效，用于捕获 vue 告警。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Vue.config.warnHandler = function (msg, vm, trace) &#123;</span><br><span class="line"></span><br><span class="line">  // `trace` 是组件的继承关系追踪</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用场景：一般情况下开发者直接在控制台查看 warn，所以 <code>warnHandler</code> 使用场景非常有限。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6974383324148006926" >React，优雅的捕获异常 - 掘金<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/133632612" >精读《React Error Boundaries》<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34210780" >React：Suspense 的实现与探讨<i class="fas fa-external-link-alt"></i></a></p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：前端 js 异常那些事</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-05-03 11:10:31</li>
+        <li>
+            Post link：https://blog.flytam.vip/前端 js 异常那些事.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/react-%E5%8E%9F%E7%94%9F/">#react 原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/React%2019%20%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">React 19 升级指南</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E5%9C%A8ES%E6%A8%A1%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%20__dirname%20.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">在ES模块中的使用 __dirname</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%BC%82%E5%B8%B8"><span class="nav-text">什么是异常</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="nav-text">异常的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="nav-text">编译时异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E6%97%B6%E5%BC%82%E5%B8%B8"><span class="nav-text">运行时异常</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E4%BC%A0%E6%92%AD"><span class="nav-text">异常传播</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#error-%E5%AF%B9%E8%B1%A1"><span class="nav-text">error 对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E3%80%81%E6%89%8B%E5%8A%A8%E6%8A%9B%E5%87%BA"><span class="nav-text">自动、手动抛出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8A%9B%E5%87%BA%E5%BC%82%E5%B8%B8%E8%BF%98%E6%98%AF%E8%BF%94%E5%9B%9E%E7%89%B9%E5%AE%9A%E9%94%99%E8%AF%AF%E4%BF%A1%E6%81%AF"><span class="nav-text">抛出异常还是返回特定错误信息</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%82%E5%B8%B8%E5%A4%84%E7%90%86"><span class="nav-text">异常处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E3%80%81%E5%BC%82%E6%AD%A5"><span class="nav-text">同步、异步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%85%9C%E5%BA%95"><span class="nav-text">全局兜底</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="nav-text">React 中的异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BD%E5%B1%8F%E5%BC%82%E5%B8%B8"><span class="nav-text">白屏异常</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Error-Boundary"><span class="nav-text">Error Boundary</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Error-Boundary-%E5%8C%85%E5%AD%90%E7%BB%84%E4%BB%B6"><span class="nav-text">Error Boundary 包子组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6"><span class="nav-text">高阶组件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-text">实现更多的功能</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vue-%E4%B8%AD%E7%9A%84%E5%BC%82%E5%B8%B8"><span class="nav-text">Vue 中的异常</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#errorHandler"><span class="nav-text">errorHandler</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#errorCaptured"><span class="nav-text">errorCaptured</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#renderError"><span class="nav-text">renderError</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#warnHandler"><span class="nav-text">warnHandler</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

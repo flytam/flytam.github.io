@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            ES5 在 Web 上的现状 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">ES5 在 Web 上的现状</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-09-20 20:16:19</span>
+        <span class="mobile">2024-09-20 20:16</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>最后一个支持 ES5 的浏览器 IE 11 在 2022 年被微软<a class="link"   target="_blank" rel="noopener" href="https://support.microsoft.com/en-us/windows/internet-explorer-downloads-d49e1f0d-571c-9a7b-d97e-be248806ca70" >停止支持<i class="fas fa-external-link-alt"></i></a>，那么今天 Web 上的 ES5 现状如何？在构建生产代码时，Web 开发者的最佳实践是什么？</p>
+</blockquote>
+<p>本文将通过数据来回答这些问题，并基于这些数据为网站开发者和库作者提供一些具体的建议，帮助他们在未来处理旧版浏览器的支持问题。</p>
+<h2 id="简要声明"><a href="#简要声明" class="headerlink" title="简要声明"></a>简要声明</h2><p>在深入探讨 ES5 使用的实际数据之前，本文需要澄清一点，编写或发布 ES5 代码本身并没有什么错。</p>
+<p>JavaScript 引擎对 ES5 代码的优化时间比对现代代码的优化时间长得多，所以如果你有旧的 ES5 代码仍在工作，没有必要仅仅为了使其“现代化”而更新它。</p>
+<p>然而，如果你使用 ES6+语法编写代码，然后使用构建工具将其转译为 ES5，这通常会导致大量的 polyfill 和转译器膨胀，显著增加最终包的大小。</p>
+<p>为了说明这一点，下面是一个例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>].<span class="title function_">at</span>(-<span class="number">1</span>));</span><br></pre></td></tr></table></figure>
+
+<p>如果你手动将这段代码转译为 ES5，它可能看起来像这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(arr[arr.<span class="property">length</span> - <span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>然而，如果你使用<a class="link"   target="_blank" rel="noopener" href="https://babeljs.io/" >Babel<i class="fas fa-external-link-alt"></i></a>转译这段代码，并<a class="link"   target="_blank" rel="noopener" href="https://babeljs.io/docs/babel-preset-env#usebuiltins" >配置它以添加 polyfills<i class="fas fa-external-link-alt"></i></a>——即使你仅限于根据源代码中的使用情况添加所需的 polyfills——它会包含<a class="link"   target="_blank" rel="noopener" href="https://gist.github.com/philipwalton/f7087b287be1af14bda41bcf35b6c3cc" >71 个 core-js 依赖项<i class="fas fa-external-link-alt"></i></a>，并从 31 字节增加到<a class="link"   target="_blank" rel="noopener" href="https://gist.githubusercontent.com/philipwalton/f7087b287be1af14bda41bcf35b6c3cc/raw/e35209d1999008b52ab0603af65f3e11360fe22c/output.js" >11,217 字节的最小化代码！<i class="fas fa-external-link-alt"></i></a></p>
+<p>这个例子的重点不是要说 Babel 或 core-js 不好。这些工具需要支持所有可能的 ES6+代码，这要求它们考虑各种边缘情况（尽管这个特定的例子没有任何边缘情况）。</p>
+<p>相反，重点是强调选择支持旧版浏览器是有代价的，而且这个代价可能非常高。</p>
+<p>不幸的是，问题实际上比代码膨胀更糟糕。如果查看下面的数据，了解今天流行的网站实际上是如何转译和部署他们的代码到生产环境，你会发现<strong>大多数网站在互联网上发布的代码是转译为 ES5 的，但仍然无法在 IE 11 中工作</strong>——这意味着转译器和 polyfill 膨胀被 100%的用户下载，但没有一个用户受益。</p>
+<h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><p>要了解 ES5 在 Web 上的现状，需要关注以下三个方面，因为它们都在我们作为 Web 用户接收到的最终代码输出中起着关键作用：</p>
+<ul>
+<li>流行的打包器和构建工具的默认配置</li>
+<li>流行 JavaScript 库中的代码状态</li>
+<li>网站所有者部署的代码状态</li>
+</ul>
+<h3 id="默认打包器和构建工具配置"><a href="#默认打包器和构建工具配置" class="headerlink" title="默认打包器和构建工具配置"></a>默认打包器和构建工具配置</h3><p>大多数打包器和构建工具都具有极高的可配置性，几乎可以对最终输出的代码进行无限控制。然而，在实际操作中，大多数开发者只是使用默认配置，因此默认配置非常重要。</p>
+<p>那么这些默认配置是什么？具体来说，这些默认配置是否会将代码转译为 ES5？</p>
+<p>可以通过<a class="link"   target="_blank" rel="noopener" href="https://2023.stateofjs.com/" >State of JS 调查<i class="fas fa-external-link-alt"></i></a>（2023 年）看到最受欢迎的构建工具，按使用量大致排序如下：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>默认转译为 ES5？</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://browsersl.ist/" >Browserslist<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>本身不是构建工具，但被许多构建工具内部使用，是配置浏览器支持目标的最流行开源工具。<a class="link"   target="_blank" rel="noopener" href="https://browsersl.ist/#q=defaults" >defaults<i class="fas fa-external-link-alt"></i></a>设置不再包括任何 ES5 浏览器。最后一个是 IE 11，它在 4.21 版本中被<a class="link"   target="_blank" rel="noopener" href="https://github.com/browserslist/browserslist/pull/701" >标记为已废弃<i class="fas fa-external-link-alt"></i></a>。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://babeljs.io/" >Babel<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>Babel 的文档推荐设置<a class="link"   target="_blank" rel="noopener" href="https://babeljs.io/docs/options#targets" >targets<i class="fas fa-external-link-alt"></i></a>选项（使用 Browserslist），但如果未指定，它将<a class="link"   target="_blank" rel="noopener" href="https://babeljs.io/docs/options#no-targets" >转译所有代码为 ES5<i class="fas fa-external-link-alt"></i></a>。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://webpack.js.org/" >webpack<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>默认情况下，webpack 不会转译任何代码。大多数 webpack 用户包括<a class="link"   target="_blank" rel="noopener" href="https://webpack.js.org/loaders/babel-loader/" >babel-loader<i class="fas fa-external-link-alt"></i></a>，而 webpack 的<a class="link"   target="_blank" rel="noopener" href="https://webpack.js.org/loaders/babel-loader/#usage" >使用示例<i class="fas fa-external-link-alt"></i></a>建议设置<code>targets: &quot;defaults&quot;</code>。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://www.typescriptlang.org/tsconfig/#target" >TypeScript (tsc)<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>TypeScript 的默认<a class="link"   target="_blank" rel="noopener" href="https://www.typescriptlang.org/tsconfig/#target" >target<i class="fas fa-external-link-alt"></i></a>选项是 ES5。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://nextjs.org/" >Next.js<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>Next.js<a class="link"   target="_blank" rel="noopener" href="https://nextjs.org/docs/pages/building-your-application/configuring/babel" >使用 Babel 进行转译<i class="fas fa-external-link-alt"></i></a>，默认设置一个 Browserslist 配置，目标是<a class="link"   target="_blank" rel="noopener" href="https://nextjs.org/docs/architecture/supported-browsers" >“现代浏览器”<i class="fas fa-external-link-alt"></i></a>（即支持 ES 模块的浏览器）。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://esbuild.github.io/" >esbuild<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>esbuild<a class="link"   target="_blank" rel="noopener" href="https://esbuild.github.io/api/#target:~:text=The%20default%20target%20is%20esnext%20which%20means%20that%20by%20default%2C%20esbuild%20will%20assume%20all%20of%20the%20latest%20JavaScript%20and%20CSS%20features%20are%20supported." >默认不进行转译<i class="fas fa-external-link-alt"></i></a>。你可以设置自定义目标以启用转译，但 ES5 不支持作为转译目标。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://vitejs.dev/" >Vite<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>Vite 使用 esbuild，默认设置自定义目标为<a class="link"   target="_blank" rel="noopener" href="https://vitejs.dev/guide/build.html#browser-compatibility" >“现代浏览器”<i class="fas fa-external-link-alt"></i></a>（即支持 ES 模块的浏览器）。如果需要支持旧版浏览器，Vite 允许用户安装一个<a class="link"   target="_blank" rel="noopener" href="https://github.com/vitejs/vite/tree/main/packages/plugin-legacy" >插件<i class="fas fa-external-link-alt"></i></a>。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://rollupjs.org/" >Rollup<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>Rollup 默认不进行转译。许多 Rollup 用户安装<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/@rollup/plugin-babel" >@rollup/plugin-babel<i class="fas fa-external-link-alt"></i></a>，在这种情况下使用 Babel 的默认配置。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://parceljs.org/" >Parcel<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>Parcel<a class="link"   target="_blank" rel="noopener" href="https://parceljs.org/features/production/#differential-bundling" >自动应用差异化服务<i class="fas fa-external-link-alt"></i></a>，并具有可自定义的目标。</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://github.com/google/closure-compiler" >Closure Compiler<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td><a class="link"   target="_blank" rel="noopener" href="https://github.com/google/closure-compiler/wiki/Flags-and-Options#basic-usage" >默认<i class="fas fa-external-link-alt"></i></a>设置为<code>ECMASCRIPT_NEXT</code>，即最新的一组稳定的 ES 特性。</td>
+</tr>
+</tbody></table>
+<p>如上表所示，绝大多数打包器和构建工具默认不再转译为 ES5。值得注意的是，较新的工具根本不支持 ES5，这表明趋势正在向这个方向发展。</p>
+<p>尽管如此，Babel 仍然是最流行的 JavaScript 转译工具，因此在 Web 上转译为 ES5 仍然相当普遍（详见<a class="link"   target="_blank" rel="noopener" href="https://philipwalton.com/articles/the-state-of-es5-on-the-web/?tab=t.0#heading=h.5ozt10xh7puo" >野外的 ES5 使用情况<i class="fas fa-external-link-alt"></i></a>）。</p>
+<h3 id="流行的-JavaScript-库"><a href="#流行的-JavaScript-库" class="headerlink" title="流行的 JavaScript 库"></a>流行的 JavaScript 库</h3><p>除了查看流行的构建工具外，还查看了一些<a class="link"   target="_blank" rel="noopener" href="https://2023.stateofjs.com/en-US/other-tools/#libraries" >当今最流行的库<i class="fas fa-external-link-alt"></i></a>（同样基于<a class="link"   target="_blank" rel="noopener" href="https://2023.stateofjs.com/" >State of JS 调查<i class="fas fa-external-link-alt"></i></a>，按受欢迎程度大致排序）：</p>
+<p>为了测试这些库中的每一个，我创建了一个仅导入该特定库的打包入口点，使用库文档中的一个代码示例。然后，我使用 Rollup 和 Webpack 打包代码，测试输出并查看是否包含任何 ES6+语法（特别是任何<a class="link"   target="_blank" rel="noopener" href="https://caniuse.com/?search=es6#:~:text=Notable%20partial%20support%20in%20IE11%20includes%20(at%20least%20some)%20support%20for%20const%2C%20let%2C%20block%2Dlevel%20function%20declaration%2C%20typed%20arrays%2C%20Map%2C%20Set%20and%20WeakMap." >IE 11 不支持的 ES6+语法<i class="fas fa-external-link-alt"></i></a>）。</p>
+<p>结果：</p>
+<table>
+<thead>
+<tr>
+<th>库</th>
+<th>包含 ES6+语法？</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://lodash.com/" >Lodash<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>仅 ES5</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://react.dev/" >React<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>仅 ES5</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://date-fns.org/" >date-fns<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>箭头函数</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://threejs.org/" >three.js<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>async/await，箭头函数，展开运算符，解构赋值</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://d3js.org/" >d3<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>箭头函数，展开运算符，解构赋值</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://www.framer.com/motion/" >Framer-motion<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>箭头函数，展开运算符，解构赋值</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://gsap.com/" >greensock<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>仅 ES5</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://day.js.org/" >dayjs<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>仅 ES5</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://github.com/colinhacks/zod" >Zod<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>async/await，箭头函数，展开运算符，解构赋值</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://rxjs.dev/" >RxJS<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>箭头函数</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://immerjs.github.io/immer/" >immer<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>箭头函数，展开运算符，解构赋值</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://moment.github.io/luxon" >luxon<i class="fas fa-external-link-alt"></i></a></td>
+<td>是</td>
+<td>async/await，箭头函数，展开运算符，解构赋值</td>
+</tr>
+<tr>
+<td><a class="link"   target="_blank" rel="noopener" href="https://tanstack.com/query/" >react-query<i class="fas fa-external-link-alt"></i></a></td>
+<td>否</td>
+<td>仅 ES5（打包了 Babel 助手）</td>
+</tr>
+</tbody></table>
+<p>如上所示，许多流行的 JavaScript 库现在发布的是 ES6+语法。</p>
+<p>这很值得注意，因为正如我之前提到的，大多数使用 Babel 转译源文件的开发者在打包时，明确配置他们的打包器不转译<code>node_modules</code>目录中的任何内容——这是库作者历史上觉得需要继续转译为 ES5 的主要原因。</p>
+<p>截至 2024 年 9 月：</p>
+<ul>
+<li>Webpack 的<code>babel-loader</code>文档<a class="link"   target="_blank" rel="noopener" href="https://webpack.js.org/loaders/babel-loader/" >推荐的配置<i class="fas fa-external-link-alt"></i></a>排除了<code>node_modules</code>。</li>
+<li>Rollup 的<code>plugin-babel</code>文档<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/@rollup/plugin-babel#external-dependencies" >建议<i class="fas fa-external-link-alt"></i></a>排除<code>node_modules</code>，并且建议<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/@rollup/plugin-babel#external-dependencies:~:text=We%20encourage%20library%20authors%20not%20to%20distribute%20code%20that%20uses%20untranspiled%20ES6%20features" >库作者不要发布 ES6 代码<i class="fas fa-external-link-alt"></i></a>。</li>
+</ul>
+<p>而 TypeScript（<code>tsc</code>），作为仅次于 Babel 的第二大转译工具，只会转译项目自己的代码文件。它不会转译<code>node_modules</code>中的项目依赖项。</p>
+<p>这就为任何希望支持 ES5 并使用 Babel 或<code>tsc</code>转译代码的网站带来了问题。除非他们对构建管道的各个部分如何相互作用有深刻的理解，并且知道如何正确配置每一个部分，否则他们可能会在不知不觉中将 ES6+代码与 ES5 代码一起打包。</p>
+<p>那么，这是否<em>真的</em>对实际网站造成了问题，还是大多数网站正确配置了他们的工具？下一节将通过<a class="link"   target="_blank" rel="noopener" href="https://httparchive.org/" >HTTP Archive<i class="fas fa-external-link-alt"></i></a>的数据来回答这个问题。</p>
+<p><strong>注意：</strong> 上表中的一些库发布了 ES5 和 ES6+版本，通常 ES5 版本设置在<code>package.main</code>字段，而 ES6+版本设置在<code>package.module</code>或<code>package.exports</code>字段。在这些情况下，我只查看了使用默认配置时打包器拉取的脚本版本（因为这是大多数人使用的），而今天的打包器默认使用<code>package.module</code>或<code>package.exports</code>而不是<code>package.main</code>（参见：<a class="link"   target="_blank" rel="noopener" href="https://webpack.js.org/guides/package-exports/" >[1]<i class="fas fa-external-link-alt"></i></a>，<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/@rollup/plugin-node-resolve" >[2]<i class="fas fa-external-link-alt"></i></a>，<a class="link"   target="_blank" rel="noopener" href="https://esbuild.github.io/api/#conditions" >[3]<i class="fas fa-external-link-alt"></i></a>）。</p>
+<h3 id="野外的-ES5-使用情况"><a href="#野外的-ES5-使用情况" class="headerlink" title="野外的 ES5 使用情况"></a>野外的 ES5 使用情况</h3><p>开发者用来将 ES6+代码转译为 ES5 的三大主要工具是：</p>
+<ul>
+<li>Babel</li>
+<li>TypeScript（tsc）</li>
+<li>Closure Compiler（即 Google 内部的 JSCompiler）</li>
+</ul>
+<p>这三种工具都包括某种形式的 polyfills 和所谓的 ES5“助手”函数，以避免在最终输出中重复。最常用的 ES5 助手函数库是：<a class="link"   target="_blank" rel="noopener" href="https://babel.dev/docs/babel-helpers" >babel-helpers<i class="fas fa-external-link-alt"></i></a>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/zloirock/core-js" >core-js<i class="fas fa-external-link-alt"></i></a>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/facebook/regenerator" >regenerator-runtime<i class="fas fa-external-link-alt"></i></a>，<a class="link"   target="_blank" rel="noopener" href="https://github.com/Microsoft/tslib" >tslib<i class="fas fa-external-link-alt"></i></a>，和<a class="link"   target="_blank" rel="noopener" href="https://github.com/google/closure-compiler/tree/master/src/com/google/javascript/jscomp/js/es6" >$jscomp<i class="fas fa-external-link-alt"></i></a>。</p>
+<p>这些助手库中的许多函数都足够独特，可以通过查询 HTTP Archive 来检测（即使在最小化代码中）哪些网站在使用它们。搜索这些助手函数的存在——而不是标准的 ES5 语法（如<code>var</code>或非箭头<code>function</code>）——有助于区分手写的旧 ES5 代码（通常相当优化）和由转译器生成的新 ES5 代码（通常相当臃肿）。</p>
+<p>我在 HTTP Archive 上进行了<a class="link"   target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/1WAJEf00fHP9ShJCjfSxJr3t7qQoILjgmGgeQsT5wdzQ/edit?gid=968981083#gid=968981083" >搜索<i class="fas fa-external-link-alt"></i></a>，看看流行网站（基于<a class="link"   target="_blank" rel="noopener" href="https://developer.chrome.com/docs/crux/methodology/metrics#popularity-metric" >CrUX 受欢迎度排名<i class="fas fa-external-link-alt"></i></a>的前 10,000 个网站）在他们部署到生产环境的脚本包中包含这些助手的情况有多普遍。我还想看看网站提供未转译的 ES6+语法的情况有多普遍。</p>
+<p>以下是我发现的结果（<a class="link"   target="_blank" rel="noopener" href="https://docs.google.com/spreadsheets/d/1WAJEf00fHP9ShJCjfSxJr3t7qQoILjgmGgeQsT5wdzQ/edit?usp=sharing" >完整结果<i class="fas fa-external-link-alt"></i></a>）：</p>
+<ul>
+<li><strong>89%</strong> 的网站提供至少一个包含未转译 ES6+语法的 JavaScript 文件。</li>
+<li><strong>79%</strong> 的网站提供至少一个包含 ES5 助手代码的 JavaScript 文件。</li>
+<li><strong>68%</strong> 的网站提供至少一个同时包含 ES5 助手代码和未转译 ES6+语法的 JavaScript 文件。</li>
+</ul>
+<p>重申一下本文的观点——如果浏览器不支持 ES6+语法（如 IE 11），那么它在尝试加载包含 ES6+语法的脚本文件时会出错。而如果浏览器<em>确实</em>支持 ES6+语法，那么它不需要任何 ES5 助手代码或任何旧版 polyfills。绝对没有理由同时包含两者。</p>
+<p>为了确认这个查询结果的准确性，手动测试了列表中的 20 个随机网站，确认它们确实在某些脚本包中同时包含 ES5 助手代码和 ES6+语法。还手动在 IE 11 中访问了这些网站，确认这些脚本包确实无法加载。</p>
+<p>请记住，这些不仅仅是互联网上的随机网站。这些是全球最受欢迎的 10,000 个网站</p>
+<h3 id="这意味着什么？"><a href="#这意味着什么？" class="headerlink" title="这意味着什么？"></a>这意味着什么？</h3><p>对于一个网站来说，提供包含 ES5 助手和未转译 ES6+语法的代码，实际上只有两种可能的解释：</p>
+<ol>
+<li>该网站不需要支持 ES5 浏览器，但他们的一些依赖项转译为 ES5，因此 ES5 代码出现在他们的输出中。</li>
+<li>该网站<em>打算</em>支持 ES5 浏览器，但他们没有意识到一些依赖项发布了未转译的 ES6+语法，并且他们没有配置打包器来转译<code>node_modules</code>中的代码。</li>
+</ol>
+<p>无论是哪种解释，全球许多最受欢迎的网站都在提供大量不必要的代码，这强烈表明我们当前工具推荐的默认配置并不起作用。</p>
+<p>如果从这些数据中能找到一丝安慰，那就是显而易见的是，放弃对 IE 的支持不会对大多数企业产生明显影响。如果所有这些大公司显然没有受到这些 IE 体验破坏的影响，那么你的公司也可能不会。</p>
+<h2 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h2><h3 id="对于库作者"><a href="#对于库作者" class="headerlink" title="对于库作者"></a>对于库作者</h3><p>库作者应将代码转译为 ES5 的最初理由是大多数网站需要转译为 ES5。然而，鉴于目前前 10,000 个网站中有 89%发布了一些未转译的 ES6+语法，这一理由已不再有效。</p>
+<p>根据本文提供的数据，JavaScript 库作者不再需要将代码转译为 ES5。</p>
+<p>实际上，库作者对导入它们的网站的浏览器支持需求没有信息，因此不应该为其所有用户做出这个决定。同时，库作者也不应该假设所有用户都能够通过复杂的构建过程运行它们的库，因此发布的代码应使用完全标准的 JavaScript，并在当前广泛使用的浏览器中工作。</p>
+<p>那么库作者应该选择什么目标？在我看来，库作者的最佳解决方案是使用<a class="link"   target="_blank" rel="noopener" href="https://web.dev/baseline" >Baseline<i class="fas fa-external-link-alt"></i></a>——具体来说，只包括<a class="link"   target="_blank" rel="noopener" href="https://web.dev/baseline#:~:text=Widely%20available%3A%2030%20months%20has%20passed%20since%20the%20newly%20interoperable%20date.%20The%20feature%20can%20be%20used%20by%20most%20sites%20without%20worrying%20about%20support." >Baseline Widely Available<i class="fas fa-external-link-alt"></i></a>特性在任何发布的代码中。</p>
+<p>如果你不熟悉 Baseline，这是 W3C 内的<a class="link"   target="_blank" rel="noopener" href="https://www.w3.org/community/webdx/" >WebDX 社区组<i class="fas fa-external-link-alt"></i></a>的一项努力，旨在帮助开发者轻松识别所有主要浏览器和浏览器渲染引擎在桌面和移动设备上稳定且广泛支持的特性。如果某个特性在所有四个主要浏览器的稳定版本中至少存在 30 个月，则被认为是<em>Baseline Widely Available</em>。</p>
+<p>针对<em>Baseline Widely Available</em>的主要好处是它是一个动态目标，这意味着它不会像针对 ES5 那样被困在过去（这也是 Next.js、Vite 和 Parcel 使用的<code>esmodule</code>目标目前正在发生的情况）。</p>
+<p>库作者可以通过以下<a class="link"   target="_blank" rel="noopener" href="https://browsersl.ist/" >Browserslist<i class="fas fa-external-link-alt"></i></a>查询配置他们的构建系统，以现在针对<em>Baseline Widely Available</em>特性（适用于任何支持 Browserslist 的工具）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">targets</span>: [</span><br><span class="line">  <span class="string">&quot;chrome &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">  <span class="string">&quot;edge &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">  <span class="string">&quot;safari &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">  <span class="string">&quot;firefox &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">  <span class="string">&quot;and_chr &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">  <span class="string">&quot;and_ff &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">  <span class="string">&quot;ios &gt;0 and last 2.5 years&quot;</span>,</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 有一个开放的<a class="link"   target="_blank" rel="noopener" href="https://github.com/browserslist/browserslist/issues/771" >功能请求<i class="fas fa-external-link-alt"></i></a>，希望将 Baseline 支持添加到 Browserslist，这将使上述查询简化为“baseline widely available”。</p>
+<p>如果某个网站需要支持比<em>Baseline Widely Available</em>覆盖的更多浏览器，这完全没问题。该网站可以始终配置其构建系统以进一步转译任何导入的库。关键是这个决定最好由网站开发者做出，而不是库作者。</p>
+<h3 id="对于网站开发者"><a href="#对于网站开发者" class="headerlink" title="对于网站开发者"></a>对于网站开发者</h3><p>许多网站开发在同一个脚本包中同时提供未转译的 ES6+语法和 ES5 助手代码，这清楚地表明排除<code>node_modules</code>目录不进行转译的做法并不是一个好做法。</p>
+<p>然而，如今构建工具已经变得显著更快。此外，网站可以配置他们的构建，只在生产环境中处理<code>node_modules</code>中的代码。在开发中，代码应该在开发者使用的任何浏览器上运行良好，特别是如果库作者遵循我上面给出的建议并针对<em>Baseline Widely Available</em>。</p>
+<h2 id="主要观点"><a href="#主要观点" class="headerlink" title="主要观点"></a>主要观点</h2><ul>
+<li><strong>ES5 不再是构建工具或 JavaScript 库应该默认针对的目标。</strong> 如果工具仍然希望提供 ES5 支持，这应该是有特定支持需求的单个网站可以选择的。</li>
+<li><strong>构建工具和库不应该使用固定的浏览器支持策略。</strong> 这些策略很快就会过时，这导致了本文数据中突出的问题。浏览器支持决策应该由网站本身做出，而不是它使用的工具。一个好的浏览器支持策略是<a class="link"   target="_blank" rel="noopener" href="https://web.dev/baseline" >Baseline Widely Available<i class="fas fa-external-link-alt"></i></a>。</li>
+<li><strong>导入第三方库的网站开发者应该将这些库作为其构建的一部分进行处理。</strong> 不能假设所有库作者都有与你相同的浏览器支持需求。正如本文数据所示，在许多情况下，网站开发者可能比他们导入的库有更广泛的浏览器支持需求（因此需要进一步转译它们）。</li>
+<li><strong>跨浏览器支持不应该完全依赖于你的构建工具来处理。</strong> 如果需要支持特定的一组浏览器，那么你需要测试你的网站以确保它在这些浏览器中正常工作。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="https://philipwalton.com/articles/the-state-of-es5-on-the-web/" >The State of ES5 on the Web<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：ES5 在 Web 上的现状</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-09-20 20:16:19</li>
+        <li>
+            Post link：https://blog.flytam.vip/ES5 在 Web 上的现状.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">#原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E8%AE%B0%E7%89%8C%E5%99%A8%20Crash%20%E6%8E%92%E6%9F%A5%E7%BB%8F%E5%8E%86.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">记一次炉石传说记牌器 Crash 排查经历</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/setImmediate()%20vs%20setTimeout()%20%E5%9C%A8%20JavaScript%20%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">setImmediate() vs setTimeout() 在 JavaScript 中的区别</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E8%A6%81%E5%A3%B0%E6%98%8E"><span class="nav-text">简要声明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90"><span class="nav-text">数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E6%89%93%E5%8C%85%E5%99%A8%E5%92%8C%E6%9E%84%E5%BB%BA%E5%B7%A5%E5%85%B7%E9%85%8D%E7%BD%AE"><span class="nav-text">默认打包器和构建工具配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E8%A1%8C%E7%9A%84-JavaScript-%E5%BA%93"><span class="nav-text">流行的 JavaScript 库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8E%E5%A4%96%E7%9A%84-ES5-%E4%BD%BF%E7%94%A8%E6%83%85%E5%86%B5"><span class="nav-text">野外的 ES5 使用情况</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E6%84%8F%E5%91%B3%E7%9D%80%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-text">这意味着什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BB%BA%E8%AE%AE"><span class="nav-text">建议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E5%BA%93%E4%BD%9C%E8%80%85"><span class="nav-text">对于库作者</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8E%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91%E8%80%85"><span class="nav-text">对于网站开发者</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E8%A7%82%E7%82%B9"><span class="nav-text">主要观点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

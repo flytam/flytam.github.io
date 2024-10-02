@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            译：npm 7已经可以使用了 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">译：npm 7已经可以使用了</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2021-02-27 16:10:28</span>
+        <span class="mobile">2021-02-27 16:10</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<p>正如大家所期待， <a class="link"   target="_blank" rel="noopener" href="https://github.com/npm/cli" >npm CLI 7<i class="fas fa-external-link-alt"></i></a> 现在已经可以使用了</p>
+<p>除了一些新特性和不兼容更改之外。与npm 6相比，我们对npm 7的性能方面产生了一些重要的影响，其中包括：</p>
+<ul>
+<li>依赖包数量上减少了54%（<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/npm/v/7.4.3?activeTab=dependencies" >npm 7<i class="fas fa-external-link-alt"></i></a> 67个，<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/npm/v/6.14.11?activeTab=dependencies" >npm 6<i class="fas fa-external-link-alt"></i></a> 123个）</li>
+<li>代码测试覆盖率增加了54%(<a class="link"   target="_blank" rel="noopener" href="https://coveralls.io/github/npm/cli" >npm 7 94%<i class="fas fa-external-link-alt"></i></a> vs <a class="link"   target="_blank" rel="noopener" href="https://coveralls.io/github/npm/cli?branch=v6" >npm 6 77%<i class="fas fa-external-link-alt"></i></a>)</li>
+<li>在各种<a class="link"   target="_blank" rel="noopener" href="https://github.com/npm/benchmarks#example-usage" >示例<i class="fas fa-external-link-alt"></i></a>中的各种<a class="link"   target="_blank" rel="noopener" href="https://github.com/npm/benchmarks" >benchmarks<i class="fas fa-external-link-alt"></i></a>中看到了显着的性能提升</li>
+</ul>
+<p>注意，npm 7现在已发布到<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/" >npm仓库<i class="fas fa-external-link-alt"></i></a>的最新版本，执行<code>npm install --global</code> 时将默认安装npm 7。如果要安装npm 6，请执行<code>npm install --global npm @6</code></p>
+<h3 id="不兼容改动"><a href="#不兼容改动" class="headerlink" title="不兼容改动"></a>不兼容改动</h3><p>尽管对npm内部进行了较大的修改，但我们仍在努力，以确保对大多数工作流的破坏最小。也就是说，必须进行一些破坏性更改才能改善开发者的体验。可以在<a class="link"   target="_blank" rel="noopener" href="https://github.blog/2020-10-13-presenting-v7-0-0-of-the-npm-cli/" >博客<i class="fas fa-external-link-alt"></i></a>中查阅不兼容的改动。</p>
+<h4 id="会修改lockfile"><a href="#会修改lockfile" class="headerlink" title="会修改lockfile"></a>会修改<code>lockfile</code></h4><p>一个需要注意的改动是新的<code>lockfile</code>格式，该格式会向后兼容npm 6用户</p>
+<p>在以前的版本中，yarn.lock文件被忽略，npm CLI现在可以使用yarn.lock作为package元数据和依赖的来源。如果存在<code>yarn.lock</code>，则npm还将使它与package的内容保持最新。</p>
+<p>使用npm 7并且在有v1 的lockfile的项目中执行<code>npm install</code>，则会把<code>lock file</code>文件的内容取代成v2的格式。如果想避免这种行为，可以通过执行<code>npm install --no-save</code></p>
+<h4 id="peer-dependencies"><a href="#peer-dependencies" class="headerlink" title="peer dependencies"></a><code>peer dependencies</code></h4><p>npm 7中引入的一项新功能是自动安装<code>peer dependencies</code>。在npm的之前版本（4-6）中，<code>peer dependencies</code>冲突会有版本不兼容的警告，但仍会安装依赖并不会抛出错误。在npm 7中，如果存在无法自动解决的依赖冲突，将会阻止安装。</p>
+<p>可以通过使<code>--force</code>选项重新安装来绕过冲突，或者选择<code>--legacy-peer-deps</code>选项<code>peer dependencies</code>的依赖关系（类似于npm版本4-6）。</p>
+<p>由于许多包都依赖宽松的<code>peer dependencies</code>解析，npm 7将打印警告并解决包依赖树中存在的大多数同级冲突，因此这些冲突不能手动处理。要在所有层级强制执行严格正确的<code>peer dependencies</code>依赖关系，请使用<code>--strict-peer-deps</code>选项。</p>
+<h3 id="感谢"><a href="#感谢" class="headerlink" title="感谢"></a>感谢</h3><p>最后，我们要向感谢那些提交了更改、参加了RFC讨论、提供了​​反馈和作为早期采用者的社区成员。之后我们仍致力于继续改进npm CLI，因此，如果你将来有任何反馈，请使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/npm/feedback/discussions" >npm/feedback<i class="fas fa-external-link-alt"></i></a>仓库来讨论。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：译：npm 7已经可以使用了</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2021-02-27 16:10:28</li>
+        <li>
+            Post link：https://blog.flytam.vip/译：npm 7已经可以使用了.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node/">#node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/React%20Native%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A%E5%BA%94%E8%AF%A5%E5%81%9A%E5%92%8C%E4%B8%8D%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">React Native性能优化：应该做和不应该做的</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/2020%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9%EF%BC%8C%E4%B8%8D%E5%A6%A8%E4%BA%86%E8%A7%A3%E4%B8%8B%E8%A3%85%E9%A5%B0%E5%99%A8.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">2020的最后一天，不妨了解下装饰器</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%85%BC%E5%AE%B9%E6%94%B9%E5%8A%A8"><span class="nav-text">不兼容改动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%9A%E4%BF%AE%E6%94%B9lockfile"><span class="nav-text">会修改lockfile</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#peer-dependencies"><span class="nav-text">peer dependencies</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%84%9F%E8%B0%A2"><span class="nav-text">感谢</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            React Native性能优化：应该做和不应该做的 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">React Native性能优化：应该做和不应该做的</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2021-03-03 19:37:57</span>
+        <span class="mobile">2021-03-03 19:37</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<p>在使用一些框架例如React Native去实际开发移动端应用的时候，性能是一个重要的问题。React Native默认情况下的性能是没有问题的，但是在实际开发React Native的时候，我们也可能会遇到一些性能相关的问题。</p>
+<p>这些问题是很难通过组件本身修复去解决的。在这篇文章中，我们会提供一些建议来优化开发React Native遇到的一些性能问题。</p>
+<h4 id="使用Image缓存解决方案"><a href="#使用Image缓存解决方案" class="headerlink" title="使用Image缓存解决方案"></a>使用Image缓存解决方案</h4><p>React Native在自带的组件库中提供了Image组件，可以用例展示图片。但是这个组件没有解决以下这些问题的开箱即用的解决方案：</p>
+<ul>
+<li>屏幕中渲染大量图片</li>
+<li>一般情况下性能比较低</li>
+<li>从缓存中加载性能比较低</li>
+<li>会有加载闪烁</li>
+</ul>
+<p>React Native中的Image组件处理缓存图片的时候会像web 浏览器一样的行为，会可能导致上面提到的问题。可以通过使用第三方库<a class="link"   target="_blank" rel="noopener" href="https://github.com/DylanVann/react-native-fast-image" >react-native-fast-image<i class="fas fa-external-link-alt"></i></a>来解决上面的这些问题。这个库在iOS和安卓上都可用并且能够有效的缓存图片</p>
+<h4 id="使用适当大小的图片"><a href="#使用适当大小的图片" class="headerlink" title="使用适当大小的图片"></a>使用适当大小的图片</h4><p>如果React Native APP依赖于使用大量的图像，那么优化图像对于APP的性能是很重要的。如果图片的尺寸没有得到合适的优化，渲染大量图片会导致在设备上占用大量的内存。这可能会导致APP崩溃</p>
+<p>一些可以在React Native中有效优化图片的方案包括：</p>
+<ul>
+<li>使用PNG格式的图片而不是JPG</li>
+<li>使用尺寸更小的图片</li>
+<li>使用WEBP格式的图片。可以在iOS和Android平台减少29%的二进制大小。</li>
+</ul>
+<h4 id="避免不必要的渲染"><a href="#避免不必要的渲染" class="headerlink" title="避免不必要的渲染"></a>避免不必要的渲染</h4><p>React Native是基于React的库并且处理组件渲染的形式类似于React.js。因此在React中可用的优化方法也适用于React Native。一个优化方法就是避免不必要的渲染，在函数组件中可以通过使用<code>React.memo()</code>来完成。</p>
+<p><code>React.memo</code>是被用来进行处理记忆化（memoization）。记忆化的理念是：如果一个组件接收相同的props超过一次，它将会使用之前一次缓存的props。并且函数组件只会进行一次渲染返回jsx</p>
+<p>例如下面Parent组件和Child组件的例子。Parent组件有一个count的state变量，每次button点击的时候更新count</p>
+<p>当button点击的时候，即使Child组件的props属性text没有改变，每次Parent组件渲染都会造成Child组件的重新渲染。Child组件没有做任何和Parent组件有关的操作而仅仅是展示一些静态文本。这个行为可以通过把Child组件用<code>React.memo()</code>包着来进行优化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Parent.js</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">Parent</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> [count, setCount] = <span class="title function_">useState</span>(<span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> (</span><br><span class="line">    <span class="language-xml"><span class="tag">&lt;<span class="name">View</span> <span class="attr">style</span>=<span class="string">&#123;&#123;</span> <span class="attr">flex:</span> <span class="attr">1</span>, <span class="attr">justifyContent:</span> &#x27;<span class="attr">center</span>&#x27;, <span class="attr">alignItems:</span> &#x27;<span class="attr">center</span>&#x27; &#125;&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Button</span> <span class="attr">title</span>=<span class="string">&#x27;Press me&#x27;</span> <span class="attr">onPress</span>=<span class="string">&#123;()</span> =&gt;</span> setCount(count + 1)&#125; /&gt;</span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">Child</span> <span class="attr">text</span>=<span class="string">&#x27;Placeholder text&#x27;</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">View</span>&gt;</span></span></span><br><span class="line">  );</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Child.js</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Child</span> = <span class="title class_">React</span>.<span class="title class_">Memo</span>(<span class="function">(<span class="params">&#123; text &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Text</span>&gt;</span>&#123;text&#125;<span class="tag">&lt;/<span class="name">Text</span>&gt;</span></span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Animated库中使用nativeDriver"><a href="#Animated库中使用nativeDriver" class="headerlink" title="Animated库中使用nativeDriver"></a>Animated库中使用<code>nativeDriver</code></h4><p>React Native中有很多方法可以写动画，最常用的方法就是使用Animated库</p>
+<p>Animated</p>
+<p>Animated会在动画执行之前，通过nativeDriver把动画发送到原生bridge中，这有助于动画独立于被阻塞的JavaScript线程执行，动画会执行比较流畅而不会丢帧</p>
+<p>通过设置useNativeDriver的值为true，可以在Animated库中使用nativeDriver。下面的例子就是在ScrollView组件的onScroll事件中使用<code>useNativeDriver</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">ScrollView</span></span><br><span class="line">  showsVerticalScrollIndicator=&#123;<span class="literal">false</span>&#125;</span><br><span class="line">  scrollEventThrottle=&#123;<span class="number">1</span>&#125;</span><br><span class="line">  onScroll=&#123;<span class="title class_">Animated</span>.<span class="title function_">event</span>(</span><br><span class="line">    [&#123; <span class="attr">nativeEvent</span>: &#123; <span class="attr">contentOffset</span>: &#123; <span class="attr">y</span>: animatedValue &#125; &#125; &#125;],</span><br><span class="line">    &#123; <span class="attr">useNativeDriver</span>: <span class="literal">true</span> &#125;</span><br><span class="line">  )&#125;</span><br><span class="line">&gt;</span><br><span class="line">  <span class="comment">// 组件的内容</span></span><br><span class="line">&lt;/<span class="title class_">ScrollView</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用Flipper进行调试"><a href="#使用Flipper进行调试" class="headerlink" title="使用Flipper进行调试"></a>使用Flipper进行调试</h4><p>React Native 0.62.0版本介绍了一个新的调试工具<a target="_blank" rel="noopener" href="https://fbflipper.com/docs/features/react-native/"><code>Flipper</code></a>。 这是一个给iOS、安卓和React Native使用的平台 。它直接集成在原生代码中，并且在React Native中开箱即用。</p>
+<p>使用<code>Flipper</code>调试app不需要远程调试。需要一个本地连接的Metro实例来与React Native应用进行交互。它可通过React DevTools来检查组件树并检查React组件的state和属性。</p>
+<p>它使用原生插件生态系统来调试iOS和Android应用程序。这些插件可用于设备日志、崩溃报告、检查网络请求、检查应用程序的本地数据库、检查缓存的图像等。</p>
+<h4 id="使用Hermes"><a href="#使用Hermes" class="headerlink" title="使用Hermes"></a>使用Hermes</h4><p><a class="link"   target="_blank" rel="noopener" href="https://reactnative.dev/docs/hermes" >Hermes<i class="fas fa-external-link-alt"></i></a>是一个专为移动端应用优化的开源javascript引擎。React Native 0.60.4版本之后，<code>Hermes</code>在安卓也可用了。这有利于减少app的下载体积（安卓APK）、降低内存消耗和降低APP的可交互时间</p>
+<p>在安卓APP中开启Hermes引擎，需要打开<code>build.gradle</code>并且修改如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">def enableHermes = project.<span class="property">ext</span>.<span class="property">react</span>.<span class="title function_">get</span>(<span class="string">&quot;enableHermes&quot;</span>, <span class="literal">true</span>);</span><br></pre></td></tr></table></figure>
+
+<p>自React Native 0.64-rc.0版本后，Hermes也能用于iOS平台。需要打开<code>Podfile</code>并且修改如下：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use_react_native!(:<span class="function"><span class="params">path</span> =&gt;</span> config[:reactNativePath], :<span class="function"><span class="params">hermes_enabled</span> =&gt;</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="不要在源代码中保留console表达式"><a href="#不要在源代码中保留console表达式" class="headerlink" title="不要在源代码中保留console表达式"></a>不要在源代码中保留console表达式</h4><p>在Javascript应用包括React Native应用中，用<code>console.log</code>调试是最常用的调试方法之一。然而，在构建React Native应用时，将<code>console</code>语句留在源代码中可能对JavaScript线程造成一些瓶颈。</p>
+<p>一个解决方法就是使用<code>babel-plugin-transform-remove-console</code>删除掉<code>console</code>语句。在终端通过下面的方法安装</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add babel-plugin-transform-remove-console</span><br></pre></td></tr></table></figure>
+
+<p>然后修改<code> .babelrc</code>文件如下来删除所有的<code>console</code>语句</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;env&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;production&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;plugins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;transform-remove-console&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="不要使用Scrollview渲染一个大列表数据"><a href="#不要使用Scrollview渲染一个大列表数据" class="headerlink" title="不要使用Scrollview渲染一个大列表数据"></a>不要使用Scrollview渲染一个大列表数据</h4><p>有一些方法可以在React Native中使用滚动列表。其中两种最常用的方式就是使用<code>ScrollView</code>和<code>FlatList</code>组件</p>
+<p><code>ScrollView</code>用起来很简单，通常用于使用JavaScript的<code>map()</code>函数遍历一个数组。 例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">ScrollView</span>&gt;</span><br><span class="line">  &#123;items.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Item</span> <span class="attr">key</span>=<span class="string">&#123;item.id.toString()&#125;</span> /&gt;</span></span>;</span><br><span class="line">  &#125;)&#125;</span><br><span class="line">&lt;/<span class="title class_">ScrollView</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>ScrollView</code>会一次性渲染所有的子组件，在需要渲染的子组件数量不多的时候会比较好用。但在处理大量的数据的时候会影响到APP的性能。</p>
+<p>为了解决渲染大量数据的情况，React Native提供了一个<code>FlatList</code>组件。这个组件能够懒加载子组件列表，这样APP就不会消耗大量的内存</p>
+<p>例如：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;<span class="title class_">FlatList</span></span><br><span class="line">  data=&#123;elements&#125;</span><br><span class="line">  keyExtractor=&#123;<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`<span class="subst">$&#123;items.id&#125;</span>`</span>&#125;</span><br><span class="line">  renderItem=&#123;<span class="function">(<span class="params">&#123; item &#125;</span>) =&gt;</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Item</span> <span class="attr">key</span>=<span class="string">&#123;item.id.toString()&#125;</span> /&gt;</span></span>&#125;</span><br><span class="line">/&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>React Native是一个用于构建跨平台应用的开源框架。它以JavaScript为核心，并调用原生组件来构建移动端界面和功能。它会是一个高性能框架只要注意考虑到性能</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：React Native性能优化：应该做和不应该做的</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2021-03-03 19:37:57</li>
+        <li>
+            Post link：https://blog.flytam.vip/React Native性能优化：应该做和不应该做的.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/react/">#react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E4%BB%8E%E4%B8%80%E4%B8%AAwebpack%E6%89%93%E5%8C%85bug%E5%88%B0%E6%8E%A2%E7%B4%A2resolve%E8%83%8C%E5%90%8E%E7%9A%84%E6%9C%BA%E5%88%B6.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">从一个webpack打包bug到探索resolve背后的机制</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E8%AF%91%EF%BC%9Anpm%207%E5%B7%B2%E7%BB%8F%E5%8F%AF%E4%BB%A5%E4%BD%BF%E7%94%A8%E4%BA%86.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">译：npm 7已经可以使用了</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Image%E7%BC%93%E5%AD%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-text">使用Image缓存解决方案</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%80%82%E5%BD%93%E5%A4%A7%E5%B0%8F%E7%9A%84%E5%9B%BE%E7%89%87"><span class="nav-text">使用适当大小的图片</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E6%B8%B2%E6%9F%93"><span class="nav-text">避免不必要的渲染</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Animated%E5%BA%93%E4%B8%AD%E4%BD%BF%E7%94%A8nativeDriver"><span class="nav-text">Animated库中使用nativeDriver</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Flipper%E8%BF%9B%E8%A1%8C%E8%B0%83%E8%AF%95"><span class="nav-text">使用Flipper进行调试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8Hermes"><span class="nav-text">使用Hermes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E5%9C%A8%E6%BA%90%E4%BB%A3%E7%A0%81%E4%B8%AD%E4%BF%9D%E7%95%99console%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-text">不要在源代码中保留console表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8Scrollview%E6%B8%B2%E6%9F%93%E4%B8%80%E4%B8%AA%E5%A4%A7%E5%88%97%E8%A1%A8%E6%95%B0%E6%8D%AE"><span class="nav-text">不要使用Scrollview渲染一个大列表数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-text">结论</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

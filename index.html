@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class="active"
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class="active"
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="home-content-container fade-in-down-animation">
+    <ul class="home-article-list">
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E8%AE%B0%E7%89%8C%E5%99%A8%20Crash%20%E6%8E%92%E6%9F%A5%E7%BB%8F%E5%8E%86.html">
+                        记一次炉石传说记牌器 Crash 排查经历
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+最近在打炉石过程中遇到了HSTracker记牌器的一个闪退问题，尝试性排查了下原因。这里简单记录一下
+
+最近炉石国服回归；由于设备限制，我基本只会在 Mac 上打炉石。并且由于主要打竞技场，所以记牌器是必不可少的辅助工具。而 Mac 上的记牌器...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Oct 02 2024 10:02:26 GMT+0800">2024-10-02</span></span>
+        
+        
+    </div>
+
+    <a href="/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%82%89%E7%9F%B3%E4%BC%A0%E8%AF%B4%E8%AE%B0%E7%89%8C%E5%99%A8%20Crash%20%E6%8E%92%E6%9F%A5%E7%BB%8F%E5%8E%86.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/ES5%20%E5%9C%A8%20Web%20%E4%B8%8A%E7%9A%84%E7%8E%B0%E7%8A%B6.html">
+                        ES5 在 Web 上的现状
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+
+最后一个支持 ES5 的浏览器 IE 11 在 2022 年被微软停止支持，那么今天 Web 上的 ES5 现状如何？在构建生产代码时，Web 开发者的最佳实践是什么？
+
+本文将通过数据来回答这些问题，并基于这些数据为网站开发者和库作者提供一...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri Sep 20 2024 20:16:19 GMT+0800">2024-09-20</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/ES5%20%E5%9C%A8%20Web%20%E4%B8%8A%E7%9A%84%E7%8E%B0%E7%8A%B6.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/setImmediate()%20vs%20setTimeout()%20%E5%9C%A8%20JavaScript%20%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB.html">
+                        setImmediate() vs setTimeout() 在 JavaScript 中的区别
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+在 JavaScript 中，setImmediate() 和 setTimeout() 都用于调度任务，但它们的工作方式不同。
+JavaScript 的异步特性JavaScript 以其非阻塞、异步行为而闻名，尤其是在 Node.js 环境中...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 16 2024 21:56:58 GMT+0800">2024-09-16</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/node-%E5%8E%9F%E7%94%9F/">node 原生</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/setImmediate()%20vs%20setTimeout()%20%E5%9C%A8%20JavaScript%20%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/Node.js%20%E4%B8%AD%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0.html">
+                        Node.js 中的进程和线程原理学习
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+
+本文所有的代码均基于 node.js 14 LTS 版本分析
+
+概念进程是对正在运行中的程序的一个抽象，是系统进行资源分配和调度的基本单位，操作系统的其他所有内容都是围绕着进程展开的
+线程是操作系统能够进行运算调度的最小单位，其是进程中的一个...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Sep 16 2024 21:50:43 GMT+0800">2024-09-16</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/node/">node</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/Node.js%20%E4%B8%AD%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/LLM%20%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%20-%20%E5%AE%9E%E7%8E%B0%20langchain.js%20ChatModel%20%E6%8E%A5%E5%85%A5%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%20CLI%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%88%E4%B8%8B%EF%BC%89.html">
+                        LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（下）
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+书接上回，我们已经实现了一个 langchain.js 接入火山引擎的 ChatModel。
+本文我们实现将这个大模型接入到聊天 CLI 实现和大模型进行交互式问答
+需求我们希望这个简易的聊天 CLI 能够拥有以下功能
+
+启动时由用户输入 pr...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Thu Aug 29 2024 21:51:50 GMT+0800">2024-08-29</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/LLM/">LLM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/LLM%20%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%20-%20%E5%AE%9E%E7%8E%B0%20langchain.js%20ChatModel%20%E6%8E%A5%E5%85%A5%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%20CLI%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%88%E4%B8%8B%EF%BC%89.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/LLM%20%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%20-%20%E5%AE%9E%E7%8E%B0%20langchain.js%20ChatModel%20%E6%8E%A5%E5%85%A5%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%20CLI%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%88%E4%B8%8A%EF%BC%89.html">
+                        LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（上）
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+前言Langchain 是一个大语言模型（LLM）应用开发的框架，提供了 LLM 开发中各个阶段很多非常强大的辅助工具支持。对于进行 LLM 开发是必不可少的工具库。
+本文将通过一个实际的开发例子来入门 LLM 开发基础工具链，并实现 lang...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Wed Aug 28 2024 21:17:47 GMT+0800">2024-08-28</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/LLM/">LLM</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/LLM%20%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%20-%20%E5%AE%9E%E7%8E%B0%20langchain.js%20ChatModel%20%E6%8E%A5%E5%85%A5%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%20CLI%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%88%E4%B8%8A%EF%BC%89.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/TypeScript%20Project%20References%20npm%20%E5%8C%85%E5%B0%8F%E5%AE%9E%E8%B7%B5.html">
+                        TypeScript Project References npm 包小实践
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+npm 包输出 es/cjs 产物在开发一个 npm 包时，通常需要同时输出 ES 模块和 CommonJS 模块的产物供不同的构建进行使用。在只使用tsc进行产物编译的情况下，我们通常可以通过配置两个独立的 tsconfig.json 配置文...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Mon Jul 01 2024 20:31:58 GMT+0800">2024-07-01</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/node/">node</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/TypeScript%20Project%20References%20npm%20%E5%8C%85%E5%B0%8F%E5%AE%9E%E8%B7%B5.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/React%2019%20%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97.html">
+                        React 19 升级指南
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+前言React 已于近日发布了 v19 的 beta 版本，同时为了帮助后续的 v19 升级，也同时发布了 v18.3.0的正式版， 与 v18.2 版本完全相同，但添加了弃用 API 的警告和其他为 React 19 所需的更改
+
+安装使用新...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sat May 04 2024 10:23:01 GMT+0800">2024-05-04</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/react/">react</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/React%2019%20%E5%8D%87%E7%BA%A7%E6%8C%87%E5%8D%97.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/%E5%89%8D%E7%AB%AF%20js%20%E5%BC%82%E5%B8%B8%E9%82%A3%E4%BA%9B%E4%BA%8B.html">
+                        前端 js 异常那些事
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+前言人无完人，所以代码总会出异常的，异常并不可怕，关键是怎么处理
+什么是异常程序发生了意想不到的情况，影响到了程序的正确运行
+从根本上来说，异常就是一个普通的对象，其保存了异常发生的相关信息，比如错误码、错误信息等。以 JS 中的标准内置对象 ...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Fri May 03 2024 11:10:31 GMT+0800">2024-05-03</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/react-%E5%8E%9F%E7%94%9F/">react 原生</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/%E5%89%8D%E7%AB%AF%20js%20%E5%BC%82%E5%B8%B8%E9%82%A3%E4%BA%9B%E4%BA%8B.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+            <li class="home-article-item">
+
+                
+
+                <h3 class="home-article-title">
+                    <a href="/%E5%9C%A8ES%E6%A8%A1%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%20__dirname%20.html">
+                        在ES模块中的使用 __dirname
+                    </a>
+                </h3>
+
+                <div class="home-article-content markdown-body">
+                    
+                        
+
+
+前言ECMAScript 模块是 JavaScript 的新标准格式。在 Node.js 中越来越多的库逐渐从从 CommonJS 转移到 ES 模块
+
+注：这里是指“真”ES 模块并不是指代码中 Node.js 中使用 import 写法但是...
+                    
+                </div>
+
+                <div class="home-article-meta-info-container">
+    <div class="home-article-meta-info">
+        <span><i class="fas fa-history"></i>&nbsp;<span class="home-article-date" data-date="Sun Apr 07 2024 17:49:01 GMT+0800">2024-04-07</span></span>
+        
+        
+            <span class="home-article-tag">
+                <i class="fas fa-tags"></i>&nbsp;
+                <ul>
+                    
+                        <li>
+                            
+                            <a href="/tags/node/">node</a>&nbsp;
+                        </li>
+                    
+                </ul>
+            </span>
+        
+    </div>
+
+    <a href="/%E5%9C%A8ES%E6%A8%A1%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%20__dirname%20.html">Read more&nbsp;<i class="fas fa-angle-right"></i></a>
+</div>
+
+            </li>
+        
+    </ul>
+
+    <div class="home-paginator">
+        <div class="paginator">
+    
+
+    
+        <a class="next btn"
+           href="/page/2/"
+        >Next</a>
+    
+</div>
+
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+</div>
+
+
+
+</body>
+</html>

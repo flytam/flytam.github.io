@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            简析redux技术栈(二)：认识saga的buffer和chanel |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">简析redux技术栈(二)：认识saga的buffer和chanel</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2019-08-18 21:59:27</span>
+        <span class="mobile">2019-08-18 21:59</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"><br>我们知道redux-saga 也是通过中间件的形式与 redux 本身连接起来。例如下面使用了redux-saga的react项目需要以下这样的 初始化</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">configureStore</span>(<span class="params">initialState</span>) &#123;</span><br><span class="line">  <span class="comment">// 运行返回一个redux middleware</span></span><br><span class="line">  <span class="keyword">const</span> sagaMiddleware = <span class="title function_">createSagaMiddleware</span>();</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    ...<span class="title function_">createStore</span>(</span><br><span class="line">      reducer,</span><br><span class="line">      initialState,</span><br><span class="line">      <span class="title function_">applyMiddleware</span>(middleware1, middleware2, sagaMiddleware)</span><br><span class="line">    ),</span><br><span class="line">    <span class="attr">runSaga</span>: sagaMiddleware.<span class="property">run</span></span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以分析 redux-saga 的第一步，就从 redux-saga 的中间件开始。我们平时写代码在 react 中与 saga 进行交互，都是<code>dispatch</code>一个<code>action</code>到与我们的 saga 逻辑进行交互。翻看<code>createSagaMiddleware</code>源码，可以很清晰的看到，这就是使用了中间件后，我们每次<code>dispatch</code>一个 action 后，在 saga 中间件内会往<code>channel</code>内<code>put</code>这个<code>action</code>，进而触发我们 saga 里面的逻辑。就实现了 react 组件和 saga 的交互了。那么这个<code>stdChannel</code>是什么呢</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 省略一些多余部分</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">sagaMiddlewareFactory</span>(<span class="params">&#123; channel = stdChannel() &#125; = &#123;&#125;</span>) &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">sagaMiddleware</span>(<span class="params">&#123; getState, dispatch &#125;</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="params">next</span> =&gt;</span> <span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> result = <span class="title function_">next</span>(action);</span><br><span class="line">      <span class="comment">// 实现了react和saga的交互</span></span><br><span class="line">      channel.<span class="title function_">put</span>(action);</span><br><span class="line">      <span class="keyword">return</span> result;</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">return</span> sagaMiddleware;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在了解 saga 的运行机制之前，先学习 redux-saga 源码内部的两个比较常用的数据结构<code>buffer</code>和<code>chanel</code>。</p>
+<h4 id="buffer"><a href="#buffer" class="headerlink" title="buffer"></a>buffer</h4><p>buffer 是一个固定长度类似队列的数据结构，它有四种类型（下面介绍），对外暴露了几个函数，如下</p>
+<ul>
+<li>put 用来缓存 action</li>
+<li>take 取出一个 action</li>
+<li>isEmpty 判断 buffer 是否为空</li>
+<li>flush 取出缓存的内的所有 action</li>
+</ul>
+<p>我们知道如果我们直接使用数组的 push/unshift（pop/shift）函数实现队列的话，当我们出队列的时候时间复杂度是<code>o(n)</code>。而这里的 buffer 实现是比较巧妙的。数据存储是使用定长数组。通过<code>pushIndex</code>和<code>popIndex</code>标识位来记录出入队列的位置，它们的初始值都是 0，出队列的时候直接把<code>popIndex</code>位置空，然后值+1。入队列则是<code>pushIndex</code>+1。这样，无论<code>take</code>还是<code>put</code>，时间复杂度都是<code>o(1)</code></p>
+<p>当<code>pushIndex</code>达到了 buffer 的长度的时候，buffer 的处理会根据 buffer 类型不同进行处理</p>
+<p>1、<code>ON_OVERFLOW_THROW</code>：超出限制直接报错</p>
+<p>2、<code>ON_OVERFLOW_SLIDE</code>：类似于环状队列，达到长度限制后，从索引 0 继续存储。</p>
+<p>3、<code>ON_OVERFLOW_EXPAND</code>：达到限制后，长度自动变大 2 倍。</p>
+<p>4、<code>ON_OVERFLOW_DROP</code>：达到限制后，后续的都丢弃</p>
+<h4 id="chanel"><a href="#chanel" class="headerlink" title="chanel"></a>chanel</h4><p>chanel 的实现是类似发布/订阅的设计模式。<code>chanel.take(taker)</code>存入一个 taker 函数，<code>chanel.put(action)</code>时，取出 cb 函数执行，action 是用来消费 taker 的</p>
+<ul>
+<li><strong>普通 chanel</strong>（单播）</li>
+</ul>
+<p>特点：当<code>put</code>一个 action 时，如果没有<code>taker</code>的时候，会将这个 action 存起来，存 action 是用了上面提到的<code>buffer</code>这个数据结构。等到有 taker 的时候可以马上调用 action。</p>
+<p>一个简化版的单播 chanel 实现如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Chanel</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// 存action</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">buffers</span> = [];</span><br><span class="line">    <span class="comment">// 存taker</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">takers</span> = [];</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isClosed</span> = <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">take</span>(<span class="params">cb</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">isClosed</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">buffers</span>.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="title function_">cb</span>(<span class="variable language_">this</span>.<span class="property">buffers</span>.<span class="title function_">shift</span>());</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">takers</span>.<span class="title function_">push</span>(cb);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">put</span>(<span class="params">action</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">takers</span>.<span class="property">length</span> === <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">buffers</span>.<span class="title function_">push</span>(action);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="variable language_">this</span>.<span class="property">takers</span>.<span class="title function_">shift</span>()(action);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">close</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">isClosed</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>eventChanel 是在普通 Chanel 基础上实现，是用来用于订阅外部的事件源。<code>chanel</code>的一些使用参考可以看<a class="link"   target="_blank" rel="noopener" href="https://redux-saga.js.org/docs/advanced/Channels.html" >文档<i class="fas fa-external-link-alt"></i></a></p>
+<p>简化的 eventChanel 实现如下，其实给订阅函数传进一个函数，调用这个函数可以往 Chanel 内 put 东西。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">eventChanel</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Chanel</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params">subscribe</span>) &#123;</span><br><span class="line">    <span class="variable language_">super</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">unscribe</span> = <span class="title function_">subscribe</span>(<span class="function"><span class="params">action</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="variable language_">super</span>.<span class="title function_">put</span>(action);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">close</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">unscribe</span>();</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isClosed</span> = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>多播(multiCast) chanel</strong></li>
+</ul>
+<p>从上面的中间件源码可以看到，redux-saga 默认情况下的<code>Chanel</code>是<code>stdChannel</code>。<code>stdChannel</code>就是基于多播 chanel （multiCastChanel）实现，只不过添加了<code>redux-saga</code>本身的调度系统。<code>multiCastChanel</code>和 nodejs 的<code>eventEmiter</code>是非常类似的，<code>multiCastChanel</code>的<code>take</code>类似于<code>eventEmiter</code>的<code>once</code>,<code>multiCastChanel</code>的<code>put</code>类似于<code>eventEmiter</code>的<code>emit</code>。</p>
+<p><strong>通俗的理解，saga 内 multiCastChanel 和 Chanel 最大的区别是，multiCastChanel 不能存 action，只能存 taker，能根据 action 的 type 判断是否执行 taker；chanel 可以缓存 action 和 taker，接收到 action 马上触发 taker，不会判断 type，类似于两个人对话的样子（单播）</strong></p>
+<p>一个简化版的 multiCastChanel 实现如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Chanel</span> &#123;</span><br><span class="line">  <span class="title function_">constructor</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isClosed</span> = <span class="literal">false</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">takers</span> = [];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">put</span>(<span class="params">action</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">isClosed</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> takers = <span class="variable language_">this</span>.<span class="property">takers</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = takers.<span class="property">length</span>; i &lt; len; i++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!takers[i].<span class="property">MATCH</span> || action.<span class="property">type</span> === takers[i].<span class="property">MATCH</span>) &#123;</span><br><span class="line">        takers[i](action);</span><br><span class="line">        takers.<span class="title function_">splice</span>(takers.<span class="title function_">indexOf</span>(takers[i]), <span class="number">1</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">take</span>(<span class="params">cb, match</span>) &#123;</span><br><span class="line">    cb[<span class="string">&quot;MATCH&quot;</span>] = match;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">takers</span>.<span class="title function_">push</span>(cb);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="title function_">close</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">isClosed</span> = <span class="literal">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>源码中的 stdChanel 实现</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">stdChannel</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> chan = <span class="title function_">multicastChannel</span>();</span><br><span class="line">  <span class="keyword">const</span> &#123; put &#125; = chan;</span><br><span class="line">  chan.<span class="property">put</span> = <span class="function"><span class="params">input</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// saga的action，不进入调度状态</span></span><br><span class="line">    <span class="keyword">if</span> (input[<span class="variable constant_">SAGA_ACTION</span>]) &#123;</span><br><span class="line">      <span class="title function_">put</span>(input);</span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">asap</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="title function_">put</span>(input);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> chan;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中的<code>multicastChannel</code>和我们的简化版 chanel 原理是一样的。我们可以看到，<code>stdChanel</code>是对<code>multicastChannel</code>的<code>put</code>方法进行了重写。只是对于非 saga 内置<code>action</code>使用<code>asap(() =&gt; &#123; put(input); &#125;);</code>进行调用，这个<code>asap</code>方法其实是 saga 内部调度系统的一个执行函数，它的作用是如果当前 saga 是空闲状态，则执行我们的回调；如果是挂起状态则将回调存进任务队列中。后面会专门介绍 saga 的调度系统。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：简析redux技术栈(二)：认识saga的buffer和chanel</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2019-08-18 21:59:27</li>
+        <li>
+            Post link：https://blog.flytam.vip/简析redux技术栈(二)：认识saga的buffer和chanel.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/react/">#react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/preact%20hook%E6%BA%90%E7%A0%81%E9%80%90%E8%A1%8C%E8%A7%A3%E6%9E%90.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">preact hook源码逐行解析</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E7%AE%80%E6%9E%90redux%E6%8A%80%E6%9C%AF%E6%A0%88%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9Aredux%E4%B8%AD%E9%97%B4%E4%BB%B6.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">简析redux技术栈（一）：redux中间件</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#buffer"><span class="nav-text">buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#chanel"><span class="nav-text">chanel</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

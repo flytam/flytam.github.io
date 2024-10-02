@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            Node.js 中的进程和线程原理学习 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Node.js 中的进程和线程原理学习</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-09-16 21:50:43</span>
+        <span class="mobile">2024-09-16 21:50</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>本文所有的代码均基于 node.js 14 LTS 版本分析</p>
+</blockquote>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><p>进程是对正在运行中的程序的一个抽象，是系统进行资源分配和调度的基本单位，操作系统的其他所有内容都是围绕着进程展开的</p>
+<p>线程是操作系统能够进行运算调度的最小单位，其是进程中的一个执行任务（控制单元），负责当前进程中程序的执行</p>
+<p>一个进程至少有一个线程，一个进程可以运行多个线程，这些线程共享同一块内存，线程之间可以共享对象、资源</p>
+<h2 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>)</span><br><span class="line">  .<span class="title function_">createServer</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    res.<span class="title function_">writeHead</span>(<span class="number">200</span>);</span><br><span class="line">    res.<span class="title function_">end</span>(<span class="string">&quot;Hello World&quot;</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  .<span class="title function_">listen</span>(<span class="number">8000</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;process id&quot;</span>, process.<span class="property">pid</span>);</span><br></pre></td></tr></table></figure>
+
+<p><code>top -pid 28840</code> 查看线程数可见在这种情况下有 7 个线程</p>
+<p><img src="https://files.mdnice.com/user/8265/168ed2ec-2a13-4eab-82f2-44b697b1ed67.png"></p>
+<p>一个 node 进程通常包含：</p>
+<ul>
+<li>1 个 Javascript 执行主线程</li>
+<li>1 个 watchdog 监控线程用于处理调试信息</li>
+<li>1 个 v8 task scheduler 线程用于调度任务优先级</li>
+<li>4 个 v8 线程用于执行代码调优与 GC 等后台任务</li>
+<li>异步 I/O 的 libuv 线程池（如果涉及文件读写，默认为 4 个，可通过<code>process.env.UV_THREADPOOL_SIZE</code>进行设置。网络 I/O 不占用线程池）</li>
+</ul>
+<p><img src="https://files.mdnice.com/user/8265/e63c4aee-6206-4c03-94f6-f739c544d67a.png"></p>
+<h3 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h3><p>既然 js 执行线程只有一个，那么 node 还能支持高并发在于 node 进程中通过 libuv 实现了一个事件循环机制，当执主程发生阻塞事件，如 I/O 操作时，主线程会将耗时的操作放入事件队列中，然后继续执行后续程序。<br>事件循环会尝试从 libuv 的线程池中取出一个空闲线程去执行队列中的操作，执行完毕获得结果后，通知主线程，主线程执行相关回调，并且将线程实例归还给线程池。通过此模式循环往复，来保证非阻塞 I/O，以及主线程的高效执行<br><br></p>
+<p><img src="https://files.mdnice.com/user/8265/3c8f74fb-31cc-4739-ae68-4f8189ad3b49.png"></p>
+<p>整个流程分为 2 个 while 循环</p>
+<ul>
+<li>外层大循环，执行 <code>uv_run</code> + <code>DrainVMTasks</code></li>
+<li>内层 libuv <code>uv_run</code>事件循环</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//src/node_main_instance.h</span></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"> <span class="comment">// Start running the node.js instances, return the exit code when finished.</span></span><br><span class="line">  int <span class="title class_">Run</span>();</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// src/node_main_instance.cc</span></span><br><span class="line">namespace node &#123;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">int <span class="attr">nodeMainInstance</span>::<span class="title class_">Run</span>() &#123;</span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        <span class="comment">// 执行一次libuv事件循环</span></span><br><span class="line">        <span class="title function_">uv_run</span>(env-&gt;<span class="title function_">event_loop</span>(), <span class="variable constant_">UV_RUN_DEFAULT</span>);</span><br><span class="line"></span><br><span class="line">         <span class="comment">// 执行v8中的一些挂起的任务队列的函数</span></span><br><span class="line">        <span class="attr">per_process</span>::v8_platform.<span class="title class_">DrainVMTasks</span>(isolate_);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 检查事件循环是否还有待处理</span></span><br><span class="line">        more = <span class="title function_">uv_loop_alive</span>(env-&gt;<span class="title function_">event_loop</span>());</span><br><span class="line">        <span class="comment">// 继续</span></span><br><span class="line">        <span class="keyword">if</span> (more &amp;&amp; !env-&gt;<span class="title function_">is_stopping</span>()) <span class="keyword">continue</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 无待处理</span></span><br><span class="line">        <span class="keyword">if</span> (!<span class="title function_">uv_loop_alive</span>(env-&gt;<span class="title function_">event_loop</span>())) &#123;</span><br><span class="line">        <span class="comment">// 检查process.on(beforeExit)事件，若无退出</span></span><br><span class="line">          <span class="keyword">if</span> (<span class="title class_">EmitProcessBeforeExit</span>(env.<span class="title function_">get</span>()).<span class="title class_">IsNothing</span>())</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 若有继续下一轮循环处理一下</span></span><br><span class="line">        <span class="comment">// Emit `beforeExit` if the loop became alive either after emitting</span></span><br><span class="line">        <span class="comment">// event, or after running some callbacks.</span></span><br><span class="line">        more = <span class="title function_">uv_loop_alive</span>(env-&gt;<span class="title function_">event_loop</span>());</span><br><span class="line">  &#125; <span class="keyword">while</span> (more == <span class="literal">true</span> &amp;&amp; !env-&gt;<span class="title function_">is_stopping</span>());</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<p>主要有 libuv 提供的两个函数<code>uv_run</code> 和 <code>uv_loop_alive</code></p>
+<ul>
+<li><code>uv_run(env-&gt;event_loop(), UV_RUN_DEFAULT)</code> 执行一轮事件循环 。<code>UV_RUN_DEFAULT</code> 是 libuv 执行事件循环的执行模式，事件循环会一直运行直到没有更多的事件要处理或者程序被强制退出</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="keyword">enum</span> &#123;</span><br><span class="line">  UV_RUN_DEFAULT = <span class="number">0</span>,<span class="comment">// 默认模式。在该模式下，事件循环会一直运行，直到没有更多的事件要处理或者程序被强制退出</span></span><br><span class="line">  UV_RUN_ONCE,<span class="comment">// 单次模式。在该模式下，事件循环只会运行一次，处理完所有当前已有的事件后立即退出。主要用于一些清理操作</span></span><br><span class="line">  UV_RUN_NOWAIT <span class="comment">// 非阻塞模式。在该模式下，事件循环会轮询当前的 I/O 事件，如果没有 I/O 事件需要处理则立即退出。在node代码中用来写单测</span></span><br><span class="line">&#125; uv_run_mode;</span><br></pre></td></tr></table></figure>
+
+<p><code>uv_run</code>代码如下，它的返回值是<code>是否有活跃事件</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">uv_run</span><span class="params">(<span class="type">uv_loop_t</span>* loop, uv_run_mode mode)</span> &#123;</span><br><span class="line">  <span class="type">int</span> timeout;</span><br><span class="line">  <span class="type">int</span> r;</span><br><span class="line">  <span class="type">int</span> ran_pending;</span><br><span class="line"></span><br><span class="line"> <span class="comment">// 判断有没有活跃的事件（事件监听 I/O、定时器等）</span></span><br><span class="line">  r = uv__loop_alive(loop);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 无活跃事件，更新时间 loop-&gt;time = uv__hrtime(UV_CLOCK_FAST) / 1000000</span></span><br><span class="line">  <span class="keyword">if</span> (!r)</span><br><span class="line">    uv__update_time(loop);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//  若有活跃事件进进入</span></span><br><span class="line">  <span class="keyword">while</span> (r != <span class="number">0</span> &amp;&amp; loop-&gt;stop_flag == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// 更新处理时间</span></span><br><span class="line">    uv__update_time(loop);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 执行定时事件，从定时事件的最小堆里遍历出相较于loop-&gt;time 已过期的事件，并依次执行其回调</span></span><br><span class="line">    uv__run_timers(loop);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ⭐️ 运行事件循环中当前已经被添加到队列中但还未执行的任务。如上次事件循环结束后进入的回调、IO结束的回调</span></span><br><span class="line">    ran_pending = uv__run_pending(loop);</span><br><span class="line">    <span class="comment">// 遍历并执行空转（Idle）事件 ，内部的低优先级的任务或者清理工作等操作</span></span><br><span class="line">    uv__run_idle(loop);</span><br><span class="line">    <span class="comment">// 遍历并执行准备（Prepare）事件，一些初始化工作或者准备工作，例如检查环境变量、加载配置文件等操作</span></span><br><span class="line">    uv__run_prepare(loop);</span><br><span class="line"></span><br><span class="line">    timeout = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> ((mode == UV_RUN_ONCE &amp;&amp; !ran_pending) || mode == UV_RUN_DEFAULT)</span><br><span class="line">    <span class="comment">// 获取尚未触发的离现在最近的定时器的时间间隔（uv_backend_timeout），即事件循环到下一次循环的最长时间</span></span><br><span class="line">      timeout = uv_backend_timeout(loop);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ⭐️ 去监听等待 I/O 事件触发，并以timeout的时间间隔作为最大监听时间，若超时还未有事件触发，则直接取消此次等待，剩下的会在下轮的uv__run_pending处理，因为要去处理定时器事件</span></span><br><span class="line">    <span class="comment">// timeout如果为0则马上进入下次循环不等待</span></span><br><span class="line">    uv__io_poll(loop, timeout);</span><br><span class="line">     <span class="comment">// 更新一下mertic一些统计相关，和事件循环好像没啥关系</span></span><br><span class="line">    uv__metrics_update_idle_time(loop);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// ⭐️ 遍历并执行复查（Check）事件</span></span><br><span class="line">    uv__run_check(loop);</span><br><span class="line">    <span class="comment">// ⭐️ 对于正在关闭的句柄（一些异步操作引用的底层资源释放）对其进行清理工作，如close事件</span></span><br><span class="line">    uv__run_closing_handles(loop);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mode == UV_RUN_ONCE) &#123;</span><br><span class="line">       <span class="comment">// 单次模式下更新下最新更新时间，再把定时器清理完下面就break，确保退出时没有一些定时器到期没执行</span></span><br><span class="line">      uv__update_time(loop);</span><br><span class="line">      uv__run_timers(loop);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//  又检查一遍是否还有活跃事件，因为在上述一系列操作，有可能一些事件已经处理了</span></span><br><span class="line">    r = uv__loop_alive(loop);</span><br><span class="line">    <span class="comment">// 只执行一次的退出</span></span><br><span class="line">    <span class="keyword">if</span> (mode == UV_RUN_ONCE || mode == UV_RUN_NOWAIT)</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (loop-&gt;stop_flag != <span class="number">0</span>)</span><br><span class="line">  <span class="comment">// 重置flag便于下次事件循环</span></span><br><span class="line">    loop-&gt;stop_flag = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>uv_backend_timeout</code> 正常是查询最近的定时器间隔，有几种情况返回 0，即有一些更重要的事要做而不是同步等待 io 事件</p>
+<p><img src="https://files.mdnice.com/user/8265/443ff555-415d-4bfd-ba94-8693a20e7148.png"></p>
+<p>其中<code>idle_handles</code> 由<code>setImmediate</code> 设置执行一些高优任务，马上进入下一次循环处理<code>setImmediate</code>回调<br><br></p>
+<p>一次事件循环总结</p>
+<p><img src="https://files.mdnice.com/user/8265/b4602c47-98fe-4d44-90b6-4bb8b4859973.png"></p>
+<ul>
+<li><code>uv_loop_alive(env-&gt;event_loop())</code></li>
+</ul>
+<p>即上面提到的 uv__loop_alive， 判断有没有活跃的事件（事件监听 I/O、定时器等）<br><br></p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>严格意义上来说对开发者写代码来说是单线程的，但是对于底层来说是多线程（例如源码中会有 SafeMap 这种线程安全的 map）。由于对于开发者来说是单线程，所以在 Node.js 日程开发中通常不会存在线程竞争的问题和线程锁的一些概念<br><br></p>
+<h2 id="子进程"><a href="#子进程" class="headerlink" title="子进程"></a>子进程</h2><p>从上面的单线程机制可知 Node.js 使用事件循环机制来实现高并发的 I/O 操作。但是如果代码中遇到 CPU 密集型场景，主线程将会长时间阻塞，无法处理额外的请求。为了解决这个问题，并充分发挥多核 CPU 的性能，Node 提供了 <a class="link"   target="_blank" rel="noopener" href="https://nodejs.org/docs/latest-v19.x/api/child_process.html" >child_process<i class="fas fa-external-link-alt"></i></a> 模块用于创建子进程。通过将 CPU 密集型操作分配给子进程处理，主线程可以继续处理其他请求，从而提高性能<br>主要提供了 4 个方法</p>
+<ul>
+<li><code>spawn(command[, args][, options])</code>：以指定的命令及参数数组创建一个子进程。可以通过<strong>流</strong>来处理子进程的输出和错误信息，大数据量</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; spawn &#125; = <span class="built_in">require</span>(<span class="string">&quot;child_process&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ls = <span class="title function_">spawn</span>(<span class="string">&quot;ls&quot;</span>, [<span class="string">&quot;-lh&quot;</span>, <span class="string">&quot;/usr&quot;</span>]);</span><br><span class="line"></span><br><span class="line">ls.<span class="property">stdout</span>.<span class="title function_">on</span>(<span class="string">&quot;data&quot;</span>, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`stdout: <span class="subst">$&#123;data&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">ls.<span class="property">stderr</span>.<span class="title function_">on</span>(<span class="string">&quot;data&quot;</span>, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`stderr: <span class="subst">$&#123;data&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">ls.<span class="title function_">on</span>(<span class="string">&quot;close&quot;</span>, <span class="function">(<span class="params">code</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`子进程退出码：<span class="subst">$&#123;code&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>exec(command[, options][, callback])</code>：对 <code>spawn()</code> 函数的封装，可以直接传入命令行执行，并以<strong>回调函数</strong>的形式返回输出和错误信息</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; exec &#125; = <span class="built_in">require</span>(<span class="string">&quot;child_process&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&quot;ls -lh /usr&quot;</span>, <span class="function">(<span class="params">error, stdout, stderr</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (error) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`exec error: <span class="subst">$&#123;error&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`stdout: <span class="subst">$&#123;stdout&#125;</span>`</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`stderr: <span class="subst">$&#123;stderr&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>execFile(file[, args][, options][, callback])</code>：类似于 <code>exec()</code> 函数，但默认不会创建命令行环境（相应的无法使用一些 shell 的操作符），而是直接以传入的文件创建新的进程，性能略微优于 <code>exec()</code>。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; execFile &#125; = <span class="built_in">require</span>(<span class="string">&quot;child_process&quot;</span>);</span><br><span class="line"><span class="title function_">execFile</span>(<span class="string">&quot;ls&quot;</span>, [<span class="string">&quot;-lh&quot;</span>, <span class="string">&quot;/usr&quot;</span>], <span class="function">(<span class="params">error, stdout, stderr</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (error) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`execFile error: <span class="subst">$&#123;error&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`stdout: <span class="subst">$&#123;stdout&#125;</span>`</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`stderr: <span class="subst">$&#123;stderr&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>fork(modulePath[, args][, options])</code>：内部使用 <code>spawn()</code>实现 ，只能用于创建 node.js 程序的子进程，默认会建立父子进程之间的 IPC 信道来传递消息</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; fork &#125; = <span class="built_in">require</span>(<span class="string">&quot;child_process&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> lsProcess = <span class="title function_">fork</span>(<span class="string">&quot;./test.js&quot;</span>);</span><br><span class="line"></span><br><span class="line">lsProcess.<span class="title function_">on</span>(<span class="string">&quot;message&quot;</span>, <span class="function">(<span class="params">msg</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`收到子进程的消息：<span class="subst">$&#123;msg&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">lsProcess.<span class="title function_">on</span>(<span class="string">&quot;close&quot;</span>, <span class="function">(<span class="params">code</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`子进程退出码：<span class="subst">$&#123;code&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>js - <code>lib/child_process.js</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> child_process = <span class="built_in">require</span>(<span class="string">&quot;internal/child_process&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">ChildProcess</span> &#125; = child_process;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">spawn</span>(<span class="params">file, args, options</span>) &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">const</span> child = <span class="keyword">new</span> <span class="title class_">ChildProcess</span>();</span><br><span class="line">  <span class="comment">//....</span></span><br><span class="line">  <span class="keyword">return</span> child;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  _forkChild,</span><br><span class="line">  <span class="title class_">ChildProcess</span>,</span><br><span class="line">  exec,</span><br><span class="line">  execFile,</span><br><span class="line">  execFileSync,</span><br><span class="line">  execSync,</span><br><span class="line">  fork,</span><br><span class="line">  <span class="attr">spawn</span>: spawnWithSignal,</span><br><span class="line">  spawnSync,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>lib/internal/child_process.js</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">Process</span> &#125; = <span class="title function_">internalBinding</span>(<span class="string">&quot;process_wrap&quot;</span>);</span><br><span class="line"><span class="variable language_">this</span>.<span class="property">_handle</span> = <span class="keyword">new</span> <span class="title class_">Process</span>();</span><br><span class="line"></span><br><span class="line"><span class="title class_">ChildProcess</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">spawn</span> = <span class="keyword">function</span> (<span class="params">options</span>) &#123;</span><br><span class="line">  <span class="comment">//..</span></span><br><span class="line">  <span class="keyword">const</span> err = <span class="variable language_">this</span>.<span class="property">_handle</span>.<span class="title function_">spawn</span>(options);</span><br><span class="line">  <span class="comment">//..</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>c++ - <code>src/node_binding.cc</code></li>
+</ul>
+<p><img src="https://files.mdnice.com/user/8265/795f1884-3dce-4c34-b29b-791d80f0ba0f.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/97eeffed-7aa0-40a9-ac5a-ba4f37dc509e.png"></p>
+<br>
+
+<ul>
+<li><code>src/process_wrap.cc</code></li>
+</ul>
+<p><img src="https://files.mdnice.com/user/8265/61c1ba42-5f62-4d6f-bdaf-43cda203d564.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/71232006-83e5-487f-b044-bf1eaa01dd39.png"></p>
+<h3 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h3><p>基于<code>child_process</code> node 提供了专门用于创建多进程网络服务的<code>[cluster](https://nodejs.org/api/cluster.html)</code>模块<br>创建多个子进程，并在每个子进程中启动一个独立的 HTTP 服务器进行监听和处理客户端请求</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> cluster = <span class="built_in">require</span>(<span class="string">&quot;cluster&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> http = <span class="built_in">require</span>(<span class="string">&quot;http&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> numCPUs = <span class="built_in">require</span>(<span class="string">&quot;os&quot;</span>).<span class="title function_">cpus</span>().<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cluster.<span class="property">isMaster</span>) &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Master <span class="subst">$&#123;process.pid&#125;</span> is running`</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 创建多个子进程</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; numCPUs; i++) &#123;</span><br><span class="line">    cluster.<span class="title function_">fork</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 监听子进程退出事件，自动重启</span></span><br><span class="line">  cluster.<span class="title function_">on</span>(<span class="string">&quot;exit&quot;</span>, <span class="function">(<span class="params">worker, code, signal</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Worker <span class="subst">$&#123;worker.process.pid&#125;</span> died`</span>);</span><br><span class="line">    cluster.<span class="title function_">fork</span>();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Worker <span class="subst">$&#123;process.pid&#125;</span> started`</span>);</span><br><span class="line">  <span class="comment">// 每个子进程的pid是不一样</span></span><br><span class="line">  <span class="comment">// 在每个子进程中启动 HTTP 服务器</span></span><br><span class="line">  http</span><br><span class="line">    .<span class="title function_">createServer</span>(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">      res.<span class="title function_">writeHead</span>(<span class="number">200</span>);</span><br><span class="line">      res.<span class="title function_">end</span>(<span class="string">&quot;Hello, world!&quot;</span>);</span><br><span class="line">    &#125;)</span><br><span class="line">    .<span class="title function_">listen</span>(<span class="number">8000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如何解决多个工作进程监听一个端口的问题</p>
+<blockquote>
+<p>从 js 层面分析</p>
+</blockquote>
+<ul>
+<li>入口区分 - 子进程环境变量含<code>NODE_UNIQUE_ID</code>，在创建子进程时传入</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib/cluster.js</span></span><br><span class="line"><span class="keyword">const</span> childOrMaster = <span class="string">&quot;NODE_UNIQUE_ID&quot;</span> <span class="keyword">in</span> process.<span class="property">env</span> ? <span class="string">&quot;child&quot;</span> : <span class="string">&quot;master&quot;</span>;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="built_in">require</span>(<span class="string">`internal/cluster/<span class="subst">$&#123;childOrMaster&#125;</span>`</span>);</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>http.createServer</code> -&gt; <code>lib/_http_server.js#Server</code> - <code>lib/_http_server.js#Server</code> 继承于 TCP 的<code>lib/net.js#Server</code></li>
+<li><code>listen</code>方法调用的是<code>lib/net.js#Server</code></li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib/net.js</span></span><br><span class="line"><span class="title class_">Server</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">listen</span> = <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">  <span class="comment">// 关键逻辑</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> options.<span class="property">port</span> === <span class="string">&quot;number&quot;</span> || <span class="keyword">typeof</span> options.<span class="property">port</span> === <span class="string">&quot;string&quot;</span>) &#123;</span><br><span class="line">    <span class="title function_">validatePort</span>(options.<span class="property">port</span>, <span class="string">&quot;options.port&quot;</span>);</span><br><span class="line">    backlog = options.<span class="property">backlog</span> || backlogFromArgs;</span><br><span class="line">    <span class="comment">// start TCP server listening on host:port</span></span><br><span class="line">    <span class="keyword">if</span> (options.<span class="property">host</span>) &#123;</span><br><span class="line">      <span class="title function_">lookupAndListen</span>(</span><br><span class="line">        <span class="variable language_">this</span>,</span><br><span class="line">        options.<span class="property">port</span> | <span class="number">0</span>,</span><br><span class="line">        options.<span class="property">host</span>,</span><br><span class="line">        backlog,</span><br><span class="line">        options.<span class="property">exclusive</span>,</span><br><span class="line">        flags</span><br><span class="line">      );</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// Undefined host, listens on unspecified address</span></span><br><span class="line">      <span class="comment">// Default addressType 4 will be used to search for master server</span></span><br><span class="line">      <span class="title function_">listenInCluster</span>(</span><br><span class="line">        <span class="variable language_">this</span>,</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        options.<span class="property">port</span> | <span class="number">0</span>,</span><br><span class="line">        <span class="number">4</span>,</span><br><span class="line">        backlog,</span><br><span class="line">        <span class="literal">undefined</span>,</span><br><span class="line">        options.<span class="property">exclusive</span></span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//....</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>lookupAndListen</code>内部其实也是对<code>option.host</code>进行调<code>dns</code>模块查询<code>host</code>后调的<code>listenInCluster</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 工作进程</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">listenInCluster</span>(<span class="params"></span></span><br><span class="line"><span class="params">  server,</span></span><br><span class="line"><span class="params">  address,</span></span><br><span class="line"><span class="params">  port,</span></span><br><span class="line"><span class="params">  addressType,</span></span><br><span class="line"><span class="params">  backlog,</span></span><br><span class="line"><span class="params">  fd,</span></span><br><span class="line"><span class="params">  exclusive,</span></span><br><span class="line"><span class="params">  flags</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">  exclusive = !!exclusive;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (cluster === <span class="literal">undefined</span>) cluster = <span class="built_in">require</span>(<span class="string">&quot;cluster&quot;</span>);</span><br><span class="line">  <span class="comment">// isMaster是通过NODE_UNIQUE_ID是否存在判断</span></span><br><span class="line">  <span class="comment">// 非cluster的http模块直接起服务NODE_UNIQUE_ID是空</span></span><br><span class="line">  <span class="keyword">if</span> (cluster.<span class="property">isMaster</span> || exclusive) &#123;</span><br><span class="line">    server.<span class="title function_">_listen2</span>(address, port, addressType, backlog, fd, flags);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> serverQuery = &#123;</span><br><span class="line">    <span class="attr">address</span>: address,</span><br><span class="line">    <span class="attr">port</span>: port,</span><br><span class="line">    <span class="attr">addressType</span>: addressType,</span><br><span class="line">    <span class="attr">fd</span>: fd,</span><br><span class="line">    flags,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  cluster.<span class="title function_">_getServer</span>(server, serverQuery, listenOnMasterHandle);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">listenOnMasterHandle</span>(<span class="params">err, handle</span>) &#123;</span><br><span class="line">    <span class="comment">// 获取handler后挂载到子进程server上</span></span><br><span class="line">    server.<span class="property">_handle</span> = handle;</span><br><span class="line">    server.<span class="title function_">_listen2</span>(address, port, addressType, backlog, fd, flags);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 listenInCluster 函数中，会判断当前的进程是否是主进程，</p>
+<ul>
+<li>如果是则直接进行调用<code>_listen2</code>监听<code>server</code>。<code>_listen2</code>就是 cluster 出现之前的监听函数</li>
+</ul>
+<p><code>Server.prototype._listen2 = setupListenHandle; // legacy alias</code></p>
+<ul>
+<li>如果不是，则通过工作进程查询到主进程的 <code>handle</code> （<code>const &#123; TCP &#125; = internalBinding(&#39;tcp_wrap&#39;);</code> ，c++层暴露的用于处理 TCP 的对象），然后在主进程的 handle 上进行监听</li>
+</ul>
+<p><code>cluster._getServer</code>实现<br>主要逻辑是向当前工作进程发送一个类型为 queryServer 的消息，这个消息会被处理成 cluster 内部消息后发送给主进程</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib/internal/cluster/child.js</span></span><br><span class="line">cluster.<span class="property">_getServer</span> = <span class="keyword">function</span>(<span class="params">obj, options, cb</span>) &#123;</span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line">  <span class="keyword">const</span> message = &#123;</span><br><span class="line">    <span class="attr">act</span>: <span class="string">&#x27;queryServer&#x27;</span>,</span><br><span class="line">    index,</span><br><span class="line">    <span class="attr">data</span>: <span class="literal">null</span>,</span><br><span class="line">    ...options</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  message.<span class="property">address</span> = address;</span><br><span class="line">  <span class="title function_">send</span>(message, <span class="function">(<span class="params">reply, handle</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    <span class="comment">// 进这个分支</span></span><br><span class="line">      <span class="title function_">rr</span>(reply, indexesKey, cb);              <span class="comment">// Round-robin.</span></span><br><span class="line"> <span class="comment">//...</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  obj.<span class="title function_">once</span>(<span class="string">&#x27;listening&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//..</span></span><br><span class="line">    <span class="title function_">send</span>(message);</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>主进程有相应的响应 queryServer 消息的地方</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib/internal/cluster/master.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onmessage</span>(<span class="params">message, handle</span>) &#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (message.<span class="property">act</span> === <span class="string">&#x27;queryServer&#x27;</span>)</span><br><span class="line">    <span class="title function_">queryServer</span>(worker, message);</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">queryServer</span>(<span class="params">worker, message</span>) &#123;</span><br><span class="line"><span class="comment">//....</span></span><br><span class="line"><span class="comment">// 唯一标识</span></span><br><span class="line"> <span class="keyword">const</span> key = <span class="string">`<span class="subst">$&#123;message.address&#125;</span>:<span class="subst">$&#123;message.port&#125;</span>:<span class="subst">$&#123;message.addressType&#125;</span>:`</span> +</span><br><span class="line">              <span class="string">`<span class="subst">$&#123;message.fd&#125;</span>:<span class="subst">$&#123;message.index&#125;</span>`</span>;</span><br><span class="line">  <span class="keyword">let</span> handle = handles.<span class="title function_">get</span>(key);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (handle === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> address = message.<span class="property">address</span>;</span><br><span class="line">    <span class="comment">//第一次进入时，会创建RoundRobinHandle，RoundRobinHandle内部有实际监听端口的逻辑</span></span><br><span class="line">    <span class="keyword">let</span> constructor = <span class="title class_">RoundRobinHandle</span>;</span><br><span class="line">    handle = <span class="keyword">new</span> <span class="title function_">constructor</span>(<span class="params">key, address, message</span>);</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">    handles.<span class="title function_">set</span>(key, handle);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (!handle.<span class="property">data</span>)</span><br><span class="line">    handle.<span class="property">data</span> = message.<span class="property">data</span>;</span><br><span class="line">    <span class="comment">// 添加当前工作进程加入到RoundRobinHandle工作队列</span></span><br><span class="line">  handle.<span class="title function_">add</span>(worker, <span class="function">(<span class="params">errno, reply, handle</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; data &#125; = handles.<span class="title function_">get</span>(key);</span><br><span class="line">    <span class="title function_">send</span>(worker, &#123;</span><br><span class="line">      errno,</span><br><span class="line">      key,</span><br><span class="line">      <span class="attr">ack</span>: message.<span class="property">seq</span>,</span><br><span class="line">      data,</span><br><span class="line">      ...reply</span><br><span class="line">    &#125;, handle);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// lib/internal/cluster/round_robin_handle.js</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">RoundRobinHandle</span>(<span class="params">key, address, &#123; port, fd, flags &#125;</span>) &#123;</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">server</span> = net.<span class="title function_">createServer</span>(assert.<span class="property">fail</span>);</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">server</span>.<span class="title function_">listen</span>(address);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 主进程处理请求分发</span></span><br><span class="line">  <span class="variable language_">this</span>.<span class="property">server</span>.<span class="title function_">once</span>(<span class="string">&#x27;listening&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">handle</span> = <span class="variable language_">this</span>.<span class="property">server</span>.<span class="property">_handle</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">handle</span>.<span class="property">onconnection</span> = <span class="function">(<span class="params">err, handle</span>) =&gt;</span> <span class="variable language_">this</span>.<span class="title function_">distribute</span>(err, handle);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>RoundRobinHandle 也会覆盖主进程的<code>Server.handle</code> 的 onconnection 逻辑，将其替换成 round-robin 逻辑，即<code>this.handle.onconnection = (err, handle) =&gt; this.distribute(err, handle);</code><br><br></p>
+<p>再回到这个代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">// 工作进程</span></span><br><span class="line">  cluster.<span class="title function_">_getServer</span>(server, serverQuery, listenOnMasterHandle);</span><br><span class="line"></span><br><span class="line"><span class="comment">// _getServer实现</span></span><br><span class="line">  <span class="title function_">send</span>(message, <span class="function">(<span class="params">reply, handle</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    <span class="comment">// 进这个分支</span></span><br><span class="line">    <span class="comment">// reply</span></span><br><span class="line">      <span class="title function_">rr</span>(reply, indexesKey, cb);              <span class="comment">// Round-robin.</span></span><br><span class="line"> <span class="comment">//...</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">listenOnMasterHandle</span>(<span class="params">err, handle</span>) &#123;</span><br><span class="line">    <span class="comment">// 获取handler后挂载到子进程server上</span></span><br><span class="line">    server.<span class="property">_handle</span> = handle;</span><br><span class="line">    server.<span class="title function_">_listen2</span>(address, port, addressType, backlog, fd, flags);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 rr 函数中创建一个 fake handler 返回</p>
+<p><img src="https://files.mdnice.com/user/8265/18a14618-865c-469c-9a2c-cacfc821bdb1.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/831a34ff-11b0-45f2-b3d9-c464b56070af.png"></p>
+<br>
+
+<p>这个 handler 就是上面 rr 函数中获取的 handler，而<code>_listen2</code>内部调用的实际是 fake handler 中的 listen 空函数，实际上工作进程并没有对端口进行监听<br>RoundRobinHandle 的<code>distribute</code>实现</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib/internal/cluster/round_robin_handle.js</span></span><br><span class="line"><span class="title class_">RoundRobinHandle</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">distribute</span> = <span class="keyword">function</span> (<span class="params">err, handle</span>) &#123;</span><br><span class="line">  <span class="title class_">ArrayPrototypePush</span>(<span class="variable language_">this</span>.<span class="property">handles</span>, handle);</span><br><span class="line">  <span class="keyword">const</span> [workerEntry] = <span class="variable language_">this</span>.<span class="property">free</span>; <span class="comment">// this.free is a SafeMap</span></span><br><span class="line">  <span class="comment">// 选择一个空闲的进程处理</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="title class_">ArrayIsArray</span>(workerEntry)) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123; <span class="number">0</span>: workerId, <span class="number">1</span>: worker &#125; = workerEntry;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">free</span>.<span class="title function_">delete</span>(workerId);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">handoff</span>(worker);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title class_">RoundRobinHandle</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">handoff</span> = <span class="keyword">function</span> (<span class="params">worker</span>) &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">const</span> handle = <span class="title class_">ArrayPrototypeShift</span>(<span class="variable language_">this</span>.<span class="property">handles</span>);</span><br><span class="line">  <span class="keyword">const</span> message = &#123; <span class="attr">act</span>: <span class="string">&quot;newconn&quot;</span>, <span class="attr">key</span>: <span class="variable language_">this</span>.<span class="property">key</span> &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="comment">// 取出handler分发给子进程，消息的act为newconn</span></span><br><span class="line">  <span class="title function_">sendHelper</span>(worker.<span class="property">process</span>, message, handle, <span class="function">(<span class="params">reply</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 使用轮询进行分发</span></span><br><span class="line">    <span class="keyword">if</span> (reply.<span class="property">accepted</span>) handle.<span class="title function_">close</span>();</span><br><span class="line">    <span class="keyword">else</span> <span class="variable language_">this</span>.<span class="title function_">distribute</span>(<span class="number">0</span>, handle); <span class="comment">// Worker is shutting down. Send to another.</span></span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="title function_">handoff</span>(worker);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>工作进程处理<code>newconn</code>消息</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// lib/internal/cluster/child.js</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// sendHelper分发的事件会带上cmd: &#x27;NODE_CLUSTER&#x27;，NODE_前缀的会触发internalMessage</span></span><br><span class="line">process.<span class="title function_">on</span>(<span class="string">&quot;internalMessage&quot;</span>, <span class="title function_">internal</span>(worker, onmessage));</span><br><span class="line"><span class="title function_">send</span>(&#123; <span class="attr">act</span>: <span class="string">&quot;online&quot;</span> &#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onmessage</span>(<span class="params">message, handle</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span> (message.<span class="property">act</span> === <span class="string">&quot;newconn&quot;</span>) <span class="title function_">onconnection</span>(message, handle);</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span> (message.<span class="property">act</span> === <span class="string">&quot;disconnect&quot;</span>)</span><br><span class="line">    <span class="title class_">ReflectApply</span>(_disconnect, worker, [<span class="literal">true</span>]);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">onconnection</span>(<span class="params">message, handle</span>) &#123;</span><br><span class="line">  <span class="comment">// 在子进程接收到handle引用后，它会重新创建一个与主进程相对应的 handle 对象，从而实现对共享资源的访问</span></span><br><span class="line">  <span class="keyword">const</span> key = message.<span class="property">key</span>;</span><br><span class="line">  <span class="keyword">const</span> server = handles.<span class="title function_">get</span>(key);</span><br><span class="line">  <span class="keyword">const</span> accepted = server !== <span class="literal">undefined</span>;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">send</span>(&#123; <span class="attr">ack</span>: message.<span class="property">seq</span>, accepted &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (accepted)</span><br><span class="line">    <span class="comment">// lib/net.js里面tcp server的onconnection处理</span></span><br><span class="line">    server.<span class="title function_">onconnection</span>(<span class="number">0</span>, handle);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<br>
+
+<h3 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h3><p>当主进程的 RoundRobinHandle 接收到一个监听请求时，它会调用<code>distribute</code>函数将客户端的 handle（socket 对象） 传递给工作进程。具体的逻辑为：将这个 handle 保存到队列中，并从工作进程队列中获取一个空闲的工作进程。如果存在空闲的工作进程，则从队列中取出一个工作进程并向其发送<code>act: &quot;newconn&quot;</code> 消息，以将 handle 传递给工作进程。工作进程会使用此 handle 与客户端建立连接，并向主进程发送一条消息表示是否接受了请求。主进程通过 accepted 属性来判断工作进程是否已经接受了请求。如果是则关闭与客户端的连接，并让其与工作进程进行通信。最后，主进程会不断地轮询上述过程以处理更多的客户端请求</p>
+<p><img src="https://files.mdnice.com/user/8265/8a803db5-da1c-4d11-8a7b-d02706517e8d.png"></p>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>为了降低 js 对于 CPU 密集型任务计算的负担，node.js v10 之后引入了 <a class="link"   target="_blank" rel="noopener" href="https://nodejs.org/api/worker_threads.html" >worker_threads<i class="fas fa-external-link-alt"></i></a>。可以在 nodejs 进程内可以创建多个线程。主线程和 worker 线程之间可以通过<code>parentPort</code>实现通信，worker 线程之间可以使用 <code>MessageChannel</code> 进行通信。多个线程之间可以使用<code>SharedArrayBuffer</code>实现共享内存，无需序列化</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;</span><br><span class="line">  <span class="title class_">Worker</span>,</span><br><span class="line">  isMainThread,</span><br><span class="line">  parentPort,</span><br><span class="line">  workerData,</span><br><span class="line">&#125; = <span class="built_in">require</span>(<span class="string">&quot;worker_threads&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (isMainThread) &#123;</span><br><span class="line">  <span class="comment">// 主线程创建共享内存</span></span><br><span class="line">  <span class="keyword">const</span> sharedBuffer = <span class="keyword">new</span> <span class="title class_">SharedArrayBuffer</span>(<span class="number">1024</span>);</span><br><span class="line">  <span class="keyword">const</span> worker = <span class="keyword">new</span> <span class="title class_">Worker</span>(__filename, &#123; <span class="attr">workerData</span>: sharedBuffer &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 向子线程发送共享内存的引用</span></span><br><span class="line">  worker.<span class="title function_">postMessage</span>(sharedBuffer);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 接收子线程发送的消息</span></span><br><span class="line">  worker.<span class="title function_">on</span>(<span class="string">&quot;message&quot;</span>, <span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;sharedBuffer&quot;</span>, sharedBuffer);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">  <span class="comment">// 子线程接收主线程发送的共享内存引用，并使用Atomics操作进行读写</span></span><br><span class="line">  <span class="keyword">const</span> sharedBuffer = workerData;</span><br><span class="line">  <span class="keyword">const</span> sharedArray = <span class="keyword">new</span> <span class="title class_">Int32Array</span>(sharedBuffer);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> oldValue = <span class="title class_">Atomics</span>.<span class="title function_">load</span>(sharedArray, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">const</span> newValue = oldValue + <span class="number">1</span>;</span><br><span class="line">    <span class="title class_">Atomics</span>.<span class="title function_">store</span>(sharedArray, <span class="number">0</span>, newValue);</span><br><span class="line">    parentPort.<span class="title function_">postMessage</span>(<span class="string">`Current value in shared memory: <span class="subst">$&#123;newValue&#125;</span>`</span>);</span><br><span class="line">  &#125;, <span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>多线程下共享内存为避免者竞态条件。node.js 也提供了<code>Atomics</code>对象用于执行原子操作，可以保证多个线程对共享内存的读写操作原子性<br><br></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Node.js 中的进程和线程原理学习</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-09-16 21:50:43</li>
+        <li>
+            Post link：https://blog.flytam.vip/Node.js 中的进程和线程原理学习.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node/">#node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/setImmediate()%20vs%20setTimeout()%20%E5%9C%A8%20JavaScript%20%E4%B8%AD%E7%9A%84%E5%8C%BA%E5%88%AB.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">setImmediate() vs setTimeout() 在 JavaScript 中的区别</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/LLM%20%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%20-%20%E5%AE%9E%E7%8E%B0%20langchain.js%20ChatModel%20%E6%8E%A5%E5%85%A5%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%20CLI%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%88%E4%B8%8B%EF%BC%89.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（下）</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-text">概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="nav-text">单线程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-text">事件循环</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%90%E8%BF%9B%E7%A8%8B"><span class="nav-text">子进程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cluster"><span class="nav-text">Cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="nav-text">多线程</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

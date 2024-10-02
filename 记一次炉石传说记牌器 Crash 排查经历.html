@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            记一次炉石传说记牌器 Crash 排查经历 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">记一次炉石传说记牌器 Crash 排查经历</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-10-02 10:02:26</span>
+        <span class="mobile">2024-10-02 10:02</span>
+    </span>
+    
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<blockquote>
+<p>最近在打炉石过程中遇到了<code>HSTracker</code>记牌器的一个闪退问题，尝试性排查了下原因。这里简单记录一下</p>
+</blockquote>
+<p>最近炉石国服回归；由于设备限制，我基本只会在 Mac 上打炉石。并且由于主要打竞技场，所以记牌器是必不可少的辅助工具。而 Mac 上的记牌器只有<a class="link"   target="_blank" rel="noopener" href="https://hsreplay.net/downloads/"  title="HSTracker">HSTracker<i class="fas fa-external-link-alt"></i></a>能用</p>
+<p><img src="https://files.mdnice.com/user/8265/8e24778c-80d8-47e9-b2be-7485bc642326.jpg"></p>
+<p>但是最近使用<code>HSTracker</code>记牌器却发现一个经常闪退的问题，并且重登多次又会恢复正常。</p>
+<p>而<code>HSTracker</code>工程是<a class="link"   target="_blank" rel="noopener" href="https://github.com/HearthSim/HSTracker"  title="开源">开源<i class="fas fa-external-link-alt"></i></a>的。带着好奇心和问题实在太影响体验了，我就想着能不能本地把记牌器的代码跑起来并看看具体是什么原因导致的闪退</p>
+<h2 id="代码准备"><a href="#代码准备" class="headerlink" title="代码准备"></a>代码准备</h2><p>按照官方的<a class="link"   target="_blank" rel="noopener" href="https://github.com/HearthSim/HSTracker/blob/master/CONTRIBUTING.md"  title="贡献指南">贡献指南<i class="fas fa-external-link-alt"></i></a>操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 拉取代码</span></span><br><span class="line">git <span class="built_in">clone</span> https://github.com/HearthSim/HSTracker.git</span><br><span class="line"><span class="comment"># 安装 swiftlint</span></span><br><span class="line">brew install swiftlint</span><br></pre></td></tr></table></figure>
+
+<h2 id="IDE-安装"><a href="#IDE-安装" class="headerlink" title="IDE 安装"></a>IDE 安装</h2><p><code>HSTracker</code> 是使用 Swift 开发的 macos 应用。</p>
+<p>这里需要先进行 <code>xcode</code>安装。需要注意这里由于<code>HSTracker</code>有一个依赖包<code>AppCenter</code>在 <code>xcode 16</code>似乎编不起来（有一个头文件找不到的报错，<a class="link"   target="_blank" rel="noopener" href="https://github.com/microsoft/appcenter-sdk-apple/issues/2484"  title="网上也有相关的 issue">网上也有相关的 issue<i class="fas fa-external-link-alt"></i></a>，我就踩坑了），必须安装 <code>xcode 15</code></p>
+<p><img src="https://files.mdnice.com/user/8265/787bf623-304a-4dce-89e6-d34ca540db26.png"></p>
+<h2 id="代码跑起来"><a href="#代码跑起来" class="headerlink" title="代码跑起来"></a>代码跑起来</h2><h3 id="报错-1-No-“Developer-ID-Application”-signing-certificate-matching-team-ID"><a href="#报错-1-No-“Developer-ID-Application”-signing-certificate-matching-team-ID" class="headerlink" title="报错 1 No “Developer ID Application” signing certificate matching team ID"></a>报错 1 No “Developer ID Application” signing certificate matching team ID</h3><p>这时候 xcode 点击运行，会遇到第一个报错</p>
+<p><img src="https://files.mdnice.com/user/8265/fb33f03c-3d5a-43e7-9c10-5bd4b23a641d.png"></p>
+<p>这个报错官方文档也有提醒，我们只需要修改相应的 signing 信息即可</p>
+<p><img src="https://files.mdnice.com/user/8265/3343c98d-7e08-488c-a3aa-fa203f0c1890.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/fe129c9d-9d6c-4c4d-9f93-54446a6276db.png"></p>
+<h3 id="报错-2-Relove-Package卡主动不了"><a href="#报错-2-Relove-Package卡主动不了" class="headerlink" title="报错 2 Relove Package卡主动不了"></a>报错 2 <code>Relove Package</code>卡主动不了</h3><p>由于很多依赖和资源信息都是托管到 github，切换到科学上网下进行。</p>
+<p>切换后 xcode 仍卡主在<code>Relove Package</code></p>
+<p>关闭 xcode 后命令行执行<code>xcodebuild -resolvePackageDependencies -scmProvider system</code>完成后重新打开 xcode</p>
+<h3 id="报错-3-安装依赖报错wget-command-not-found"><a href="#报错-3-安装依赖报错wget-command-not-found" class="headerlink" title="报错 3 安装依赖报错wget command not found"></a>报错 3 安装依赖报错<code>wget command not found</code></h3><p>macos 上默认没有 wget 命令，而记牌器构建会使用这个命令去拉取一些资源。</p>
+<p><img src="https://files.mdnice.com/user/8265/1a2013c4-7a1f-4724-89c3-8ee7f5bf33ee.png"></p>
+<p>解决：使用<code>brew install wget</code>安装<code>wget</code>；由于 xcode 默认情况下的环境变量 PATH 不包含 homebrew 安装路径，需要<strong>额外使用一个软链接将 homebrew 下的 wget 软链接到 bin 目录下</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">which</span> wget</span><br><span class="line"><span class="comment"># /opt/homebrew/bin/wget</span></span><br><span class="line"><span class="built_in">ln</span> -s /opt/homebrew/bin/wget /usr/local/bin</span><br></pre></td></tr></table></figure>
+
+<h3 id="报错-4"><a href="#报错-4" class="headerlink" title="报错 4"></a>报错 4</h3><p>记牌器本身的编译产物还是基于 x86 架构。 M1 mac 上需要切换 Rosetta 模式下运行</p>
+<blockquote>
+<p>Rosetta 是苹果公司为其基于 Apple Silicon（如 M1 和 M2 芯片）的 Mac 计算机提供的一个兼容层。它的主要功能是允许运行针对 Intel 架构编写的应用程序。Rosetta 使得开发者和用户在过渡到新的硬件架构时，能够继续使用现有的 Intel 应用程序，而不需要立即对其进行重新编译</p>
+</blockquote>
+<p><img src="https://files.mdnice.com/user/8265/c2bc0df9-2ab5-4ede-a429-e223c55c849c.png"></p>
+<p>至此，我们的记牌器终于跑起来了~<br><img src="https://files.mdnice.com/user/8265/17a6ad08-5a78-41e8-956b-741c7f65a59d.png"></p>
+<h2 id="代码修复"><a href="#代码修复" class="headerlink" title="代码修复"></a>代码修复</h2><p>在折腾了将近一小时才把代码跑起来之时。进入喜闻乐见的 15 分钟排队<br><img src="https://files.mdnice.com/user/8265/a85401f6-4471-4712-bd9d-f8823b35160d.jpg"></p>
+<p>排队完成登入后进入断点调试，直接打上 crash 断点。开一局游戏打了几个回合后很快就触发了 crash</p>
+<p><img src="https://files.mdnice.com/user/8265/a5b5a955-a383-4555-a973-b651f2139b14.png"></p>
+<p>很快发现了报错是在<code>mirror?.getCardChoices</code>中，给数组插了一个空对象</p>
+<p><img src="https://files.mdnice.com/user/8265/b00ba859-52f5-4e2d-a700-bab0c1749382.jpg"></p>
+<p><img src="https://files.mdnice.com/user/8265/d977c18b-b2a0-44c5-805f-40b60deb63e2.png"></p>
+<p>通过代码排查，这个方法不是记牌器实现的方法，而是另一个 HearthMirror 库（应该是一个独立的进程用来读取炉石客户端的运行时数据）的方法给记牌器调用。当然最好的修复是解决<code>getCardChoices</code>的实现，但由于由于这里 HearthMirror 本身似乎没有开源（至少在 github 也没找到相关源码）</p>
+<p><img src="https://files.mdnice.com/user/8265/89f58d25-f8be-4dbe-92a1-280d20bfcc18.png"></p>
+<p>只能尝试加 try/catch 看是否异常时捕获住还能是否运行正常。事实证明这也是能够成功的</p>
+<p>不过这里通过尝试和查阅资料学习到了一个 iOS 开发的知识点。由于这里是 OC <code>NSException</code>而 Swift 是无法直接 try/catch 捕获 OC 异常。</p>
+<p>需要通过一个桥接 OC 方法来实现在 Swift 对 OC 方法的异常处理。在<code>HSTracker-Bridging-Header.h</code>中引入桥接头文件</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// HSTracker/Utility/ExceptionCatcher.h</span></span><br><span class="line"><span class="meta">#import <span class="string">&lt;Foundation/Foundation.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="built_in">NS_ASSUME_NONNULL_BEGIN</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">ExceptionCatcher</span> : <span class="title">NSObject</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">BOOL</span>)catchException:(<span class="type">void</span>(^)(<span class="type">void</span>))tryBlock error:(__autoreleasing <span class="built_in">NSError</span> **)error;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"><span class="comment">// HSTracker/Utility/ExceptionCatcher.h</span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;ExceptionCatcher.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">ExceptionCatcher</span></span></span><br><span class="line"></span><br><span class="line">+ (<span class="type">BOOL</span>)catchException:(<span class="type">void</span>(^)(<span class="type">void</span>))tryBlock error:(__autoreleasing <span class="built_in">NSError</span> **)error &#123;</span><br><span class="line">    <span class="keyword">@try</span> &#123;</span><br><span class="line">        tryBlock();</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">@catch</span> (<span class="built_in">NSException</span> *exception) &#123;</span><br><span class="line">        *error = [[<span class="built_in">NSError</span> alloc] initWithDomain:exception.name code:<span class="number">0</span> userInfo:exception.userInfo];</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NO</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// HSTracker/HSTracker-Bridging-Header.h</span></span><br><span class="line"><span class="meta">#import <span class="string">&quot;ExceptionCatcher.h&quot;</span></span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在 swift 中对<code>mirror?.getCardChoices()</code>进行异常捕获<br><img src="https://files.mdnice.com/user/8265/6e1ca95d-8e32-4c2c-b179-7797fa10129a.png"></p>
+<p>最后问题成功修复，实测了多局也没有再复现 crash 的问题，并且<code>mirror?.getCardChoices()</code>的报错本身捕获也并不会实际有记牌器功能本身上的问题</p>
+<p><img src="https://files.mdnice.com/user/8265/007b4683-2452-4af3-8fe4-787a8e7f4767.jpg"></p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>最后也把这个发现通过 issue 反馈给了作者和提了个加了 try/catch 的 <a class="link"   target="_blank" rel="noopener" href="https://github.com/HearthSim/HSTracker/pull/1350" >PR<i class="fas fa-external-link-alt"></i></a>。</p>
+<p>当然这个 PR 也不会合入，因为修复<code>getCardChoices</code>的实现即可，但是这个排查的过程还是学习到了不少有趣的知识</p>
+<p><img src="https://files.mdnice.com/user/8265/ec40c781-b080-4c46-99cb-6cc4ef85f5b1.png"></p>
+<p>作者也很快给了答复并且发布新版<code>3.0.6</code>修复了这个问题</p>
+<p><img src="https://files.mdnice.com/user/8265/fdd2d082-c05b-458f-8072-8391972c37d9.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：记一次炉石传说记牌器 Crash 排查经历</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-10-02 10:02:26</li>
+        <li>
+            Post link：https://blog.flytam.vip/记一次炉石传说记牌器 Crash 排查经历.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+
+        
+            <div class="article-nav">
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/ES5%20%E5%9C%A8%20Web%20%E4%B8%8A%E7%9A%84%E7%8E%B0%E7%8A%B6.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ES5 在 Web 上的现状</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%87%86%E5%A4%87"><span class="nav-text">代码准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDE-%E5%AE%89%E8%A3%85"><span class="nav-text">IDE 安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E8%B7%91%E8%B5%B7%E6%9D%A5"><span class="nav-text">代码跑起来</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99-1-No-%E2%80%9CDeveloper-ID-Application%E2%80%9D-signing-certificate-matching-team-ID"><span class="nav-text">报错 1 No “Developer ID Application” signing certificate matching team ID</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99-2-Relove-Package%E5%8D%A1%E4%B8%BB%E5%8A%A8%E4%B8%8D%E4%BA%86"><span class="nav-text">报错 2 Relove Package卡主动不了</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99-3-%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E6%8A%A5%E9%94%99wget-command-not-found"><span class="nav-text">报错 3 安装依赖报错wget command not found</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E9%94%99-4"><span class="nav-text">报错 4</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E4%BF%AE%E5%A4%8D"><span class="nav-text">代码修复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E"><span class="nav-text">最后</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

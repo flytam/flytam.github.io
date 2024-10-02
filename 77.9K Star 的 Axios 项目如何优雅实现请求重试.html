@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            77.9K Star 的 Axios 项目如何优雅实现请求重试 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">77.9K Star 的 Axios 项目如何优雅实现请求重试</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2020-11-17 20:05:32</span>
+        <span class="mobile">2020-11-17 20:05</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>axios是什么，无需多讲，axios解析的可以看下<a class="link"   target="_blank" rel="noopener" href="https://juejin.im/post/6885471967714115597" >77.9K Star 的 Axios 项目有哪些值得借鉴的地方<i class="fas fa-external-link-alt"></i></a>这篇文章</p>
+</blockquote>
+<h4 id="为什么需要请求重试"><a href="#为什么需要请求重试" class="headerlink" title="为什么需要请求重试"></a>为什么需要请求重试</h4><p>项目中，经常会有很多用户的网络抽风或者各种原因造成偶发性的网络异常请求错误，如果没有重试机制，有时候体验就比较糟糕。这个时候实现网络错误请求错误重试也能比较好的解决这种偶发场景。</p>
+<h4 id="如何去做呢"><a href="#如何去做呢" class="headerlink" title="如何去做呢"></a>如何去做呢</h4><p>我们可以使用<a target="_blank" rel="noopener" href="https://github.com/softonic/axios-retry"><code>axios-retry</code></a>这个库去实现重拾。用法也非常简单</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axiosRetry <span class="keyword">from</span> <span class="string">&#x27;axios-retry&#x27;</span>;</span><br><span class="line"><span class="title function_">axiosRetry</span>(axios, &#123;&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>直接执行<code>axiosRetry</code>传递axios实例即可。同时它会支持几个配置参数</p>
+<ul>
+<li><code>retries</code>： 重试次数，默认是3次</li>
+<li><code>retryCondition</code>：一个函数判断发生错误时是否重试。默认是<code>5xx</code>http 错误或者网络异常或者是幂等请求（GET/HEAD/ OPTIONS/PUT/DELETE）才会重试。</li>
+<li><code>shouldResetTimeout</code>：重试的时候是否重置超时时间。默认不重置。也就是说多次重试请求必须在<code>timeout</code>内结束</li>
+<li><code>retryDelay</code>每个请求之间的重试延迟时间，默认为0</li>
+</ul>
+<p>例如，如果我想定制，重试4次、除了默认情况重试外，404也重试、重置超时时间、重试延迟时间50ms，则这样即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axiosRetry <span class="keyword">from</span> <span class="string">&#x27;axios-retry&#x27;</span>;</span><br><span class="line"><span class="title function_">axiosRetry</span>(axios, &#123;</span><br><span class="line">    <span class="attr">retries</span>: <span class="number">4</span>,</span><br><span class="line">    <span class="attr">retryCondition</span>: <span class="function">(<span class="params">err</span>) =&gt;</span> axiosRetry.<span class="title function_">isNetworkOrIdempotentRequestError</span>(err) || error.<span class="property">response</span>.<span class="property">status</span> === <span class="number">404</span>,</span><br><span class="line">    <span class="attr">shouldResetTimeout</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">retryDelay</span>: <span class="number">50</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p><code>axios-retry</code>实现重试的原理也比较简单</p>
+<ul>
+<li><code>axios-retry</code>会在axios的config的<code>axios-retry</code>字段中保存当前已经重试的次数(<code>retryCount</code>)</li>
+<li>axios会在http异常/网络异常的情况下抛出错误。<code>axios-retry</code>则在响应拦截器中注册错误处理函数，执行<code>retryCondition</code>判断是否需要进行重试。如果需要重试则对<code>retryCount</code>进行++操作，然后返回一个Prommise使用当前的config重新发起一次新的请求<code>new Promise(resolve =&gt; setTimeout(() =&gt; resolve(axios(config)), delay));</code>。如果当前不需要重试(<code>retryCondition</code>返回<code>false</code>或者已经超过重试次数的场景，直接reject这个错误对象)<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">axios.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(<span class="literal">null</span>, <span class="function"><span class="params">error</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> config = error.<span class="property">config</span>;</span><br><span class="line">  <span class="comment">// ....</span></span><br><span class="line">  <span class="keyword">const</span> currentState = <span class="title function_">getCurrentState</span>(config);</span><br><span class="line">  <span class="keyword">const</span> shouldRetry = <span class="title function_">retryCondition</span>(error) &amp;&amp; currentState.<span class="property">retryCount</span> &lt; retries;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (shouldRetry) &#123;</span><br><span class="line">    currentState.<span class="property">retryCount</span> += <span class="number">1</span>;</span><br><span class="line">      <span class="comment">//.....</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> <span class="title function_">resolve</span>(<span class="title function_">axios</span>(config)), delay));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(error);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>详细代码<a class="link"   target="_blank" rel="noopener" href="https://github.com/softonic/axios-retry/blob/master/es/index.js" >在此<i class="fas fa-external-link-alt"></i></a>。还是非常清晰易懂的</p>
+<h4 id="更进一步"><a href="#更进一步" class="headerlink" title="更进一步"></a>更进一步</h4><p>在实际场景中，很多时候http请求成功并不说明我们的请求就符合预期的。有以下子几种场景，如果直接使用<code>axios-retry</code>是无法触发重拾的</p>
+<ul>
+<li><p>业务code异常<br>以笔者实际项目为例，后端返回异常时，http code为200，但是返回code非0的错误，如<code>&#123;code:1,msg:&#39;some err&#39;&#125;</code>。有的时候可能是一些偶发错误，这个时候可能也需要重试</p>
+</li>
+<li><p>异步接口返回不符合预期<br>假设以下场景。首先操作a先上传了视频；紧接这b操作去查询这个视频的信息，可能刚上传完，后端一些信息落db的时候有延迟。偶发的我们马上查询的时候可能查不到这个信息，需要延迟个几ms才能查到。例如查不到返回<code>&#123;code:0,data:null&#125;</code> 查到返回<code>code:0,data:&#39;some thing&#39;</code>。这个时候重试也是很重要了。</p>
+</li>
+</ul>
+<h4 id="如何优雅重试"><a href="#如何优雅重试" class="headerlink" title="如何优雅重试"></a>如何优雅重试</h4><p>上文提到<code>axios-retry</code>的重试原理是通过响应拦截器的错误处理函数去实现的，那么我们在响应拦截器的正常处理函数中抛出这个这个错误是否可以呢？当然是可以的。</p>
+<ul>
+<li>给<code>axios</code>的config加一个自定义选项函数判断是否需要重试</li>
+<li>在响应拦截器中调用判断函数，若需要重试，设置一个标志位，<code>Promise.reject</code>抛出一个错误<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">instance.<span class="property">interceptors</span>.<span class="property">response</span>.<span class="title function_">use</span>(<span class="function">(<span class="params">response</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> &#123; data, config, request &#125; = response</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (config?.[namespace]?.<span class="property">shouldRetry</span>?.(data)) &#123;</span><br><span class="line">    config[namespace].<span class="property">needRetry</span> = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">reject</span>(</span><br><span class="line">      <span class="title function_">createError</span>(</span><br><span class="line">        <span class="string">`Axios retry enhance error`</span>,</span><br><span class="line">        config,</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        request,</span><br><span class="line">        response</span><br><span class="line">      )</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> response</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><code>axios-retry</code>的<code>retryCondition</code>读取到上一步的属性返回true，即可利用axios-retry进行重试<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">axiosRetry</span>(instance, &#123;</span><br><span class="line">  ...config,</span><br><span class="line">  <span class="attr">retryCondition</span>: <span class="function">(<span class="params">error</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      retryCondition = axiosRetry.<span class="property">isNetworkOrIdempotentRequestError</span>,</span><br><span class="line">    &#125; = config</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">retryCondition</span>(error) || error.<span class="property">config</span>?.[namespace]?.<span class="property">needRetry</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>于是，代码调用的时候只需如下即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">client.<span class="property">get</span>&lt;<span class="title class_">Result</span>&gt;(<span class="string">&#x27;http://example.com/test&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">retry</span>: &#123;</span><br><span class="line">    <span class="comment">// The request will retry when the code isn&#x27;t 0 even the http code is 200</span></span><br><span class="line">    <span class="attr">shouldRetry</span>: <span class="function">(<span class="params">res: Result</span>) =&gt;</span> res.<span class="property">code</span> !== <span class="number">0</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h4 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h4><p>综合以上讨论，针对<code>axios-retry</code>进行了二次封装，实现了<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/axios-retry-enhancer" >axios-retry-enhancer<i class="fas fa-external-link-alt"></i></a>。支持<code>axios-retry</code>原来的参数，并且额外支持上面提到的定义重试逻辑。用法如下即可实现业务优雅重试</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> axiosRetryEnhancer <span class="keyword">from</span> <span class="string">&#x27;axios-retry-enhancer&#x27;</span></span><br><span class="line"><span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">&#x27;axios&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> client = axios.<span class="title function_">create</span>()</span><br><span class="line"><span class="title function_">axiosRetryEnhancer</span>(client, &#123;</span><br><span class="line">  <span class="comment">// same options with axios-retry. See https://github.com/softonic/axios-retry#options</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">interface <span class="title class_">Result</span>&lt;T = unknown&gt; &#123;</span><br><span class="line">  <span class="attr">code</span>: number</span><br><span class="line">  <span class="attr">data</span>: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">client.<span class="property">get</span>&lt;<span class="title class_">Result</span>&gt;(<span class="string">&#x27;http://example.com/test&#x27;</span>, &#123;</span><br><span class="line">  <span class="attr">retry</span>: &#123;</span><br><span class="line">    <span class="comment">// The request will retry when the code isn&#x27;t 0 even the http code is 200</span></span><br><span class="line">    <span class="attr">shouldRetry</span>: <span class="function">(<span class="params">res: Result</span>) =&gt;</span> res.<span class="property">code</span> !== <span class="number">0</span>,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>码字不易，你的点赞是我最大的动力，嘿嘿</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：77.9K Star 的 Axios 项目如何优雅实现请求重试</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2020-11-17 20:05:32</li>
+        <li>
+            Post link：https://blog.flytam.vip/77.9K Star 的 Axios 项目如何优雅实现请求重试.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">#工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/2020%E7%9A%84%E6%9C%80%E5%90%8E%E4%B8%80%E5%A4%A9%EF%BC%8C%E4%B8%8D%E5%A6%A8%E4%BA%86%E8%A7%A3%E4%B8%8B%E8%A3%85%E9%A5%B0%E5%99%A8.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">2020的最后一天，不妨了解下装饰器</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/deno%20%E5%88%9D%E4%BD%93%E9%AA%8C%EF%BC%8C%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAnode%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB%E5%88%B0deno%E9%9C%80%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">deno 初体验，实战记录一个node项目迁移到deno需要做什么</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E8%AF%B7%E6%B1%82%E9%87%8D%E8%AF%95"><span class="nav-text">为什么需要请求重试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%8E%BB%E5%81%9A%E5%91%A2"><span class="nav-text">如何去做呢</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E8%BF%9B%E4%B8%80%E6%AD%A5"><span class="nav-text">更进一步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E4%BC%98%E9%9B%85%E9%87%8D%E8%AF%95"><span class="nav-text">如何优雅重试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%81%E8%A3%85"><span class="nav-text">封装</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

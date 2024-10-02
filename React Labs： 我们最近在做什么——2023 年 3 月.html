@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            React Labs： 我们最近在做什么——2023 年 3 月 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">React Labs： 我们最近在做什么——2023 年 3 月</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2023-04-04 17:22:12</span>
+        <span class="mobile">2023-04-04 17:22</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p> 本文翻译自：<a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023" >https://react.dev/blog/2023/03/22/react-labs-what-we-have-been-working-on-march-2023<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<h2 id="React-Server-Components"><a href="#React-Server-Components" class="headerlink" title="React Server Components"></a>React Server Components</h2><p>React Server Components(下文简称 RSC) 是由 React 团队设计的新应用程序架构。</p>
+<p>我们首先在一个<a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2020/12/21/data-fetching-with-react-server-components" >介绍性演讲<i class="fas fa-external-link-alt"></i></a>和一个<a class="link"   target="_blank" rel="noopener" href="https://github.com/reactjs/rfcs/pull/188" >RFC<i class="fas fa-external-link-alt"></i></a>中分享了我们对 RSC 的研究。简要概括一下，我们正在引入一种新型组件——Server Components，它们可以提前运行，并且不包含在你的 JavaScript bundle 中。RSC 可以在构建过程中运行，让你从文件系统中读取或获取静态内容。它们也可以在服务器上运行，让你无需构建 API 即可访问数据层。你可以通过 props 将数据从 Server Components 传递到浏览器中的交互式 Client Components。</p>
+<p>RSC 将服务端中心多页应用程序的简单“请求/响应”心智模型与客户端为中心的单页应用程序的无缝交互结合起来提供最佳体验。</p>
+<p>自上次更新以来，我们已经合并了<a class="link"   target="_blank" rel="noopener" href="https://github.com/reactjs/rfcs/blob/main/text/0188-server-components.md" >React Server Components RFC<i class="fas fa-external-link-alt"></i></a>以验证该提议。我们解决了与<a class="link"   target="_blank" rel="noopener" href="https://github.com/reactjs/rfcs/blob/main/text/0227-server-module-conventions.md" >React Server 模块约定<i class="fas fa-external-link-alt"></i></a>提案有关的未决问题，并与合作伙伴达成共识，采用<code>&quot;use client&quot;</code>约定。这些文档还充当符合 RSC 兼容实现所需支持的规范。</p>
+<p>最大的变化是我们引入了<code>async/await</code>作为从 Server Components 进行数据提取的主要方法。我们还计划通过引入一个名为<code>use</code>的新 hook，从客户端支持数据加载，该 hook 将数据从<code>Promise</code>中取出来。虽然我们无法在客户端应用程序中的任意组件中支持<code>async/await</code>，但是当你将客户端应用程序构建为与 RSC 应用程序类似的结构时，我们计划添加对其的支持</p>
+<p>既然我们已经很好地解决了数据提取问题，我们正在探索另一个方向：从客户端向服务器发送数据，以便可以执行数据库变更和实现表单逻辑。我们通过让你在服务器/客户端之前传递<code>Server Action</code>函数来做到这一点，客户端可以调用这些函数来无缝调用 RPC。<code>Server Action</code>可以在 JavaScript 加载之前提供渐进式增强表单</p>
+<p>React Server Component 已经内置在[Next.js App Router](Next.js App Router)中。这演示了路由与 RSC 作为基本组件之间深度集成的示例，但这不是构建符合 RSC 兼容路由器和框架的唯一方法。 RSC 规范和实现提供了功能明确分离。 React Server Components 旨在成为可跨兼容 React 框架工作的组件规范。</p>
+<p>通常建议使用现有框架，但如果需要构建自己定制化框架也是可能的。构建符合 RSC 兼容框架并不像我们希望的那样容易，这主要是由于需要进行深度打包集成。目前的打包工具并没有为在服务器和客户端之间拆分单个模块图提供完整的支持。这就是为什么现在我们直接与打包工具开发者合作，以便将 RSC 的基本组件集成进去。</p>
+<h2 id="资源加载"><a href="#资源加载" class="headerlink" title="资源加载"></a>资源加载</h2><p><a class="link"   target="_blank" rel="noopener" href="https://react.dev/reference/react/Suspense" >Suspense<i class="fas fa-external-link-alt"></i></a>让你可以指定在组件的数据或代码仍在加载时屏幕上显示什么内容。这使得用户可以逐步看到更多内容，而页面正在加载以及在路由器导航期间加载更多数据和代码</p>
+<p>我们正在努力将 Suspense 与样式表、字体和图像的加载生命周期完全整合在一起，以便 React 考虑它们来确定内容是否准备好显示。即使没有更改 React 组件编写方式，在更新方面也会以更一致且令人愉悦的方式。作为优化措施，我们还将提供手动预装像字体这样的资源直接从组件中提取资源。</p>
+<p>我们目前正在实现这些功能，并将很快有更多分享。</p>
+<h2 id="Document-Metadata"><a href="#Document-Metadata" class="headerlink" title="Document Metadata"></a>Document Metadata</h2><p>应用程序中的不同页面和屏幕可能具有不同的元数据，例如 <code>title</code> 标签、描述和其它特定于此屏幕的<code>meta</code> 标签。从维护的角度来看，将此信息保持接近页面或屏幕的 React 组件更加可扩展。但是，这些元数据的 HTML 标签需要在文档 head 中，通常在应用程序根部渲染组件中呈现。</p>
+<p>今天，通常可以使用以下两种技术解决这个问题。</p>
+<p>一种方案是呈现一个特殊的第三方组件，将 <code>title</code>、<code>meta</code> 和其它 tag 移到<code>head</code>标签中。这适用于大部分浏览器，但有很多客户端不会运行客户端 JavaScript（例如 Open Graph 解析器），因此这种技术并不普适</p>
+<p>另一种方案是将页面在服务端渲染分成两步。首先渲染主要内容并收集所有此类标记。然后使用这些<code>tag</code>渲染文档的<code>head</code>。最后将文档<code>head</code>和内容发送到浏览器中。这种方法可行但无法利用 React 18 的 Streaming Server Renderer 的优势，因为必须等待所有内容渲染完成后才能发送文档和<code>head</code></p>
+<p>因此我们正在添加内置支持，可以在组件树中任何位置直接呈现 <code>title</code>、<code>meta</code> 和 <code>link</code> 标签。在所有环境中，包括完全客户端代码、SSR 和未来的 RSC 中都可以使用相同的方式工作。我们很快将分享更多关于这个功能的细节</p>
+<h2 id="React-Optimizing-Compiler"><a href="#React-Optimizing-Compiler" class="headerlink" title="React Optimizing Compiler"></a>React Optimizing Compiler</h2><p>自我们上次更新以来，我们一直在积极迭代 <a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2022/06/15/react-labs-what-we-have-been-working-on-june-2022#react-compiler" >React Forget<i class="fas fa-external-link-alt"></i></a> 的设计，这是一个针对 React 的优化编译器。我们以前曾将其称为“自动记忆化编译器”，从某种意义上说这是正确的。但是，构建编译器帮助我们更深入地了解了 React 的编程模型。更好地理解 React Forget 的一种方法是将其视为自动响应式编译器。</p>
+<p>React 的核心思想是开发人员将用户界面定义为当前状态的函数。可以使用普通 JavaScript 值（数字、字符串、数组、对象）和标准 JavaScript 语法（<code>if/else</code>、for 等）来描述组件逻辑。心智模型是当应用程序状态更改时，React 会重新渲染。我们认为这个简单的心理模型和接近 JavaScript 语义的原则是 React 编程模型中的重要原则。</p>
+<p>问题在于，React 有时过于反应迅速：它可能会重新渲染太多次。例如，在 JavaScript 中，我们没有低成本的方式来比较两个对象或数组是否相等（具有相同的键和值），因此在每次渲染时创建一个新对象或数组可能会导致 React 做出比必要更多的工作 。这意味着开发人员必须明确地记忆组件以避免对更改过度响应。</p>
+<p>React Forget 的目标是确保 React 应用程序具有恰到好处的响应性：即仅在状态值有意义地更改时重新渲染应用程序。从实现的角度来看，这意味着自动记忆化，但我们认为反应性框架是更好地理解 React 和 Forget 的一种方法。可以将其视为 React 当前重新渲染时更改对象标识时，React Forge 会在语义值改变时重新渲染-但不会产生深层比较的运行时成本。</p>
+<p>在具体进展方面，自我们上次更新以来，我们已经大量迭代了编译器设计以符合这种自动响应的方法，并纳入了内部使用编译器的反馈意见。去年末开始对编译器进行了一些重大重构之后，我们现在开始在 Meta 的有限领域中将编译器用于生产。一旦我们证明它可以用于生产环境中并成功开源后，我们计划开源它。</p>
+<p>最后，很多人对编译器是如何工作感兴趣。当我们证明了该编译器并进行开源后，期待分享更多细节内容。但是现在有一些细节可以分享：</p>
+<p>该编译器的核心几乎完全与 Babel 脱钩，并且核心编译器 API 是（大致上）输入旧 AST 输出新 AST（同时保留源位置数据）。在底层，我们使用自定义代码表示和转换管道来进行低级语义分析。但是，编译器的主要公共接口将通过 Babel 和其他构建系统插件进行。为了便于测试，我们目前有一个 Babel 插件，它是一个非常薄的包装器，它调用编译器生成每个函数的新版本并将其交换。</p>
+<p>过去几个月中，在对编译器进行重构时，我们希望专注于细化核心编译模型以确保能够处理复杂性（例如条件、循环、变量重新赋值和修改等）。但是 JavaScript 有很多表达每个功能的方法：<code>if/else</code>、三元运算符、<code>for</code>、<code>for-in</code>、<code>for-of</code>等。试图支持完整语言会延迟我们验证核心模型的时间节点。相反，我们从语言中选择了一小部分但代表性较强的子集：<code>let/const</code>、<code>if/else</code> 语句、<code>for</code> 循环、对象数组原始值函数调用和其他一些特性。随着我们对核心模型信心增强并改进内部抽象层次结构，在受支持的语言子集中扩展支持范围。关于尚未支持的语法，我们也明确地记录了未经支持的输入的诊断日志并跳过编译。我们拥有工具，可以在 Meta 的代码库上尝试编译器并查看最常见的不受支持特性，以便我们可以优先处理它们。我们将继续逐步扩展以支持整个语言。</p>
+<p>使 React 组件中的普通 JavaScript 具有响应式需要具有深刻语义理解的编译器，使其能够准确理解代码实际在做什么。通过采取这种方法，我们正在创建一个 JavaScript 中用于响应式操作的系统，它可以让你使用语言的全部表现力编写任何复杂度产品代码，而不是仅限于特定领域语言。</p>
+<h2 id="Offscreen-Rendering"><a href="#Offscreen-Rendering" class="headerlink" title="Offscreen Rendering"></a>Offscreen Rendering</h2><p>Offscreen rendering 是 React 中即将推出的一种能力，可以在不增加额外性能开销的情况下，在后台渲染屏幕。你可以将其视为<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility" >content-visibility CSS 属性<i class="fas fa-external-link-alt"></i></a>的一种版本，它不仅适用于 DOM 元素，而且适用于 React 组件。在我们的研究中，我们发现了不同的用例：</p>
+<ul>
+<li><p>路由可以在后台预渲染屏幕，这样当用户导航到它们时就可以立即使用。</p>
+</li>
+<li><p>标签切换组件可以保留隐藏标签的状态，这样用户就可以在不丢失进度的情况下切换。</p>
+</li>
+<li><p>虚拟化列表组件可以预先渲染可见窗口上方和下方的额外 padding。</p>
+</li>
+<li><p>打开弹框或弹出窗口时，应用程序中的其余部分可以进入“后台”模式，以便事件和更新对除模态以外的所有内容都被禁止。</p>
+</li>
+</ul>
+<p>大多数 React 开发人员不会直接与 React offscreen APIs 交互。相反，offscreen rendering 将被集成到路由器和 UI 库等组件中，并且使用这些库的开发人员将自动受益而无需进行额外工作。</p>
+<p>关键思想是应该能够在不改变编写组件方式情况下呈现任何 React 树形结构。当组件被离屏渲染时，它不会实际挂载，直到组件变得可见，其效果不会触发。例如，如果组件使用<code>useEffect</code>在首次出现时记录分析数据，则预渲染不会影响这些分析数据的准确性。同样，在组件离开屏幕时，它的效果也将被卸载。offscreen rendering 的一个关键特性是你可以在不丢失其状态的情况下切换组件的可见性。</p>
+<p>自我们上次更新以来，在 Meta 内部我们已经测试了 React Native 应用程序上 Android 和 iOS 版本中预渲染的实验版本，并取得了积极表现。我们还改进了如何将悬挂与离屏呈现结合使用——在离屏树中悬停将不会触发悬挂回退操作。我们剩下的工作是完成暴露给库开发人员的基本元素。我们希望在今年晚些时候发布 RFC 并提供实验 API 进行测试和反馈</p>
+<h2 id="Transition-Tracing"><a href="#Transition-Tracing" class="headerlink" title="Transition Tracing"></a>Transition Tracing</h2><p>Transition Tracing API 是 React 中的一个 API，可以帮助检测<a class="link"   target="_blank" rel="noopener" href="https://react.dev/reference/react/useTransition" >React Transition<i class="fas fa-external-link-alt"></i></a>变慢的原因并进行排查。在我们上次更新后，我们已经完成了 API 的初始设计并发表了<a class="link"   target="_blank" rel="noopener" href="https://github.com/reactjs/rfcs/pull/238" >RFC<i class="fas fa-external-link-alt"></i></a>。基本功能也已被实现。该项目目前处于暂停状态。我们欢迎对 RFC 提供反馈，并期待恢复其开发以提供更好的 React 性能测量工具。这将特别适用于基于 React Transitions 构建的路由器，例如<a class="link"   target="_blank" rel="noopener" href="https://react.dev/learn/start-a-new-react-project#nextjs-app-router" >Next.js App Router<i class="fas fa-external-link-alt"></i></a>。</p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：React Labs： 我们最近在做什么——2023 年 3 月</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2023-04-04 17:22:12</li>
+        <li>
+            Post link：https://blog.flytam.vip/React Labs： 我们最近在做什么——2023 年 3 月.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/react/">#react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E5%B7%A7%E7%94%A8%20exports%20%E5%92%8C%20typeVersions%20%E6%8F%90%E5%8D%87%20npm%20%E5%8C%85%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">巧用 exports 和 typeVersions 提升 npm 包用户使用体验</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/Koa%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Koa源码学习</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Server-Components"><span class="nav-text">React Server Components</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B5%84%E6%BA%90%E5%8A%A0%E8%BD%BD"><span class="nav-text">资源加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Document-Metadata"><span class="nav-text">Document Metadata</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#React-Optimizing-Compiler"><span class="nav-text">React Optimizing Compiler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Offscreen-Rendering"><span class="nav-text">Offscreen Rendering</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Transition-Tracing"><span class="nav-text">Transition Tracing</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

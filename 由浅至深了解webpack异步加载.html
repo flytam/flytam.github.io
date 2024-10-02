@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            由浅至深了解webpack异步加载 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">由浅至深了解webpack异步加载</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2019-12-14 22:02:30</span>
+        <span class="mobile">2019-12-14 22:02</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>源自最近对业务项目进行 webpack 异步分包加载一点点的学习总结</p>
+</blockquote>
+<p>提纲如下：</p>
+<ul>
+<li>相关概念</li>
+<li>webpack 分包配置</li>
+<li>webpack 异步加载分包如何实现</li>
+</ul>
+<h4 id="相关概念"><a href="#相关概念" class="headerlink" title="相关概念"></a>相关概念</h4><ul>
+<li>module、chunk、bundle 的概念</li>
+</ul>
+<p>先来一波名词解释。先上网上一张图解释：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/12/14/16f04b656a16fe92?w=1921&h=1080&f=png&s=657290"><br>通过图可以很直观的分出这几个名词的概念：</p>
+<p>1、<code>module</code>：我们源码目录中的每一个文件，在 webpack 中当作<code>module</code>来处理（webpack 原生不支持的文件类型，则通过 loader 来实现）。<code>module</code>组成了<code>chunk</code>。<br>2、<code>chunk</code>。<code>webpack</code>打包过程中的产物，在默认一般情况下（没有考虑分包等情况），x 个<code>webpack</code>的<code>entry</code>会输出 x 个<code>bundle</code>。<br>3、<code>bundle</code>。<code>webpack</code>最终输出的东西，可以直接在浏览器运行的。从图中看可以看到，在抽离 css(当然也可以是图片、字体文件之类的)的情况下，一个<code>chunk</code>是会输出多个<code>bundle</code>的，但是默认情况下一般一个<code>chunk</code>也只是会输出一个<code>bundle</code></p>
+<ul>
+<li><code>hash</code>、<code>chunkhash</code>、<code>contenthash</code></li>
+</ul>
+<blockquote>
+<p>这里不进行 demo 演示了，网上相关演示已经很多。</p>
+</blockquote>
+<p>hash。所有的 bundle 使用同一个 hash 值，跟每一次 webpack 打包的过程有关</p>
+<p>chunkhash。根据每一个 chunk 的内容进行 hash，同一个 chunk 的所有 bundle 产物的 hash 值是一样的。因此若其中一个 bundle 的修改，同一 chunk 的所有产物 hash 也会被修改。</p>
+<p>contenthash。计算与文件内容本身相关。</p>
+<p>tips：需要注意的是，在<code>热更新</code>模式下，会导致<code>chunkhash</code>和<code>contenthash</code>计算错误，发生错误(<code>Cannot use [chunkhash] or [contenthash] for chunk in &#39;[name].[chunkhash].js&#39; (use [hash] instead)</code> )。因此热更新下只能使用<code>hash</code>模式或者不使用<code>hash</code>。在生产环境中我们一般使用<code>contenthash</code>或者<code>chunkhash</code>。</p>
+<p>说了这么多，那么使用异步加载/分包加载有什么好处呢。简单来说有以下几点</p>
+<p>1、更好的利用浏览器缓存。如果我们一个很大的项目，不使用分包的话，每一次打包只会生成一个 js 文件，假设这个 js 打包出来有 2MB。而当日常代码发布的时候，我们可能只是修改了其中的一行代码，但是由于内容变了，打包出来的 js 的哈希值也发生改变。浏览器这个时候就要重新去加载这个 2MB 的 js 文件。而如果使用了分包，分出了几个 chunk，修改了一行代码，影响的只是这个 chunk 的哈希（这里严谨来说在不抽离 mainifest 的情况下，可能有多个哈希也会变化），其它哈希是不变的。这就能利用到 hash 不变化部分代码的缓存</p>
+<p>2、更快的加载速度。假设进入一个页面需要加载一个 2MB 的 js，经过分包抽离后，可能进入这个页面变成了加载 4 个 500Kb 的 js。我们知道，浏览器对于同一域名的最大并发请求数是 6 个（所以 webpack 的<code>maxAsyncRequests</code>默认值是 6），这样这个 4 个 500KB 的 js 将同时加载，相当于只是穿行加载一个 500kb 的资源，速度也会有相应的提高。</p>
+<p>3、如果实现的是代码异步懒加载。对于部分可能某些地方才用到的代码，在用到的时候才去加载，也能很好起到节省流量的目的。</p>
+<h4 id="webpack-分包配置"><a href="#webpack-分包配置" class="headerlink" title="webpack 分包配置"></a>webpack 分包配置</h4><p>在这之前，先强调一次概念，<code>splitChunk</code>，针对的是<code>chunk</code>，并不是<code>module</code>。对于同一个 chunk 中，无论一个代码文件被同 chunk 引用了多少次，它都还是算 1 次。只有一个代码文件被多个 chunk 引用，才算是多次。</p>
+<p>webpack 的默认分包<a class="link"   target="_blank" rel="noopener" href="https://webpack.docschina.org/plugins/split-chunks-plugin/#optimization-splitchunks" >配置<i class="fas fa-external-link-alt"></i></a>如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">    <span class="attr">splitChunks</span>: &#123;</span><br><span class="line">      <span class="comment">// **`splitChunks.chunks: &#x27;async&#x27;`**。表示哪些类型的chunk会参与split。默认是异步加载的chunk。值还可以是`initial`（表示入口同步chunk）、`all`（相当于`initial`+`async`）。</span></span><br><span class="line">      <span class="attr">chunks</span>: <span class="string">&quot;async&quot;</span>,</span><br><span class="line">      <span class="comment">// minSize 表示符合代码分割产生的新生成chunk的最小大小。默认是大于30kb的才会生成新的chunk</span></span><br><span class="line">      <span class="attr">minSize</span>: <span class="number">30000</span>,</span><br><span class="line">      <span class="comment">// maxSize 表示webpack会尝试将大于maxSize的chunk拆分成更小的chunk，拆解后的值需要大于minSize</span></span><br><span class="line">      <span class="attr">maxSize</span>: <span class="number">0</span>,</span><br><span class="line">      <span class="comment">// 一个模块被最少多少个chunk共享时参与split</span></span><br><span class="line">      <span class="attr">minChunks</span>: <span class="number">1</span>,</span><br><span class="line">      <span class="comment">// 最大异步请求数。该值可以理解为一个异步chunk，被抽离出同时加载的chunk数不超过该值。若为1，该异步chunk将不会抽离出任意代码块</span></span><br><span class="line">      <span class="attr">maxAsyncRequests</span>: <span class="number">5</span>,</span><br><span class="line">      <span class="comment">// 入口chunk最大请求数。在多entry chunk的情况下会用到，表示多entry chunk公共代码抽出的最大同时加载的chunk数</span></span><br><span class="line">      <span class="attr">maxInitialRequests</span>: <span class="number">3</span>,</span><br><span class="line">      <span class="comment">// 初始chunk最大请求数。</span></span><br><span class="line">      <span class="comment">// 多个chunk拆分出小chunk时，这个chunk的名字由多个chunk与连接符组合成</span></span><br><span class="line">      <span class="attr">automaticNameDelimiter</span>: <span class="string">&quot;~&quot;</span>,</span><br><span class="line">      <span class="comment">// 表示chunk的名字自动生成（由cacheGroups的key、entry名字）</span></span><br><span class="line">      <span class="attr">name</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="comment">// cacheGroups 表示分包分组规则，每一个分组会继承于default</span></span><br><span class="line">      <span class="comment">// priority表示优先级，一个chunk可能被多个分组规则命中时，会使用优先级较高的</span></span><br><span class="line">      <span class="comment">// test提供时 表示哪些模块会被抽离</span></span><br><span class="line">      <span class="attr">cacheGroups</span>: &#123;</span><br><span class="line">        <span class="attr">vendors</span>: &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/[\\/]node_modules[\\/]/</span>,</span><br><span class="line">          <span class="attr">priority</span>: -<span class="number">10</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">default</span>: &#123;</span><br><span class="line">          <span class="attr">minChunks</span>: <span class="number">2</span>,</span><br><span class="line">          <span class="attr">priority</span>: -<span class="number">20</span>,</span><br><span class="line">          <span class="comment">// 复用已经生成的chunk</span></span><br><span class="line">          <span class="attr">reuseExistingChunk</span>: <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>还有一个很重要的配置是<code>output.jsonpFunction</code>（默认是<code>webpackJsonp</code>）。这是用于异步加载 chunk 的时候一个全局变量。如果多 webpack 环境下，为了防止该函数命名冲撞产生问题，最好设置成一个比较唯一的值。</p>
+<p>一般而言，没有最完美的分包配置，只有最合适当前项目场景需求的配置。很多时候，默认配置已经足够可用了。</p>
+<p>通常来说，为了保证 hash 的稳定性，建议：</p>
+<p>1、使用<a target="_blank" rel="noopener" href="https://webpack.docschina.org/plugins/hashed-module-ids-plugin/"><code>webpack.HashedModuleIdsPlugin</code></a>。这个插件会根据模块的相对路径生成一个四位数的 hash 作为模块 id。默认情况下 webpack 是使用模块数字自增 id 来命名，当插入一个模块占用了一个 id（或者一个删去一个模块）时，后续所有的模块 id 都受到影响，导致模块 id 变化引起打包文件的 hash 变化。使用这个插件就能解决这个问题。</p>
+<p>2、<code>chunk</code>id 也是自增的，同样可能遇到模块 id 的问题。可以通过设置<code>optimization.namedChunks</code>为 true（默认 dev 模式下为 true，prod 模式为 false），将<code>chunk</code>的名字使用命名<code>chunk</code>。</p>
+<p>1、2 后的效果如下。<br><img src="https://user-gold-cdn.xitu.io/2019/12/14/16f04b6d8d276124?w=1152&h=484&f=png&s=96812"><br>3、抽离 css 使用<code>mini-css-extract-plugin</code>。hash 模式使用<code>contenthash</code>。</p>
+<p>这里以腾讯云某控制台页面以下为例，使用 webpack 路有异步加载效果后如下。可以看到，第一次访问页面。这里是先请求到一个总的入口 js，然后根据我们访问的路由（路由 1），再去加载这个路由相关的代码。这里可以看到我们异步加载的 js 数为 5，就相当于上面提到的默认配置项<code>maxAsyncRequests</code>，通过<code>waterfall</code>可以看到这里是并发请求的。如果再进去其它路由（路由 2）的话，只会加载一个其它路由的 js(或者还有当前没有加载过的 vendor js)。这里如果只修改了路由 1 的自己单独业务代码，vendor 相关的 hash 和其它路由的 hash 也不是不会变，这些文件就能很好的利用了浏览器缓存了</p>
+<p><img src="https://user-gold-cdn.xitu.io/2019/12/14/16f04fbcf030b584?w=2514&h=646&f=png&s=716789"></p>
+<h4 id="webpack-异步加载分包如何实现"><a href="#webpack-异步加载分包如何实现" class="headerlink" title="webpack 异步加载分包如何实现"></a>webpack 异步加载分包如何实现</h4><p>我们知道，默认情况下，浏览器环境的 js 是不支持<code>import</code>和异步<code>import(&#39;xxx&#39;).then(...)</code>的。那么 webpack 是如何实现使得浏览器支持的呢，下面对 webpack 构建后的代码进行分析，了解其背后原理。</p>
+<p>实验代码结构如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// webpack.js</span></span><br><span class="line"><span class="keyword">const</span> webpack = <span class="built_in">require</span>(<span class="string">&quot;webpack&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&quot;path&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">CleanWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;clean-webpack-plugin&quot;</span>).<span class="property">CleanWebpackPlugin</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">HtmlWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&quot;html-webpack-plugin&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line"><span class="attr">entry</span>: &#123;</span><br><span class="line"><span class="attr">a</span>: <span class="string">&quot;./src/a.js&quot;</span>,</span><br><span class="line"><span class="attr">b</span>: <span class="string">&quot;./src/b.js&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">output</span>: &#123;</span><br><span class="line"><span class="attr">filename</span>: <span class="string">&quot;[name].[chunkhash].js&quot;</span>,</span><br><span class="line"><span class="attr">chunkFilename</span>: <span class="string">&quot;[name].[chunkhash].js&quot;</span>,</span><br><span class="line"><span class="attr">path</span>: **dirname + <span class="string">&quot;/dist&quot;</span>,</span><br><span class="line"><span class="attr">jsonpFunction</span>: <span class="string">&quot;\_**jsonp&quot;</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">optimization</span>: &#123;</span><br><span class="line"><span class="attr">splitChunks</span>: &#123;</span><br><span class="line"><span class="attr">minSize</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// namedChunks: true</span></span><br><span class="line">&#125;,</span><br><span class="line"><span class="attr">plugins</span>: [</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">CleanWebpackPlugin</span>(),</span><br><span class="line"><span class="keyword">new</span> <span class="title class_">HtmlWebpackPlugin</span>()</span><br><span class="line"><span class="comment">//new webpack.HashedModuleIdsPlugin()</span></span><br><span class="line">],</span><br><span class="line"><span class="attr">devServer</span>: &#123;</span><br><span class="line"><span class="attr">contentBase</span>: path.<span class="title function_">join</span>(\_\_dirname, <span class="string">&quot;dist&quot;</span>),</span><br><span class="line"><span class="attr">compress</span>: <span class="literal">true</span>,</span><br><span class="line"><span class="attr">port</span>: <span class="number">8000</span></span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/a.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; common1 &#125; <span class="keyword">from</span> <span class="string">&quot;./common1&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; common2 &#125; <span class="keyword">from</span> <span class="string">&quot;./common2&quot;</span>;</span><br><span class="line"><span class="title function_">common1</span>();</span><br><span class="line"><span class="title function_">common2</span>();</span><br><span class="line"><span class="keyword">import</span>(<span class="regexp">/_ webpackChunkName: &quot;asyncCommon2&quot; _/</span> <span class="string">&quot;./asyncCommon2.js&quot;</span>).<span class="title function_">then</span>(</span><br><span class="line"><span class="function">(<span class="params">&#123; asyncCommon2 &#125;</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="title function_">asyncCommon2</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;done&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/b.js</span></span><br><span class="line"><span class="keyword">import</span> &#123; common1 &#125; <span class="keyword">from</span> <span class="string">&quot;./common1&quot;</span>;</span><br><span class="line"><span class="title function_">common1</span>();</span><br><span class="line"><span class="keyword">import</span>(<span class="regexp">/_ webpackChunkName: &quot;asyncCommon2&quot; _/</span> <span class="string">&quot;./asyncCommon2.js&quot;</span>).<span class="title function_">then</span>(</span><br><span class="line"><span class="function">(<span class="params">&#123; asyncCommon2 &#125;</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="title function_">asyncCommon2</span>();</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;done&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/asyncCommon1.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">asyncCommon1</span>(<span class="params"></span>)&#123;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;asyncCommon1&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// src/asyncCommon2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">asyncCommon2</span>(<span class="params"></span>)&#123;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;asyncCommon2&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ./src/common1.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">common1</span>(<span class="params"></span>) &#123;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;common11&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">import</span>(<span class="regexp">/_ webpackChunkName: &quot;asyncCommon1&quot; _/</span> <span class="string">&quot;./asyncCommon1&quot;</span>).<span class="title function_">then</span>(</span><br><span class="line"><span class="function">(<span class="params">&#123; asyncCommon1 &#125;</span>) =&gt;</span> &#123;</span><br><span class="line"><span class="title function_">asyncCommon1</span>();</span><br><span class="line">&#125;</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="comment">// src/common2.js</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">common2</span>(<span class="params"></span>)&#123;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;common2&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在分析异步加载机制之前，先看下 webpack 打包出来的代码结构长啥样（为了便于阅读，这里使用 dev 模式打包，没有使用任何 babel 转码）。列出与加载相关的部分</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 入口文件 a.js</span></span><br><span class="line">(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="comment">//.....</span></span><br><span class="line">  <span class="keyword">function</span> <span class="title function_">webpackJsonpCallback</span>(<span class="params">data</span>)&#123;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 缓存已经加载过的module。无论是同步还是异步加载的模块都会进入该缓存</span></span><br><span class="line">  <span class="keyword">var</span> installedModules = &#123;&#125;;</span><br><span class="line">  <span class="comment">// 记录chunk的状态位</span></span><br><span class="line">  <span class="comment">// 值：0 表示已加载完成。</span></span><br><span class="line">  <span class="comment">// undefined ： chunk 还没加载</span></span><br><span class="line">  <span class="comment">// null ：chunk preloaded/prefetched</span></span><br><span class="line">  <span class="comment">// Promise ： chunk正在加载</span></span><br><span class="line">  <span class="keyword">var</span> installedChunks = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="number">0</span></span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于根据chunkId，拿异步加载的js地址</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">jsonpScriptSrc</span>(<span class="params">chunkId</span>)&#123;</span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 同步import</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">__webpack_require__</span>(<span class="params">moduleId</span>)&#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 用于加载异步import的方法</span></span><br><span class="line">__webpack_require__.<span class="property">e</span> = <span class="keyword">function</span> <span class="title function_">requireEnsure</span>(<span class="params">chunkId</span>)  &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br><span class="line">  <span class="comment">// 加载并执行入口js</span></span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">__webpack_require__</span>((__webpack_require__.<span class="property">s</span> = <span class="string">&quot;./src/a.js&quot;</span>));</span><br><span class="line"></span><br><span class="line">&#125;)(&#123;</span><br><span class="line">  <span class="string">&quot;./src/a.js&quot;</span>: <span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span>, __webpack_exports__, __webpack_require__</span>) &#123;</span><br><span class="line">    <span class="built_in">eval</span>( ...); <span class="comment">// ./src/a.js的文件内容</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">&quot;./src/common1.js&quot;</span>: ....,</span><br><span class="line">   <span class="string">&quot;./src/common2.js&quot;</span>: ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，经过 webpack 打包后的入口文件是一个立即执行函数，立即执行函数的参数就是为入口函数的同步<code>import</code>的代码模块对象。key 值是路径名，value 值是一个执行相应模块代码的<code>eval</code>函数。这个入口函数内有几个重要的变量/函数。</p>
+<ul>
+<li><code>webpackJsonpCallback</code>函数。加载异步模块完成的回调。</li>
+<li><code>installedModules</code>变量。 缓存已经加载过的 module。无论是同步还是异步加载的模块都会进入该缓存。<code>key</code>是模块 id，<code>value</code>是一个对象<code>&#123; i: 模块id, l: 布尔值，表示模块是否已经加载过, exports: 该模块的导出值 &#125;</code>。</li>
+<li><code>installedChunks</code>变量。缓存已经加载过的 chunk 的状态。有几个状态位。<code>0</code>表示已加载完成、 <code>undefined</code> chunk 还没加载、 <code>null</code> ：chunk <code>preloaded/prefetched</code>加载的模块、<code>Promise</code> ： chunk 正在加载</li>
+<li><code>jsonpScriptSrc</code>变量。用于返回异步 chunk 的 js 地址。如果设置了<code>webpack.publicPath</code>（一般是 cdn 域名，这个会存到<code>__webpack_require__.p</code>中），也会和该地址拼接成最终地址</li>
+<li><code>__webpack_require__</code>函数。同步 <code>import</code>的调用</li>
+<li><code>__webpack_require__.e</code>函数。异步<code>import</code>的调用</li>
+</ul>
+<p>而每个模块构建出来后是一个类型如下形式的函数，函数入参<code>module</code>对应于当前模块的相关状态（是否加载完成、导出值、id 等，下文提到）、<code>__webpack_exports__</code>就是当前模块的导出（就是 export）、<code>__webpack_require__</code>就是入口 chunk 的<code>__webpack_require__</code>函数，用于<code>import</code>其它代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span>, __webpack_exports__, __webpack_require__</span>) &#123;</span><br><span class="line"><span class="meta">&quot;use strict&quot;</span>;</span><br><span class="line"><span class="built_in">eval</span>(模块代码...);<span class="comment">// (1)</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>eval</code>内的代码如下,以<code>a.js</code>为例。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// (1)</span></span><br><span class="line"><span class="comment">// 格式化为js后</span></span><br><span class="line">__webpack_require__.<span class="title function_">r</span>(__webpack_exports__);</span><br><span class="line"><span class="keyword">var</span> _common1__WEBPACK_IMPORTED_MODULE_0__ = <span class="title function_">__webpack_require__</span>(</span><br><span class="line">  <span class="string">&quot;./src/common1.js&quot;</span></span><br><span class="line">);</span><br><span class="line"><span class="keyword">var</span> _common2__WEBPACK_IMPORTED_MODULE_1__ = <span class="title function_">__webpack_require__</span>(</span><br><span class="line">  <span class="string">&quot;./src/common2.js&quot;</span></span><br><span class="line">);</span><br><span class="line"><span class="comment">// _common1__WEBPACK_IMPORTED_MODULE_0__是导出对象</span></span><br><span class="line"><span class="comment">// 执行导出的common1方法</span></span><br><span class="line"><span class="comment">// 源码js:</span></span><br><span class="line"><span class="comment">// import &#123; common1 &#125; from &quot;./common1&quot;;</span></span><br><span class="line"><span class="comment">// common1();</span></span><br><span class="line"><span class="title class_">Object</span>(_common1__WEBPACK_IMPORTED_MODULE_0__[<span class="string">&quot;common1&quot;</span>])();</span><br><span class="line"></span><br><span class="line"><span class="title class_">Object</span>(_common2__WEBPACK_IMPORTED_MODULE_1__[<span class="string">&quot;common2&quot;</span>])();</span><br><span class="line">__webpack_require__</span><br><span class="line">  .<span class="title function_">e</span>(<span class="string">&quot;asyncCommon2&quot;</span>)</span><br><span class="line">  .<span class="title function_">then</span>(__webpack_require__.<span class="title function_">bind</span>(<span class="literal">null</span>, <span class="string">&quot;./src/asyncCommon2.js&quot;</span>))</span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">&#123; asyncCommon2 &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">asyncCommon2</span>();</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;done&quot;</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>于是，就可知道</p>
+<ul>
+<li>同步<code>import</code>最终转化成<code>__webpack_require__</code>函数</li>
+<li>异步<code>import</code>最终转化成<code>__webpack_require__.e</code>方法</li>
+</ul>
+<p>整个 流程执行就是。</p>
+<p>入口文件最开始通过<code>__webpack_require__((__webpack_require__.s = &quot;./src/a.js&quot;))</code>加载入口的 js，（上面可以观察到<code>installedChunked</code>变量的初始值是<code>&#123;a:0&#125;</code>，），并通过<code>eval</code>执行 a.js 中的代码。</p>
+<p><code>__webpack_require__</code>可以说是整个 webpack 构建后代码出现最多的东西了，那么<code>__webpack_require__</code>做了啥。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">__webpack_require__</span>(<span class="params">moduleId</span>) &#123;</span><br><span class="line">  <span class="comment">// 如果一个模块已经import加载过了，再次import的话就直接返回</span></span><br><span class="line">  <span class="keyword">if</span> (installedModules[moduleId]) &#123;</span><br><span class="line">    <span class="keyword">return</span> installedModules[moduleId].<span class="property">exports</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 之前没有加载的话将它挂到installedModules进行缓存</span></span><br><span class="line">  <span class="keyword">var</span> <span class="variable language_">module</span> = (installedModules[moduleId] = &#123;</span><br><span class="line">    <span class="attr">i</span>: moduleId,</span><br><span class="line">    <span class="attr">l</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">exports</span>: &#123;&#125;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 执行相应的加载的模块</span></span><br><span class="line">  modules[moduleId].<span class="title function_">call</span>(</span><br><span class="line">    <span class="variable language_">module</span>.<span class="property">exports</span>,</span><br><span class="line">    <span class="variable language_">module</span>,</span><br><span class="line">    <span class="variable language_">module</span>.<span class="property">exports</span>,</span><br><span class="line">    __webpack_require__</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 设置模块的状态为已加载</span></span><br><span class="line">  <span class="variable language_">module</span>.<span class="property">l</span> = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 返回模块的导出值</span></span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">module</span>.<span class="property">exports</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里就很直观了，这个函数接收一个<code>moduleId</code>，对应于立即执行函数传入参数的<code>key</code>值。若一个模块之前已经加载过，直接返回这个模块的导出值；若这个模块还没加载过，就执行这个模块，将它缓存到<code>installedModules</code>相应的<code>moduleId</code>为 key 的位置上，然后返回模块的导出值。所以在 webpack 打包代码中，<code>import</code>一个模块多次，这个模块只会被执行一次。还有一个地方就是，在 webpack 打包模块中，默认<code>import</code>和<code>require</code>是一样的，最终都是转化成<code>__webpack_require__</code>。</p>
+<p>回到一个经典的问题，<code>webpack</code>环境中如果发生循环引用会怎样？<code>a.js</code>有一个<code>import x from &#39;./b.js&#39;</code>、<code>b.js</code>有一个<code>import x from &#39;a.js&#39;</code>。经过上面对<code>__webpack_require__</code>的分析就很容易知道了。一个模块执行之前，<code>webpack</code>就已经先将它挂到<code>installedModules</code>中。例如此时执行<code>a.js</code>它引入<code>b.js</code>,<code>b.js</code>中又引入<code>a.js</code>。此时<code>b.js</code>中拿到引入<code>a</code>的内容只是在<code>a.js</code>当前执行的时候已经<code>export</code>出的东西（因为已经挂到了<code>installedModules</code>，所以不会重新执行一遍<code>a.js</code>）。</p>
+<p>完成同步加载后，入口 chunk 执行<code>a.js</code>。</p>
+<p>接下来回到<code>eval</code>内执行的<code>a.js</code>模块代码片段，异步加载 js 部分。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// a.js模块</span></span><br><span class="line">__webpack_require__</span><br><span class="line">  .<span class="title function_">e</span>(<span class="string">&quot;asyncCommon2&quot;</span>)</span><br><span class="line">  .<span class="title function_">then</span>(__webpack_require__.<span class="title function_">bind</span>(<span class="literal">null</span>, <span class="string">&quot;./src/asyncCommon1.js&quot;</span>)) <span class="comment">// (1) 异步的模块文件已经被注入到立即执行函数的入参`modules`变量中了，这个时候和同步执行`import`调用`__webpack_require__`的效果就一样了</span></span><br><span class="line">  .<span class="title function_">then</span>(<span class="function">(<span class="params">&#123; asyncCommon2 &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//(2) 就能拿到对应的模块，并且执行相关逻辑了(2)。</span></span><br><span class="line">    <span class="title function_">asyncCommon2</span>();</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;done&quot;</span>);</span><br><span class="line">  &#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>__webpack_require__.e</code>做的事情就是，根据传入的<code>chunkId</code>，去加载这个<code>chunkId</code>对应的异步 chunk 文件，它返回一个<code>promise</code>。通过<code>jsonp</code>的方式使用<code>script</code>标签去加载。这个函数调用多次，还是只会发起一次请求 js 的请求。若已加载完成，这时候异步的模块文件已经被注入到立即执行函数的入参<code>modules</code>变量中了，这个时候和同步执行<code>import</code>调用<code>__webpack_require__</code>的效果就一样了（这个注入由<code>webpackJsonpCallback</code>函数完成）。此时，在<code>promise</code>的回调中再调用<code>__webpack_require__.bind(null, &quot;./src/asyncCommon1.js&quot;)</code>(1) 就能拿到对应的模块，并且执行相关逻辑了(2)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// __webpack_require__.e 异步import调用函数</span></span><br><span class="line"><span class="comment">// 再回顾下上文提到的 chunk 的状态位</span></span><br><span class="line"><span class="comment">// 记录chunk的状态位</span></span><br><span class="line"><span class="comment">// 值：0 表示已加载完成。</span></span><br><span class="line"><span class="comment">// undefined ： chunk 还没加载</span></span><br><span class="line"><span class="comment">// null ：chunk preloaded/prefetched</span></span><br><span class="line"><span class="comment">// Promise ： chunk正在加载</span></span><br><span class="line"><span class="keyword">var</span> installedChunks = &#123;</span><br><span class="line">  <span class="attr">a</span>: <span class="number">0</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">__webpack_require__.<span class="property">e</span> = <span class="keyword">function</span> <span class="title function_">requireEnsure</span>(<span class="params">chunkId</span>) &#123;</span><br><span class="line">  <span class="comment">//...只保留核心代码</span></span><br><span class="line">  <span class="keyword">var</span> promises = [];</span><br><span class="line">  <span class="keyword">var</span> installedChunkData = installedChunks[chunkId];</span><br><span class="line">  <span class="keyword">if</span> (installedChunkData !== <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// chunk还没加载完成</span></span><br><span class="line">    <span class="keyword">if</span> (installedChunkData) &#123;</span><br><span class="line">      <span class="comment">// chunk正在加载</span></span><br><span class="line">      <span class="comment">// 继续等待，因此只会加载一遍</span></span><br><span class="line">      promises.<span class="title function_">push</span>(installedChunkData[<span class="number">2</span>]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// chunk 还没加载</span></span><br><span class="line">      <span class="comment">// 使用script标签去加载对应的js</span></span><br><span class="line">      <span class="keyword">var</span> promise = <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="keyword">function</span>(<span class="params">resolve, reject</span>) &#123;</span><br><span class="line">        installedChunkData = installedChunks[chunkId] = [resolve, reject];</span><br><span class="line">      &#125;);</span><br><span class="line">      promises.<span class="title function_">push</span>((installedChunkData[<span class="number">2</span>] = promise)); <span class="comment">// start chunk loading</span></span><br><span class="line"></span><br><span class="line">      <span class="comment">//</span></span><br><span class="line">      <span class="keyword">var</span> script = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(<span class="string">&quot;script&quot;</span>);</span><br><span class="line">      <span class="keyword">var</span> onScriptComplete;</span><br><span class="line"></span><br><span class="line">      script.<span class="property">src</span> = <span class="title function_">jsonpScriptSrc</span>(chunkId);</span><br><span class="line">      <span class="variable language_">document</span>.<span class="property">head</span>.<span class="title function_">appendChild</span>(script);</span><br><span class="line">  <span class="comment">//.....</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// promise的resolve调用是在jsonpFunctionCallback中调用</span></span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">Promise</span>.<span class="title function_">all</span>(promises);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>再看看异步加载 asyncCommon1 chunk(也就是异步加载的 js) 的代码大体结构。它做的操作很简单，就是往<code>jsonpFunction</code>这个全局数组<code>push</code>（需要注意的是这个不是数组的 push，是被重写为入口 chunk 的<code>webpackJsonpCallback</code>函数）一个数组，这个数组由 <code>chunk</code>名和该<code>chunk</code>的 module 对象 一起组成。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// asyncCommon1 chunk</span></span><br><span class="line">(<span class="variable language_">window</span>[<span class="string">&quot;jsonpFunction&quot;</span>] = <span class="variable language_">window</span>[<span class="string">&quot;jsonpFunction&quot;</span>] || []).<span class="title function_">push</span>([[<span class="string">&quot;asyncCommon1&quot;</span>],&#123;</span><br><span class="line">  <span class="string">&quot;./src/asyncCommon1.js&quot;</span>:</span><br><span class="line"> (<span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span>, __webpack_exports__, __webpack_require__</span>) &#123;</span><br><span class="line"><span class="built_in">eval</span>(<span class="variable language_">module</span>代码....);</span><br><span class="line">&#125;)</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+
+<p>而执行<code>webpackJsonpCallback</code>的时机，就是我们通过<code>script</code>把异步 chunk 拿回来了（肯定啊，因为请求代码回来，执行异步 chunk 内的<code>push</code>方法嘛！）。结合异步 chunk 的代码和下面的<code>webpackJsonpCallback</code>很容易知道，<code>webpackJsonpCallback</code>主要做了几件事：</p>
+<p>1、将异步<code>chunk</code>的状态位置 0，表明该 chunk 已经加载完成。<code>installedChunks[chunkId] = 0;</code></p>
+<p>2、对<code>__webpack_require__.e</code> 中产生的相应的 chunk 加载 promise 进行 resolve</p>
+<p>3、将异步<code>chunk</code>的模块 挂载到入口<code>chunk</code>的立即执行函数参数<code>modules</code>中。可供<code>__webpack_require__</code>进行获取。上文分析 a.js 模块已经提到了这个过程</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">webpackJsonpCallback</span>(<span class="params">data</span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> chunkIds = data[<span class="number">0</span>];</span><br><span class="line">  <span class="keyword">var</span> moreModules = data[<span class="number">1</span>];</span><br><span class="line">  <span class="keyword">var</span> moduleId,</span><br><span class="line">    chunkId,</span><br><span class="line">    i = <span class="number">0</span>,</span><br><span class="line">    resolves = [];</span><br><span class="line">  <span class="keyword">for</span> (; i &lt; chunkIds.<span class="property">length</span>; i++) &#123;</span><br><span class="line">    chunkId = chunkIds[i];</span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      <span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hasOwnProperty</span>.<span class="title function_">call</span>(installedChunks, chunkId) &amp;&amp;</span><br><span class="line">      installedChunks[chunkId]</span><br><span class="line">    ) &#123;</span><br><span class="line">      resolves.<span class="title function_">push</span>(installedChunks[chunkId][<span class="number">0</span>]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 将当前chunk设置为已加载</span></span><br><span class="line">    installedChunks[chunkId] = <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">for</span> (moduleId <span class="keyword">in</span> moreModules) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">hasOwnProperty</span>.<span class="title function_">call</span>(moreModules, moduleId)) &#123;</span><br><span class="line">      <span class="comment">// 将异步`chunk`的模块 挂载到入口`chunk`的立即执行函数参数`modules`中</span></span><br><span class="line">      modules[moduleId] = moreModules[moduleId];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 执行旧的jsonPFunction</span></span><br><span class="line">  <span class="comment">// 可以理解为原生的数组Array，但是这里很精髓，可以防止撞包的情况部分模块没加载！</span></span><br><span class="line">  <span class="keyword">if</span> (parentJsonpFunction) <span class="title function_">parentJsonpFunction</span>(data);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">while</span> (resolves.<span class="property">length</span>) &#123;</span><br><span class="line">    <span class="comment">// 对__webpack_require__.e 中产生的相应的chunk 加载promise进行resolve</span></span><br><span class="line">    resolves.<span class="title function_">shift</span>()();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>简单总结：</p>
+<p>1、经过 webpack 打包，每一个 chunk 内的模块文件，都是组合成形如</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  [<span class="attr">moduleName</span>:<span class="built_in">string</span>] : <span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span>, __webpack_exports__, __webpack_require__</span>)&#123;</span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">&#x27;模块文件源码&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2、同一页面多个 webpack 环境，<code>output.jsonpFunction</code>尽量不要撞名字。撞了一般也是不会挂掉的。只是会在立即执行函数的入参<code>modules</code>上挂上别的 webpack 环境异步加载的部分模块代码。（可能会造成一些内存的增加？）</p>
+<p>3、每一个 entry chunk 入口都是一个类似的立即执行函数</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params">modules</span>)&#123;</span><br><span class="line"><span class="comment">//....</span></span><br><span class="line">&#125;)(&#123;</span><br><span class="line">   [<span class="attr">moduleName</span>:<span class="built_in">string</span>] : <span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span>, __webpack_exports__, __webpack_require__</span>)&#123;</span><br><span class="line">    <span class="built_in">eval</span>(<span class="string">&#x27;模块文件源码&#x27;</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>4、异步加载的背后是用<code>script</code>标签去加载代码</p>
+<p>5、异步加载没那么神秘，对于当项目大到一定程度时，能有较好的效果</p>
+<p>因水平有限，如有错误欢迎拍砖）</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：由浅至深了解webpack异步加载</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2019-12-14 22:02:30</li>
+        <li>
+            Post link：https://blog.flytam.vip/由浅至深了解webpack异步加载.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">#工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E4%B8%80%E4%B8%AA%E8%B6%85%E6%96%B9%E4%BE%BF%E4%B8%80%E9%94%AE%E5%B0%86%20csdn%20%E5%8D%9A%E5%AE%A2%E7%94%9F%E6%88%90%20hexo%20%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%B7%A5%E5%85%B7.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">一个超方便一键将 csdn 博客生成 hexo 源文件的工具</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/3%E5%88%86%E9%92%9F%E6%8E%8C%E6%8F%A1react%20hook%20%E5%9C%A8typescript%E4%B8%AD%E7%9A%84%E5%A7%BF%E5%8A%BF.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">3分钟掌握react hook 在typescript中的姿势</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-text">相关概念</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-%E5%88%86%E5%8C%85%E9%85%8D%E7%BD%AE"><span class="nav-text">webpack 分包配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-%E5%BC%82%E6%AD%A5%E5%8A%A0%E8%BD%BD%E5%88%86%E5%8C%85%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0"><span class="nav-text">webpack 异步加载分包如何实现</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            Go项目接入travis CI总结 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Go项目接入travis CI总结</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2020-03-21 12:05:08</span>
+        <span class="mobile">2020-03-21 12:05</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/Go/">Go</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/Go/">Go</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>上一篇文章提到了<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/flytam/article/details/104741412" >npm<i class="fas fa-external-link-alt"></i></a>的接入 travis 实现自动发布 npm 包的方法，本文主要讲述 Go 项目的使用，主要分为执行单元测试和 build 打包发步到 github release。具体 travis 的基本操作参考<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/blog/issues/15" >上文<i class="fas fa-external-link-alt"></i></a>即可，本文只讲述不同的部分</p>
+</blockquote>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>本文不讲述 Go 的单元测试如何编写，这里直接以<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/filenamify" >filenamify<i class="fas fa-external-link-alt"></i></a>（一个合法化文件路径的库）为例子。已为<a target="_blank" rel="noopener" href="https://github.com/flytam/filenamify/blob/master/filenamify.go"><code>filenamify.go</code></a>编写测试文件<a target="_blank" rel="noopener" href="https://github.com/flytam/filenamify/blob/master/filenamify_test.go"><code>filenamify_test.go</code></a>。只需要在<code>tracis</code>中执行<code>go test -v</code>即可。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># https://github.com/flytam/filenamify/blob/master/.travis.yml</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">go</span></span><br><span class="line"></span><br><span class="line"><span class="attr">go:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">1.13</span><span class="string">.x</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GO111MODULE=on</span></span><br><span class="line"><span class="attr">script:</span> <span class="string">go</span> <span class="string">test</span> <span class="string">-v</span></span><br></pre></td></tr></table></figure>
+
+<p>然后给在项目中加上构建状态图标。搞定<br><img src="https://img-blog.csdnimg.cn/20200321115959839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200321120030555.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>这样，每次推送到远程，就会触发CI自动执行单元测试</p>
+<h3 id="发布-github-release"><a href="#发布-github-release" class="headerlink" title="发布 github release"></a>发布 github release</h3><p>有时候我们的 Go 项目是需要打包成可行文件直接发布到 github release 让别人下载执行的。这时候也可以使用<code>travis</code>实现，借助<code>travis releases</code>工具即可</p>
+<p>1、新建一个<code>.travis.yml</code>文件，填入基本的 Go 配置环境</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">go</span></span><br><span class="line"></span><br><span class="line"><span class="attr">go:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">1.13</span><span class="string">.x</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GO111MODULE=on</span> <span class="comment"># 启用Go mod</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span> <span class="string">get</span> <span class="string">-v</span></span><br></pre></td></tr></table></figure>
+
+<p>2、编写<code>Makefile</code></p>
+<p>在<code>nodejs</code>项目中，我们一般会配置一个<code>npm run test</code>的命令执行测试，但是 Go 是没有<code>npm</code>和<code>package.json</code>这两个东西，这时候就需要编写<code>Makefile</code>来实现了（可以把<code>Makefile</code>看作功能类型于<code>package.json</code>的东西，只是使用<code>make xxx</code>来执行），<code>Makefile</code>编写可以<a class="link"   target="_blank" rel="noopener" href="https://juejin.im/post/5c98edb56fb9a070d75585e3" >参考<i class="fas fa-external-link-alt"></i></a>。</p>
+<p>以<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/blog-sync" >blog-sync<i class="fas fa-external-link-alt"></i></a>为例子，这里我是需要打包全平台的可行文件，于是<code>Makefile</code>如下</p>
+<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">GOCMD=go</span><br><span class="line">GOBUILD=<span class="variable">$(GOCMD)</span> build</span><br><span class="line">BINARY_NAME=bin</span><br><span class="line">NAME=blog-sync</span><br><span class="line"></span><br><span class="line"><span class="comment">#mac</span></span><br><span class="line"><span class="section">build:</span></span><br><span class="line">	CGO_ENABLED=0 <span class="variable">$(GOBUILD)</span> -o <span class="variable">$(BINARY_NAME)</span>/<span class="variable">$(NAME)</span>-mac</span><br><span class="line"><span class="comment"># linux</span></span><br><span class="line"><span class="section">build-linux:</span></span><br><span class="line">	CGO_ENABLED=0 GOOS=windows GOARCH=amd64 <span class="variable">$(GOBUILD)</span> -o <span class="variable">$(BINARY_NAME)</span>/<span class="variable">$(NAME)</span>-linux</span><br><span class="line"><span class="comment"># windows</span></span><br><span class="line"><span class="section">build-win:</span></span><br><span class="line">	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 <span class="variable">$(GOBUILD)</span> -o <span class="variable">$(BINARY_NAME)</span>/<span class="variable">$(NAME)</span>-win.exe</span><br><span class="line"><span class="comment"># 全平台</span></span><br><span class="line"><span class="section">build-all:</span></span><br><span class="line">	make build</span><br><span class="line">	make build-win</span><br><span class="line">	make build-linux</span><br></pre></td></tr></table></figure>
+
+<p>执行<code>make build-all</code>即可在<code>bin</code>目录下生成 3 个平台的可执行文件。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">go</span></span><br><span class="line"></span><br><span class="line"><span class="attr">go:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">1.13</span><span class="string">.x</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GO111MODULE=on</span> <span class="comment"># 启用Go mod</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span> <span class="string">get</span> <span class="string">-v</span></span><br><span class="line"><span class="attr">before_deploy:</span> <span class="string">make</span> <span class="string">build-all</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">provider:</span> <span class="string">releases</span></span><br><span class="line">    <span class="attr">api_key:</span> <span class="string">自动生成的github</span> <span class="string">key</span></span><br><span class="line">    <span class="attr">file_glob:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">bin/*</span></span><br><span class="line">    <span class="attr">skip_cleanup:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">on:</span></span><br><span class="line">        <span class="attr">repo:</span> <span class="string">flytam/blog-sync</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>3、使用<code>setup</code>初始化配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 已经安装travis cli</span></span><br><span class="line">travis setup releases</span><br><span class="line"><span class="comment"># 按需填写，输入github账号密码，加密key，发布文件等</span></span><br></pre></td></tr></table></figure>
+
+<p>再简单定制化后，最终如下配置，<code>releases</code>配置可参考<a class="link"   target="_blank" rel="noopener" href="https://docs.travis-ci.com/user/deployment/releases/#uploading-multiple-files" >文档<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># https://github.com/flytam/blog-sync/blob/master/.travis.yml</span></span><br><span class="line"><span class="attr">language:</span> <span class="string">go</span></span><br><span class="line"></span><br><span class="line"><span class="attr">go:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">1.13</span><span class="string">.x</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">GO111MODULE=on</span> <span class="comment"># 启用Go mod</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">go</span> <span class="string">get</span> <span class="string">-v</span></span><br><span class="line"><span class="attr">before_deploy:</span> <span class="string">make</span> <span class="string">build-all</span> <span class="comment"># 发布前执行生成二进制文件的命令</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">provider:</span> <span class="string">releases</span></span><br><span class="line">    <span class="attr">api_key:</span></span><br><span class="line">        <span class="attr">secure:</span> <span class="string">xxxx</span></span><br><span class="line">    <span class="comment"># 使用glob匹配发布bin目录下的文件</span></span><br><span class="line">    <span class="attr">file_glob:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">file:</span> <span class="string">bin/*</span></span><br><span class="line">    <span class="attr">skip_cleanup:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">on:</span></span><br><span class="line">        <span class="attr">repo:</span> <span class="string">flytam/blog-sync</span></span><br><span class="line">        <span class="comment"># tag才触发发布</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>4、发布</p>
+<p>每次打tag推送到仓库，就会触发自动发布可执行文件到github release</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git tag 1.0.0</span><br><span class="line">git push --tags</span><br></pre></td></tr></table></figure>
+
+<p>5、可以看到，我们的自动构建发布 release 成功了</p>
+<p><img src="https://img-blog.csdnimg.cn/20200321120105714.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Go项目接入travis CI总结</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2020-03-21 12:05:08</li>
+        <li>
+            Post link：https://blog.flytam.vip/Go项目接入travis CI总结.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/Go/">#Go</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%E6%83%8A%E8%89%B3%E9%9D%A2%E8%AF%95%E5%AE%98%E7%9A%84%E9%9D%9E%E9%80%92%E5%BD%92%E7%89%88%E6%9C%AC%E7%9A%84%20js%20%E5%AF%B9%E8%B1%A1%E6%B7%B1%E6%8B%B7%E8%B4%9D%E6%96%B9%E6%B3%95.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">如何实现一个惊艳面试官的非递归版本的 js 对象深拷贝方法</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E5%B8%A6%E4%BD%A0%E6%89%BE%E5%87%BAreact%E4%B8%AD%EF%BC%8C%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%BB%91%E5%AE%9Athis%E6%9C%80%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%86%99%E6%B3%95%EF%BC%81.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">带你找出react中，回调函数绑定this最完美的写法！</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-text">单元测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%91%E5%B8%83-github-release"><span class="nav-text">发布 github release</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

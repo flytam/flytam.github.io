@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            javascript装饰器进入stage3了 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">javascript装饰器进入stage3了</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-04-04 18:56:17</span>
+        <span class="mobile">2022-04-04 18:56</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h4 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h4><img width="300" alt="image" src="https://user-images.githubusercontent.com/20512530/161529679-315d4196-5ea3-47c9-be53-be88389e503e.png">
+
+<p>在3月底，js的装饰器提案终于进入了stage3，同时其metadata部分单独拆开仍处于stage2阶段<a class="link"   target="_blank" rel="noopener" href="https://github.com/tc39/proposal-decorators/pull/454" >详见<i class="fas fa-external-link-alt"></i></a>。但是此装饰器却非平时我们广泛使用的装饰器。通过本文我们将了解下该js提案下装饰器的用法并对比和先前装饰器提案下用法的区别</p>
+<h4 id="decorator提案的历史"><a href="#decorator提案的历史" class="headerlink" title="decorator提案的历史"></a>decorator提案的历史</h4><p>在<a target="_blank" rel="noopener" href="https://babeljs.io/docs/en/babel-plugin-proposal-decorators#docsNav"><a class="link"   target="_blank" rel="noopener" href="https://babeljs.io/docs/en/babel-plugin-proposal-decorators#docsNav" >babel-plugin-proposal-decorators<i class="fas fa-external-link-alt"></i></a></a>的文档我们可以看到，decorator提案之前主要经历了3个阶段+目前进入stage3阶段移除metadata的版本共4个版本。下文分别简称（legacy、2018-09、2021-12、stage3）</p>
+<img width="300" alt="image" src="https://user-images.githubusercontent.com/20512530/161529722-4d81eabd-e5c0-4201-b522-bdf172b1314c.png">
+
+
+
+<ul>
+<li><p>legacy </p>
+<p>stage 1阶段的提案，也是目前广为使用的用法，也基本等同于Typescript中开启<code>experimentalDecorators</code>的用法</p>
+</li>
+<li><p>2018-09</p>
+<p>在2018.9进入stage2阶段后的提案，此时用法已经完全和stage1不一样</p>
+</li>
+<li><p>2021-12</p>
+<p>2021.12针对此前的stage2提案又做了一次修改，用法又做了一点小修改</p>
+</li>
+<li><p>stage3</p>
+<p>最近正式进入stage3的提案。对比2021-12只是去掉了<code>metadata</code>部分，提案本身没有太大的改变。不出意外这也是以后作为标准的装饰器</p>
+</li>
+</ul>
+<h4 id="详细用法"><a href="#详细用法" class="headerlink" title="详细用法"></a>详细用法</h4><h5 id="legacy"><a href="#legacy" class="headerlink" title="legacy"></a>legacy</h5><p>我们广为使用的用法。即Typescript中tsconfig中配置<code>experimentalDecorators:true</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">	<span class="attr">&quot;compileOptions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">		<span class="attr">&quot;experimentalDecorators&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">	<span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>或者<code>@babel/plugin-proposal-decorators</code>配置</p>
+<p><code>legacy: true</code>。注意：最新的<code>@babel/plugin-proposal-decorators</code>已经将该配置迁移到<code>version</code>字段，即<code>version: legacy</code></p>
+<p><code>legacy</code>下的装饰器更具体用法可以参考此前写的一篇文章<a class="link"   target="_blank" rel="noopener" href="https://juejin.cn/post/6912353646420164622" >2020的最后一天，不妨了解下装饰器<i class="fas fa-external-link-alt"></i></a>。</p>
+<p>装饰器函数的签名主要如下</p>
+<ul>
+<li><p>类装饰器 (Class Decorators)<br>类装饰器作用于类的构造函数，可用于修改或者替换一个 class 定义。<br>一个装饰器函数签名如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> decorator = <span class="function">(<span class="params">target: <span class="built_in">Function</span></span>) =&gt;</span> <span class="title class_">Function</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>它接收被装饰的 class 作为<code>target</code>函数的参数，如果装饰器函数有返回值，则使用这个返回值作为新的 class</p>
+</li>
+<li><p>属性装饰器 （Property Decorators）<br>1、第一个参数。如果装饰的是静态方法，则是这个类 Target 本身；如果装饰的是原型方法，则是类的原型对象 Target.prototype</p>
+<p>2、第二个参数。这个属性的名称</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> decorator = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  target: Target | Target.prototype,</span></span></span><br><span class="line"><span class="params"><span class="function">  propertyKey: <span class="built_in">string</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span>) =&gt;</span> <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure></li>
+<li><p>方法装饰器 (Method Decorators) + 访问器装饰器 (Accessor Decorators)<br>1、第一个参数。如果装饰的是静态方法，则是这个类<code>Target</code>本身；如果装饰的是原型方法，则是类的原型对象<code>Target.prototype</code></p>
+<p>2、第二个参数。这个方法的名称</p>
+<p>3、第三个参数，这个方法的属性描述符，通过<code>descriptor.value</code>可以直接拿到这个方法</p>
+<p>如果属性装饰器有返回值，这个返回值讲作为这个方法的属性描述符。对象的属性描述符就是调用<code>Reflect.getOwnPropertyDescriptor(target, propertyKey)</code>的返回值</p>
+</li>
+</ul>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> decorator = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  target: Target | Target.prototype,</span></span></span><br><span class="line"><span class="params"><span class="function">  propertyKey: <span class="built_in">string</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">  descriptor: PropertyDescriptor</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) =&gt;</span> <span class="title class_">Function</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>参数装饰器 (Parameter Decorators)<br>1、第一个参数。如果装饰的是静态方法的参数，则是这个类Target本身；如果装饰的是原型方法的参数，则是类的原型对象Target.prototype</p>
+<p>2、第二个参数。参数所处的函数名称</p>
+<p>3、第三个参数，该参数位于函数参数列表的位置下标(number)</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> decorator = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">target: Target | Target.prototype,</span></span></span><br><span class="line"><span class="params"><span class="function">propertyKey: <span class="built_in">string</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">parameterIndex: <span class="built_in">number</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span>) =&gt;</span> <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h5 id="stage3"><a href="#stage3" class="headerlink" title="stage3"></a>stage3</h5><blockquote>
+<p>本次进入stage3提案的用法</p>
+</blockquote>
+<p>装饰器函数签名如下：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Decorator</span> = <span class="function">(<span class="params">value: Input, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="built_in">string</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  access: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    get?(): <span class="built_in">unknown</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    set?(value: <span class="built_in">unknown</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">  isPrivate?: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  isStatic?: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  addInitializer?(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="title class_">Output</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>装饰器函数包含两个入参参数</p>
+<p>1、被装饰的值本身</p>
+<p>2、被装饰值的上下文信息</p>
+<ul>
+<li>kind :<code>&quot;class&quot;|&quot;method&quot;|&quot;getter&quot;|&quot;setter&quot;|&quot;field&quot;|&quot;accessor&quot;</code>。表示装饰器的类型</li>
+<li>name 装饰值的名称</li>
+<li>access 同个该属性读写值</li>
+<li>isStatic 是否静态属性</li>
+<li>isPrivate 是否私有属性</li>
+<li>addInitializer 用于执行一些初始化逻辑</li>
+</ul>
+<p>各种不同类型的装饰器如下</p>
+<ul>
+<li><p>方法装饰器</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">ClassMethodDecorator</span> = <span class="function">(<span class="params">value: <span class="built_in">Function</span>, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="string">&quot;method&quot;</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  access: &#123; get(): <span class="built_in">unknown</span> &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">  isStatic: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  isPrivate: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  addInitializer(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="title class_">Function</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>方法装饰器接收被装饰的方法作为第一个参数并可选的返回一个函数。返回的函数将替代原先的函数。方法装饰器可作用于静态方法或者原型方法</p>
+</li>
+<li><p>访问器装饰器</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">ClassGetterDecorator</span> = <span class="function">(<span class="params">value: <span class="built_in">Function</span>, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="string">&quot;getter&quot;</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  access: &#123; get(): <span class="built_in">unknown</span> &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">  isStatic: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  isPrivate: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  addInitializer(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="title class_">Function</span> | <span class="built_in">void</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">ClassSetterDecorator</span> = <span class="function">(<span class="params">value: <span class="built_in">Function</span>, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="string">&quot;setter&quot;</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  access: &#123; set(value: <span class="built_in">unknown</span>): <span class="built_in">void</span> &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">  isStatic: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  isPrivate: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  addInitializer(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="title class_">Function</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>访问器装饰器和方法装饰器类似，接收被装饰器的原始方法，可以返回一个函数替代原始方法</p>
+</li>
+<li><p>属性装饰器</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">ClassFieldDecorator</span> = <span class="function">(<span class="params">value: <span class="literal">undefined</span>, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="string">&quot;field&quot;</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  access: &#123; get(): <span class="built_in">unknown</span>, set(value: <span class="built_in">unknown</span>): <span class="built_in">void</span> &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">  isStatic: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  isPrivate: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="function">(<span class="params">initialValue: <span class="built_in">unknown</span></span>) =&gt;</span> <span class="built_in">unknown</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>和访问器装饰器、方法装饰器区别，属性装饰器的第一个参数为undefined。属性装饰器可以返回一个初始化函数，返回的初始化函数的入参为原始属性值，返回值为替代原始的属性值</p>
+</li>
+<li><p>类装饰器</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">ClassDecorator</span> = <span class="function">(<span class="params">value: <span class="built_in">Function</span>, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="string">&quot;class&quot;</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="literal">undefined</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  addInitializer(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="title class_">Function</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>类装饰器第一个参数为被装饰的类，可以返回一个新的类去替代原有的类</p>
+</li>
+</ul>
+<p>此外stage3对比legacy提案特有的两个用法</p>
+<ul>
+<li><p>类自动访问器（Class Auto-Accessors）<br>类自动访问器是一种新定义的行为。通过在类属性名前加上<code>accessor</code>关键字进行使用</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> &#123;</span><br><span class="line">  accessor x = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 与常规字段不同，自动访问器在类原型上定义了 getter 和 setter。getter 和 setter 默认获取和设置私有字段上的值</span></span><br><span class="line"><span class="comment">// 等同如下代码</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">C</span> &#123;</span><br><span class="line">  #x = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">get</span> <span class="title function_">x</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">this</span>.#x;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> <span class="title function_">x</span>(<span class="params">val</span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.#x = val;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>类自动访问器也可以被装饰，装饰器函数签名如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">ClassAutoAccessorDecorator</span> = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  value: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    get: () =&gt; <span class="built_in">unknown</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    set(value: <span class="built_in">unknown</span>) =&gt; <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;,</span></span></span><br><span class="line"><span class="params"><span class="function">  context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    kind: <span class="string">&quot;accessor&quot;</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    access: &#123; get(): <span class="built_in">unknown</span>, set(value: <span class="built_in">unknown</span>): <span class="built_in">void</span> &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">    isStatic: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    isPrivate: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    addInitializer(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) =&gt;</span> &#123;</span><br><span class="line">  get?: <span class="function">() =&gt;</span> <span class="built_in">unknown</span>;</span><br><span class="line">  set?: <span class="function">(<span class="params">value: <span class="built_in">unknown</span></span>) =&gt;</span> <span class="built_in">void</span>;</span><br><span class="line">  initialize?: <span class="function">(<span class="params">initialValue: <span class="built_in">unknown</span></span>) =&gt;</span> <span class="built_in">unknown</span>;</span><br><span class="line">&#125; | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>和普通的属性访问器略有区别，装饰器函数第一个参数的入参是一个包含原型上get/set函数的对象。可以通过返回一个包含get/set函数的对象来取代被装饰值的行为。也可以通过<code>initialize</code>函数修改初始值</p>
+</li>
+<li><p><code>addInitializer</code>初始化逻辑函数<br>stage3的装饰器函数中context参数入参会有一个<code>addInitializer</code>函数，它可以接收一个回调，用于执行一些初始化逻辑。一个实际的用法是例如注册web component。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">customElement</span>(<span class="params">name</span>) &#123;</span><br><span class="line">  <span class="function">(<span class="params">value, &#123; addInitializer &#125;</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">addInitializer</span>(<span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">      customElements.<span class="title function_">define</span>(name, <span class="variable language_">this</span>);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@customElement</span>(<span class="string">&#x27;my-element&#x27;</span>)</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyElement</span> <span class="keyword">extends</span> <span class="title class_ inherited__">HTMLElement</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">get</span> <span class="title function_">observedAttributes</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&#x27;some&#x27;</span>, <span class="string">&#x27;attrs&#x27;</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 等同如下代码</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyElement</span> &#123;</span><br><span class="line">  <span class="keyword">static</span> <span class="keyword">get</span> <span class="title function_">observedAttributes</span>() &#123;</span><br><span class="line">    <span class="keyword">return</span> [<span class="string">&#x27;some&#x27;</span>, <span class="string">&#x27;attrs&#x27;</span>];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> initializersForMyElement = [];</span><br><span class="line"></span><br><span class="line"><span class="title class_">MyElement</span> = <span class="title function_">customElement</span>(<span class="string">&#x27;my-element&#x27;</span>)(<span class="title class_">MyElement</span>, &#123;</span><br><span class="line">  <span class="attr">kind</span>: <span class="string">&quot;class&quot;</span>,</span><br><span class="line">  <span class="attr">name</span>: <span class="string">&quot;MyElement&quot;</span>,</span><br><span class="line">  <span class="title function_">addInitializer</span>(<span class="params">fn</span>) &#123;</span><br><span class="line">    initializersForMyElement.<span class="title function_">push</span>(fn);</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;) ?? <span class="title class_">MyElement</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">let</span> initializer <span class="keyword">of</span> initializersForMyElement) &#123;</span><br><span class="line">  initializer.<span class="title function_">call</span>(<span class="title class_">MyElement</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是<code>legacy</code>提案，我们是无法通过装饰器一步到位去注册web component的，必须手动调用<code>customElements.define(name, xxx)</code></p>
+</li>
+</ul>
+<h4 id="2018-09-amp-2021-12"><a href="#2018-09-amp-2021-12" class="headerlink" title="2018-09&amp;2021-12"></a>2018-09&amp;2021-12</h4><p>由于这两种用法在实际中很少特别使用这里只作简单差异化介绍</p>
+<ul>
+<li><p>2018-09<br>只接收一个descriptor参数，并返回一个新的descriptor参数作为替代。<br>例如方法装饰器接收的descriptor如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">kind</span>: <span class="string">&quot;method&quot;</span></span><br><span class="line">  <span class="attr">key</span>: <span class="title class_">String</span>, <span class="title class_">Symbol</span> or <span class="title class_">Private</span> <span class="title class_">Name</span>,</span><br><span class="line">  <span class="attr">placement</span>: <span class="string">&quot;static&quot;</span>, <span class="string">&quot;prototype&quot;</span> or <span class="string">&quot;own&quot;</span>,</span><br><span class="line">  ...<span class="title class_">Property</span> <span class="title class_">Descriptor</span> (argument to <span class="title class_">Object</span>.<span class="property">defineProperty</span>),</span><br><span class="line">  <span class="attr">method</span>: <span class="title class_">The</span> method itself</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>2021-12<br>和stage3几乎完全一样，只是stage3在2021-12的基础上去除了metadata的部分</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Decorator</span> = <span class="function">(<span class="params">value: Input, context: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">  kind: <span class="built_in">string</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  name: <span class="built_in">string</span> | <span class="built_in">symbol</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  access: &#123;</span></span></span><br><span class="line"><span class="params"><span class="function">    get?(): <span class="built_in">unknown</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">    set?(value: <span class="built_in">unknown</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  &#125;;</span></span></span><br><span class="line"><span class="params"><span class="function">  isPrivate?: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  isStatic?: <span class="built_in">boolean</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">  addInitializer?(initializer: () =&gt; <span class="built_in">void</span>): <span class="built_in">void</span>;</span></span></span><br><span class="line"><span class="params"><span class="function">   // 被移除的getMetadata 和 setMetadataa</span></span></span><br><span class="line"><span class="params"><span class="function">  getMetadata(key: <span class="built_in">symbol</span>);</span></span></span><br><span class="line"><span class="params"><span class="function">  setMetadata(key: <span class="built_in">symbol</span>, value: <span class="built_in">unknown</span>); </span></span></span><br><span class="line"><span class="params"><span class="function">&#125;</span>) =&gt;</span> <span class="title class_">Output</span> | <span class="built_in">void</span>;</span><br></pre></td></tr></table></figure>
+
+<p>metadata本文就不展开介绍，详情可<a class="link"   target="_blank" rel="noopener" href="https://github.com/[tc39/proposal-decorators](https://github.com/tc39/proposal-decorators)/tree/738871a552c032135217c19d116f8941f0fef01b#metadata" >参考<i class="fas fa-external-link-alt"></i></a></p>
+</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>stage3对比legacy</p>
+<ol>
+<li>除了上面提到的语法区别。legacy装饰器是用“Target”（由当前被装饰目标决定是类本身还是类的原型）调用的，而在stage3中，不再提供这个<code>Target</code>给装饰器函数 </li>
+<li>legacy装饰器会提供一个完整的<code>descriptor</code>对象，而stage3中只提供被装饰的值以及和它有关的上下文对象。在stage3中修改一个属性的attribute是不可能的，并且 getter 和 setter 不是“合并”而是单独被装饰</li>
+</ol>
+<p>stage3对比2018-09  </p>
+<ol>
+<li>上面提到的语法的区别</li>
+<li>功能上stage3是2018-09的子集</li>
+</ol>
+<h4 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h4><p><a class="link"   target="_blank" rel="noopener" href="https://github.com/tc39/proposal-decorators" >tc39/proposal-decorators<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：javascript装饰器进入stage3了</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2022-04-04 18:56:17</li>
+        <li>
+            Post link：https://blog.flytam.vip/javascript装饰器进入stage3了.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">#原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E6%89%93%E9%80%A0Github%20Issue%E5%88%B0Hexo%E9%83%A8%E7%BD%B2%E8%87%AA%E5%8A%A8%E5%B7%A5%E4%BD%9C%E6%B5%81.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">打造Github Issue到Hexo部署自动工作流</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E4%BB%8E%E4%B8%80%E4%B8%AAwebpack%E6%89%93%E5%8C%85bug%E5%88%B0%E6%8E%A2%E7%B4%A2resolve%E8%83%8C%E5%90%8E%E7%9A%84%E6%9C%BA%E5%88%B6.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">从一个webpack打包bug到探索resolve背后的机制</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#decorator%E6%8F%90%E6%A1%88%E7%9A%84%E5%8E%86%E5%8F%B2"><span class="nav-text">decorator提案的历史</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%A6%E7%BB%86%E7%94%A8%E6%B3%95"><span class="nav-text">详细用法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#legacy"><span class="nav-text">legacy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#stage3"><span class="nav-text">stage3</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2018-09-amp-2021-12"><span class="nav-text">2018-09&amp;2021-12</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

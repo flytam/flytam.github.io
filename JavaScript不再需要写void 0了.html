@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            JavaScript不再需要写void 0了 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">JavaScript不再需要写void 0了</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-05-23 11:45:39</span>
+        <span class="mobile">2022-05-23 11:45</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"><br>我们经常会在一些代码中看到<code>void 0</code>的写法，这种写法其实现在已经不需要了</p>
+<blockquote>
+<p>本文翻译自：<a class="link"   target="_blank" rel="noopener" href="https://p42.ai/blog/2022-05-10/you-dont-need-void-0" >https://p42.ai/blog/2022-05-10/you-dont-need-void-0<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<p><a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/void" >void操作符<i class="fas fa-external-link-alt"></i></a>执行一个表达式并返回原始值<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined" >undefined<i class="fas fa-external-link-alt"></i></a>。<code>void 0</code>执行<code>0</code>，这什么都不会发生并且会返回<code>undefined</code>。是<code>undefined</code>的别名</p>
+<h4 id="为什么void-0会用来当作undefined的别名？"><a href="#为什么void-0会用来当作undefined的别名？" class="headerlink" title="为什么void 0会用来当作undefined的别名？"></a>为什么<code>void 0</code>会用来当作<code>undefined</code>的别名？</h4><p><code>undefined</code>本身不是一个保留关键字而是一个<a class="link"   target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Glossary/Global_object" >全局对象<i class="fas fa-external-link-alt"></i></a>的一个属性</p>
+<p>在ES5（2009）之前，全局属性<code>undefined</code>的值是能被修改的，这会导致<code>undefined</code>一些不符合预期的行为</p>
+<p>下面的例子（这在现在JavaScript引擎中已经不是这样了）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改全局对象中的undefined属性</span></span><br><span class="line"><span class="literal">undefined</span> = <span class="string">&quot;something else&quot;</span>; </span><br><span class="line"></span><br><span class="line"><span class="comment">// 在其它js文件或者script中</span></span><br><span class="line"><span class="keyword">if</span> (aVariable === <span class="literal">undefined</span>) &#123;</span><br><span class="line">  <span class="title function_">doSomething</span>();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改全局的<code>undefined</code>可能发生在第三方代码中，例如通过脚本标签导入的库。由于<code>void 0</code>总是返回<code>undefiend</code>的实际原始值，因此在ES5之前通常使用它来在防止全局<code>undefined</code>被修改的情况下仍能确保<code>undefined</code>判断的准确性</p>
+<h4 id="ES5之后的全局属性undefined"><a href="#ES5之后的全局属性undefined" class="headerlink" title="ES5之后的全局属性undefined"></a>ES5之后的全局属性<code>undefined</code></h4><p><code>undefined</code>可以在全局对象上被修改的问题很大，以至于JavaScript标准在ES5中改变了。<strong>在ES5中，全局属性<code>undefined</code>变成了只读</strong>。尝试更改更改undefined的值在现代JavaScript中没有任何作用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">globalThis.<span class="property">undefined</span> = <span class="string">&quot;something else&quot;</span>;</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="literal">undefined</span>); <span class="comment">// 在现代JS引擎中打印undefined</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="undefined仍然可以被局部变量覆盖"><a href="#undefined仍然可以被局部变量覆盖" class="headerlink" title="undefined仍然可以被局部变量覆盖"></a><code>undefined</code>仍然可以被局部变量覆盖</h4><p>虽然不再能更改全局属性<code>undefined</code>，但<code>undefined</code>仍然不是JavaScript中的保留关键字。因此它仍然可以被局部变量覆盖</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="keyword">const</span> <span class="literal">undefined</span> = <span class="string">&quot;something else&quot;</span>;</span><br><span class="line">  <span class="keyword">let</span> check = aVariable === <span class="keyword">void</span> <span class="number">0</span>; <span class="comment">// 这里的void 0仍需要</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们应该避免使用<code>undefined</code>作为变量名。<a class="link"   target="_blank" rel="noopener" href="https://eslint.org/docs/rules/no-undefined" >ESLint规则no-undefined<i class="fas fa-external-link-alt"></i></a> 不允许使用 undefined 作为变量名并防止出现覆盖问题</p>
+<h4 id="void-0是否有助于减少打包体积？"><a href="#void-0是否有助于减少打包体积？" class="headerlink" title="void 0是否有助于减少打包体积？"></a><code>void 0</code>是否有助于减少打包体积？</h4><p>表达式<code>void 0</code>比<code>undefined</code>短。JavaScript包的大小对于创建快速加载的网站是至关重要的并且减少一些字节会有所帮助</p>
+<p>但是最好将<strong>代码大小优化让<a class="link"   target="_blank" rel="noopener" href="https://github.com/terser/terser" >Terser<i class="fas fa-external-link-alt"></i></a>之类的工具在打包过程中进行处理</strong>。这些工具可以执行许多不同的优化，并且源代码在没有任何手动的代码大小优化(如使用<code>void 0</code>而不是<code>undefined</code>)的情况下也更易于阅读</p>
+<h4 id="在现代JavaScript中避免使用void-0"><a href="#在现代JavaScript中避免使用void-0" class="headerlink" title="在现代JavaScript中避免使用void 0"></a>在现代JavaScript中避免使用void 0</h4><p>总之，在现代浏览器和JavaScript引擎中没有理由再使用<code>void 0</code></p>
+<ul>
+<li>全局属性<code>undefined</code>不能在ES5以及后续的环境中更改</li>
+<li>本地变量命名<code>undefined</code>可以通过<a class="link"   target="_blank" rel="noopener" href="https://eslint.org/docs/rules/no-undefined" >ESLint规则no-undefined<i class="fas fa-external-link-alt"></i></a>进行禁止</li>
+<li>生产环境打包时minifier工具可以将<code>undefined</code>替代成<code>void 0</code>实现体积优化</li>
+</ul>
+<p>相反，<code>void 0</code>使JavaScript代码更难阅读，因为需要知道<code>void 0</code>的含义并处理相同概念(<code>undefined</code>)的不同术语(<code>void 0</code>,<code>undefined</code>)</p>
+<p>结论：使用<code>undefined</code>并移除不必要的<code>void 0</code></p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：JavaScript不再需要写void 0了</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2022-05-23 11:45:39</li>
+        <li>
+            Post link：https://blog.flytam.vip/JavaScript不再需要写void 0了.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">#原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E5%A6%82%E4%BD%95%E5%B0%86Node.js%E5%BA%93%E8%BD%AC%E6%8D%A2%E5%88%B0Deno.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">如何将Node.js库转换到Deno</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/4%E4%B8%AA%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8npm%20link%E7%9A%84%E7%90%86%E7%94%B1.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">4个避免使用npm link的理由</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88void-0%E4%BC%9A%E7%94%A8%E6%9D%A5%E5%BD%93%E4%BD%9Cundefined%E7%9A%84%E5%88%AB%E5%90%8D%EF%BC%9F"><span class="nav-text">为什么void 0会用来当作undefined的别名？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ES5%E4%B9%8B%E5%90%8E%E7%9A%84%E5%85%A8%E5%B1%80%E5%B1%9E%E6%80%A7undefined"><span class="nav-text">ES5之后的全局属性undefined</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#undefined%E4%BB%8D%E7%84%B6%E5%8F%AF%E4%BB%A5%E8%A2%AB%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E8%A6%86%E7%9B%96"><span class="nav-text">undefined仍然可以被局部变量覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#void-0%E6%98%AF%E5%90%A6%E6%9C%89%E5%8A%A9%E4%BA%8E%E5%87%8F%E5%B0%91%E6%89%93%E5%8C%85%E4%BD%93%E7%A7%AF%EF%BC%9F"><span class="nav-text">void 0是否有助于减少打包体积？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E7%8E%B0%E4%BB%A3JavaScript%E4%B8%AD%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8void-0"><span class="nav-text">在现代JavaScript中避免使用void 0</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

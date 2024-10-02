@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            都 2020 年了，你还在手动发布 npm 包吗 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">都 2020 年了，你还在手动发布 npm 包吗</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2020-03-08 22:00:35</span>
+        <span class="mobile">2020-03-08 22:00</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>超详细图文教程，npm 接入 travis ci 发包</p>
+</blockquote>
+<h4 id="操作流出"><a href="#操作流出" class="headerlink" title="操作流出"></a>操作流出</h4><p>0、注册<a class="link"   target="_blank" rel="noopener" href="https://travis-ci.org/" >travis<i class="fas fa-external-link-alt"></i></a>账户，并授权github访问权限<br><img src="https://img-blog.csdnimg.cn/20200308214837387.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200308214857530.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>1、初始化工作</p>
+<p>1.1 安装<code>travis</code>的 cli 工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo gem install travis</span><br></pre></td></tr></table></figure>
+
+<p>1.2 项目根目录新建一个空的<code>.travis.yml</code>文件。<br><img src="https://img-blog.csdnimg.cn/20200308214953928.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>2、获取 <code>npm auth token</code></p>
+<p><code>npm auth token</code> 的作用就是让 travis 获取你的 npm 权限，有能力进行发布版本。</p>
+<p>2.1 本地登陆 npm。（如果已经登陆过可以跳过，没注册的可以在<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/signup" >链接<i class="fas fa-external-link-alt"></i></a>注册）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># tips: 如果之前把npm源设置成非官方源的话，需要切回官方源，再登陆</span></span><br><span class="line">$ npm adduser <span class="comment"># 然后输入自己的npm账号信息即可</span></span><br></pre></td></tr></table></figure>
+
+<p>2.3 获取<code>auth token</code>。</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://docs.travis-ci.com/user/deployment/npm/#npm-auth-token" >文档<i class="fas fa-external-link-alt"></i></a>中介绍了两种获取<code>token</code>的方法，我们选择一种就可以</p>
+<p>到<code>https://www.npmjs.com/settings/username/tokens/</code>中<code>create new token</code>。选择<code>read and publiush</code>.复制 token<br><img src="https://img-blog.csdnimg.cn/20200308215129570.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>然后使用<code>travis cli</code>对生成 npm 配置（这一步需要在项目根目录进行）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先登陆</span></span><br><span class="line">$ travis login --pro <span class="comment"># 然后输入信息即可</span></span><br></pre></td></tr></table></figure>
+
+<p>这一步，有可能因为<code>ruby</code>和<code>cli</code>的版本问题会导致<code>no implicit conversion of nil into String.for a full error report, run travis report --pro</code>的失败。<a class="link"   target="_blank" rel="noopener" href="https://github.com/travis-ci/travis.rb/issues/586" >issue<i class="fas fa-external-link-alt"></i></a>。这时候我们可以直接到<a class="link"   target="_blank" rel="noopener" href="https://travis-ci.com/account/preferences" >travis用户设置中<i class="fas fa-external-link-alt"></i></a>中，复制我们的<code>API authentication</code> token，手动添加到<code>~/.travis/config.yml</code>文件。</p>
+<p><img src="https://img-blog.csdnimg.cn/20200308220322226.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/2020030821533390.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p> 验证是否登陆成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ travis accounts --pro </span><br><span class="line">flytam (Flytam): not subscribed, 44 repositories <span class="comment"># 说明成功了</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ travis setup npm  --pro<span class="comment"># 生成npm配置，有一步的api key就是输入的刚才的`npm auth token`，选择`加密`，然后会自动生成类似如下的内容在yml中</span></span><br></pre></td></tr></table></figure>
+
+<p>完成后，会生成如下的初始配置。表示master上的打tag都会触发<code>npm</code>发包的操作</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">&quot;12.13&quot;</span></span><br><span class="line"><span class="attr">deploy:</span></span><br><span class="line">    <span class="attr">provider:</span> <span class="string">npm</span></span><br><span class="line"></span><br><span class="line">    <span class="attr">email:</span> <span class="string">tanjiahui2015@foxmail.com</span></span><br><span class="line">    <span class="attr">api_key:</span></span><br><span class="line">        <span class="attr">secure:</span> <span class="string">xxxxx</span></span><br><span class="line">    <span class="attr">on:</span></span><br><span class="line">        <span class="attr">tags:</span> <span class="literal">true</span></span><br><span class="line">        <span class="attr">branch:</span> <span class="string">master</span></span><br><span class="line">        <span class="attr">repo:</span> <span class="string">flytam/babel-plugin-resolve-config-json</span></span><br></pre></td></tr></table></figure>
+
+<p>此时，执行<code>npm version xxx</code>，会按如下规则，自动 commit+tag，推送到远程，即可触发自动发布。方便起见可以我们设置 npm 钩子。（postversion 的意思就是，输入完<code>npm version xx</code>后，会自动执行的命令）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># npm 版本号</span></span><br><span class="line">// version = v1.0.0</span><br><span class="line">npm version patch</span><br><span class="line">// v1.0.1</span><br><span class="line">npm version prepatch</span><br><span class="line">// v1.0.2-0</span><br><span class="line">npm version minor</span><br><span class="line">// v1.1.0</span><br><span class="line">npm version major</span><br><span class="line">// v2.0.0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="comment">// 每次打version tag后，把tag推送到远程，也就触发了CI发包了</span></span><br><span class="line">   <span class="attr">&quot;postversion&quot;</span><span class="punctuation">:</span> <span class="string">&quot;git push --follow-tags&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>此时，到<code>github</code>和<code>CI</code>上可以，看到，我们的操作成功了<br><img src="https://img-blog.csdnimg.cn/20200308215725230.png" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200308215734536.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2ZseXRhbQ==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h4 id="有可能遇到的坑总结"><a href="#有可能遇到的坑总结" class="headerlink" title="有可能遇到的坑总结"></a>有可能遇到的坑总结</h4><ul>
+<li>  <code>npm</code>登陆记得切回官方源</li>
+</ul>
+<p>如果之前切换了<code>taobao</code>源等相关非官方源，会导致<code>npm</code>登陆、发布失败，执行<code>npm config set registry http://www.npmjs.org</code>切换回官方源。（推荐使用<a class="link"   target="_blank" rel="noopener" href="https://github.com/Pana/nrm" >nrm<i class="fas fa-external-link-alt"></i></a>对源就行管理）</p>
+<ul>
+<li><p>  上文所有提到的所有涉及<code>travis cli</code>的命令都需要加<code>pro</code>，（这里文档也没写清楚，很容易踩坑。。自己就是这里掉坑了）代表是我们使用<code>travis-ci.com</code>而不是<code>travis-ci.org</code>，<code>com</code>和<code>org</code>采用了不同的方案，如果<code>com</code>使用了没添加<code>--pro</code>参数的命令，会导致发布失败等错误。（如果旧项目使用了<code>travis-ci.org</code>，可以一键迁移到<code>travis-ci.com</code>，官方<a class="link"   target="_blank" rel="noopener" href="https://blog.travis-ci.com/2018-05-02-open-source-projects-on-travis-ci-com-with-github-apps" >公告<i class="fas fa-external-link-alt"></i></a>中也说明新项目只能使用<code>travis-ci.com</code>）。</p>
+</li>
+<li><p>  <code>travis login --pro</code>失败。需要手动配置<code>api token</code>，上文已经提到过</p>
+</li>
+</ul>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/blog/issues/15" >原文地址<i class="fas fa-external-link-alt"></i></a>，码字不易，你的点赞是我最大的动力</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：都 2020 年了，你还在手动发布 npm 包吗</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2020-03-08 22:00:35</li>
+        <li>
+            Post link：https://blog.flytam.vip/都 2020 年了，你还在手动发布 npm 包吗.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node/">#node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E5%B8%A6%E4%BD%A0%E6%89%BE%E5%87%BAreact%E4%B8%AD%EF%BC%8C%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E7%BB%91%E5%AE%9Athis%E6%9C%80%E5%AE%8C%E7%BE%8E%E7%9A%84%E5%86%99%E6%B3%95%EF%BC%81.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">带你找出react中，回调函数绑定this最完美的写法！</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E4%B8%80%E4%B8%AA%E8%B6%85%E6%96%B9%E4%BE%BF%E4%B8%80%E9%94%AE%E5%B0%86%20csdn%20%E5%8D%9A%E5%AE%A2%E7%94%9F%E6%88%90%20hexo%20%E6%BA%90%E6%96%87%E4%BB%B6%E7%9A%84%E5%B7%A5%E5%85%B7.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">一个超方便一键将 csdn 博客生成 hexo 源文件的工具</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E5%87%BA"><span class="nav-text">操作流出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%89%E5%8F%AF%E8%83%BD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E6%80%BB%E7%BB%93"><span class="nav-text">有可能遇到的坑总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

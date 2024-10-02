@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            4个避免使用npm link的理由 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">4个避免使用npm link的理由</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-04-30 11:14:15</span>
+        <span class="mobile">2022-04-30 11:14</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>本文主要介绍使用<code>npm link</code>的风险以及我们为什么使用<code>npx link</code>来替代它</p>
+</blockquote>
+<h2 id="先抛结论"><a href="#先抛结论" class="headerlink" title="先抛结论"></a>先抛结论</h2><p>使用<code>npm install</code>或者<code>npx link</code>去软连接一个本地包作为依赖而不是使用<code>npm link</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npx <span class="built_in">link</span> &lt;package-path&gt;</span><br></pre></td></tr></table></figure>
+
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/privatenumber/link"  title="npm link">npm link<i class="fas fa-external-link-alt"></i></a>是<a class="link"   target="_blank" rel="noopener" href="https://github.com/privatenumber"  title="hiroki osame">hiroki osame<i class="fas fa-external-link-alt"></i></a>开发的一个更安全、更可预测的<code>npm link</code>的替代品</p>
+<p>因为如下原因我们应该避免使用<code>npm link</code></p>
+<ol>
+<li><p>多个 Node.js 版本同时使用容易出错</p>
+</li>
+<li><p>link 失败不会报错并且会回退到直接从 npm 仓库进行安装</p>
+</li>
+<li><p>会有预期之外的二进制可执行文件安装</p>
+</li>
+<li><p>不符合预期的软链接删除</p>
+</li>
+</ol>
+<h2 id="npm-link是什么"><a href="#npm-link是什么" class="headerlink" title="npm link是什么"></a><code>npm link</code>是什么</h2><p><code>npm link</code>是一个用于开发时直接将本地包<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Symbolic_link"  title="链接">链接<i class="fas fa-external-link-alt"></i></a>为依赖项的一个命令行工具。通常用于发布 npm 包之前本地测试使用</p>
+<p>更多信息可查看<a class="link"   target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v8/commands/npm-link"  title="官方文档">官方文档<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>假设存在以下模块包</p>
+<ul>
+<li><code>my-library</code>: npm 包，需要在其它项目中作为依赖进行测试</li>
+</ul>
+<p>需要注意的是这里<code>my-library/package.json</code>中的<code>name</code>属性也是应该<code>my-library</code></p>
+<ul>
+<li><code>my-application</code>: <code>package/my-application</code>需要进行测试的项目</li>
+</ul>
+<p>下面演示如何将<code>my-application</code>中的<code>my-library</code>链接到本地</p>
+<ul>
+<li><strong>全局安装</strong></li>
+</ul>
+<p>在<code>my-application</code>中执行<code>npm link</code>将<code>my-library</code>安装到全局。这样才能让其它本地项目有办法链接到这个包。<code>npm link</code>的行为其实等同于<code>npm install --global</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ./my-library</span><br><span class="line">$ npm <span class="built_in">link</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>安装</strong></li>
+</ul>
+<p>在<code>my-application</code>中执行<code>npm link my-library</code>去链接这个包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ./my-application</span><br><span class="line">$ npm <span class="built_in">link</span> my-library</span><br></pre></td></tr></table></figure>
+
+<h3 id="npm-link-lt-package-path-gt"><a href="#npm-link-lt-package-path-gt" class="headerlink" title="npm link &lt;package-path&gt;"></a><code>npm link &lt;package-path&gt;</code></h3><p>也可以直接执行<code>npm link &lt;package-path&gt;</code>命令实现上述两步</p>
+<p>例子如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ./my-application</span><br><span class="line">$ npm <span class="built_in">link</span> ../my-library</span><br></pre></td></tr></table></figure>
+
+<p>使用<code>npm link &lt;package-path&gt;</code>更加方便和不易出错，因为它是需要显式指定链接的包的路径</p>
+<h2 id="4-个使用npm-link的缺点"><a href="#4-个使用npm-link的缺点" class="headerlink" title="4 个使用npm link的缺点"></a>4 个使用<code>npm link</code>的缺点</h2><ul>
+<li><strong>多个 Node.js 版本同时使用容易出错</strong></li>
+</ul>
+<p>如果开发环境中使用类似<code>nvm</code>的版本管理工具安装多个 Node.js 版本的话，需要确保<code>npm link</code>的执行是在同一个 node 版本</p>
+<p>像上文所说，第一步执行<code>npm link</code>其实是将包安装全局。但是因为多个版本的 Node.js 的全局安装路径是互相独立的。如果在不同版本中使用，包查找会失败</p>
+<p>可以使用以下命令查看全局包的安装路径。如果 Node.js 的版本出现在打印的路径中，则全局包安装路径在不同 Node.js 版本下是独立的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm root -g</span><br><span class="line">~/.nvm/versions/node/v14.16.1/lib/node_modules</span><br></pre></td></tr></table></figure>
+
+<p>在不同的终端中处理多个包的时候很容易忽略不同终端下的 Node.js 版本是否一致。并且这个版本差异也很难发现，因为<code>npm link</code>在无法找到要链接的本地包时也不会报错</p>
+<ul>
+<li><strong>link 失败不会报错并且会回退到直接从 npm 仓库进行安装</strong></li>
+</ul>
+<p>如果尝试在一个包中执行<code>npm link a</code> ，就算这个包之前并没有注册为全局链接，这个命令执行也不会报错</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="built_in">link</span> a</span><br><span class="line">~/my-package/node_modules/a -&gt; ~/.nvm/versions/node/v14.16.1/lib/node_modules/a</span><br></pre></td></tr></table></figure>
+
+<p>这是因为<code>npm link</code>的时候没有找到全局的包<code>a</code>，它就会从<a href="(https://www.npmjs.com/package/a%20%22%60npm%60%22)"><code>npm</code></a>仓库上去全局安装这个包并创建一个软链接到这个包</p>
+<p>只有这个包在 npm 远端仓库上没有这个包，<code>npm link</code>这个包才会失败</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="built_in">link</span> non-existent-package</span><br><span class="line">npm ERR! code E404</span><br><span class="line">npm ERR! 404 Not Found - GET https://registry.npmjs.org/non-existent-package - Not found</span><br><span class="line">npm ERR! 404</span><br><span class="line">npm ERR! 404  <span class="string">&#x27;non-existent-package@*&#x27;</span> is not <span class="keyword">in</span> this registry.</span><br><span class="line">npm ERR! 404 You should bug the author to publish it (or use the name yourself!)</span><br><span class="line">npm ERR! 404</span><br><span class="line">npm ERR! 404 Note that you can also install from a</span><br><span class="line">npm ERR! 404 tarball, folder, http url, or git url.</span><br></pre></td></tr></table></figure>
+
+<p>要判断链接是否真正成功，可以检查输出是否有打印两个<code>-&gt;</code>，注意上面的错误链接只有一个<code>-&gt;</code>。两个<code>-&gt;</code>说明创建了一个指向全局包软链接，然后链接向本地包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># npm v6</span></span><br><span class="line">$ npm <span class="built_in">link</span> my-linked-package</span><br><span class="line">~/my-package/node_modules/my-linked-package -&gt; ~/.nvm/versions/node/v14.16.1/lib/node_modules/my-linked-package -&gt; ~/my-linked-package</span><br></pre></td></tr></table></figure>
+
+<p>这种检查方法只能在 npm v6 版本中使用。从 npm v7 开始，链接路径不再被输出到终端了。从下面可以发现 v7 开始已经不可能确定是链接本地包成功还是、安装和链接了一个包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># npm v7</span></span><br><span class="line">$ npm <span class="built_in">link</span> a</span><br><span class="line"></span><br><span class="line">up to <span class="built_in">date</span>, audited 3 packages <span class="keyword">in</span> 671ms</span><br><span class="line"></span><br><span class="line">found 0 vulnerabilities</span><br></pre></td></tr></table></figure>
+
+<p>也可以使用<code>realpath</code>命令验证一个包是否链接成功</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">realpath</span> node_modules/package-name</span><br><span class="line">~/my-linked-package</span><br></pre></td></tr></table></figure>
+
+<p>综上，由于缺少适当的报错，使用<code>npm link</code>带给我们不是很好的体验。特别是在多个 Node.js 版本的情况下</p>
+<ul>
+<li><strong>会有预期之外的二进制可执行文件安装</strong></li>
+</ul>
+<p><code>npm link</code>的第一步是将包安装到全局。这个命令是由两步实现</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v8/commands/npm-install#global"  title="npm install --global ...">npm install –global …<i class="fas fa-external-link-alt"></i></a>可用于使二进制文件作为系统范围的 cli 命令使用。如果包有<a target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json#bin" title="`bin`"><code>bin</code></a> 字段，通过<code>npm link</code>可以另这个<code>bin</code>中的命令可以直接通过终端执行命令</p>
+<p>考虑到<code>npm link</code>通常只是用来在开发中进行包的测试，全局二进制文件的安装可能会有额外的副作用。由于包可以声明具有<a class="link"   target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v7/configuring-npm/package-json#:~:text=%22bin%22%3A%20%7B-,%22my%2Dprogram%22,-%3A%20%22./path/to/program"  title="任意名称">任意名称<i class="fas fa-external-link-alt"></i></a>的二进制执行文件，这种意外的副作用的影响可能非常严重</p>
+<p>下面的例子，在<code>package.json</code>中指定了<code>bin</code>的<code>random-command</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;my-package&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;bin&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;random-command&quot;</span><span class="punctuation">:</span> <span class="string">&quot;bin.js&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>执行<code>npm link</code>就也会全局安装可执行的<code>random-command</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ random-command</span><br><span class="line">zsh: <span class="built_in">command</span> not found: random-command</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> my-package &amp;&amp; npm <span class="built_in">link</span></span><br><span class="line">added 1 package, and audited 3 packages <span class="keyword">in</span> 548ms</span><br><span class="line"></span><br><span class="line">found 0 vulnerabilities</span><br><span class="line"></span><br><span class="line">$ random-command</span><br><span class="line">Suddenly works!</span><br></pre></td></tr></table></figure>
+
+<p>全局安装也会覆盖已经存在的的全局可执行命令（取决于<a target="_blank" rel="noopener" href="https://linuxhint.com/path_in_bash/" title="`PATH`配置"><code>PATH</code>配置</a>–终端查找命令的环境变量）。如果使用<a class="link"   target="_blank" rel="noopener" href="http://nvm.sh/"  title="nvm">nvm<i class="fas fa-external-link-alt"></i></a>则可能会受到影响</p>
+<p>下面的例子，覆盖了<a class="link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Cat_(Unix%20%22%E6%A0%87%E5%87%86%E7%9A%84%20Unix%20%E5%91%BD%E4%BB%A4%22)" >标准的 Unix 命令<i class="fas fa-external-link-alt"></i></a><code>cat</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">type</span> <span class="built_in">cat</span></span><br><span class="line"><span class="built_in">cat</span> is /bin/cat</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> my-package &amp;&amp; npm <span class="built_in">link</span></span><br><span class="line">added 1 package, and audited 3 packages <span class="keyword">in</span> 230ms</span><br><span class="line"></span><br><span class="line">found 0 vulnerabilities</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">hash</span> cash</span><br><span class="line">$ <span class="built_in">type</span> <span class="built_in">cat</span></span><br><span class="line"><span class="built_in">cat</span> is ~/.nvm/versions/node/v16.14.0/bin/cat</span><br></pre></td></tr></table></figure>
+
+<p>在包安装方面，这些风险对于包管理很普遍，从安全角度来看，这些风险并不算太高</p>
+<p>但<code>npm link</code>本身不是一个包安装工具。它是一个开发时进行软链接的工具。通过上文，我们了解到这种行为是会导致不少预期外的行为以及可能导致的一些错误</p>
+<p>顺便提下上面提到的运行<code>npm link a</code>，则二进制执行命令<code>a</code>已安装到系统中。可能会认为 <code>npm unlink a</code>可以卸载，但它只会删除本地的软链接，而不会删除全局安装的二进制文件</p>
+<p>卸载全局包和它的二进制执行文件需要使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm uninstall --global a</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>不符合预期的软链接删除</strong></li>
+</ul>
+<p>链接多个包时，将删除先前链接的包。这个行为是 npm v7 中引入的</p>
+<p>以下例子<code>pkg-a</code>已经被链接过并且存在于<code>node_modules</code>中了。但当链接了第二个包<code>pkg-b</code>后，<code>pkg-a</code>就不在<code>node_modules</code>中了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="built_in">link</span> ../pkg-a</span><br><span class="line">added 1 package, and audited 5 packages <span class="keyword">in</span> 684ms</span><br><span class="line">found 0 vulnerabilities</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> node_modules</span><br><span class="line">pkg-a</span><br><span class="line"></span><br><span class="line">$ npm <span class="built_in">link</span> ../pkg-b</span><br><span class="line">added 1 package, removed 1 package, and audited 5 packages <span class="keyword">in</span> 703ms</span><br><span class="line">found 0 vulnerabilities</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> node_modules</span><br><span class="line">pkg-b</span><br></pre></td></tr></table></figure>
+
+<p>使用多个包进行链接时，<code>npn link</code>删除之前的链接包通常是不符合预期的。一般在链接第二个包之后，我们会继续运行代码并认为之前的软链接是应该不变的</p>
+<p>如果要链接多个包就必须将所有包路径一次传递给<code>npm link</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ npm <span class="built_in">link</span> ../pkg-a ../pkg-b</span><br><span class="line">added 1 package, and audited 6 packages <span class="keyword">in</span> 645ms</span><br><span class="line">found 0 vulnerabilities</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">ls</span> node_modules</span><br><span class="line">pkg-a pkg-b</span><br></pre></td></tr></table></figure>
+
+<p>虽然可行但这并不是一个很好的开发体验。在开发中，我们并不总是提前知道所有需要链接的包或以前链接过的包</p>
+<p>这种令人困惑的行为说明了<code>npm link</code>的可用性很差</p>
+<h3 id="潜在风险"><a href="#潜在风险" class="headerlink" title="潜在风险"></a>潜在风险</h3><p>作为一个流行的包管理工具，npm 有一个各种各样的包但却没有统一的质量标准</p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://docs.npmjs.com/reporting-malware-in-an-npm-package"  title="这里">这里<i class="fas fa-external-link-alt"></i></a>列举了一些恶意包，但这里提到的风险不仅限于攻击。当不清楚是否安装了正确的软件包时是有可能发生意外的</p>
+<p>npm 上的许多包是用来更改文件的，例如<a class="link"   target="_blank" rel="noopener" href="https://www.npmjs.com/package/rimraf"  title="rimraf">rimraf<i class="fas fa-external-link-alt"></i></a>或代码 linter 工具。运行文件中被更改的代码可能是有可能有问题的</p>
+<p><code>npm install</code>也有可能安装错误的包，但是了解到上面提到的<code>npm link</code>会有一些预料之外的行为时，<code>npm link</code>带来的风险会更高。如下：</p>
+<ul>
+<li><p><strong>包名称可能会发生冲突</strong>。可能使用了一个 npm 仓库上已有的包名字去链接本地的包。在意识到名称已被占用之前，开发和测试新的或私有包可能会遇到</p>
+</li>
+<li><p><strong>本地链接失败不会报错</strong>。如果被链接的包无法在本地找到，将从 npm 仓库下中查找。如果找到相同名称的包，则可能会意外地安装到全局</p>
+</li>
+<li><p><strong>二进制可执行文件被安装</strong>。如果安装了错误的包，很难发现二进制执行文件也会被全局安装并且很难意识到需要全局卸载这个二进制执行文件。这就会留下这个不符合预期的可执行文件被可能被意外执行</p>
+</li>
+</ul>
+<h2 id="使用npm-install作为替代"><a href="#使用npm-install作为替代" class="headerlink" title="使用npm install作为替代"></a>使用<code>npm install</code>作为替代</h2><p><code>npm link</code>的一种替代方法是使用指定包路径的<code>npm install</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --no-save &lt;package-path-a&gt; &lt;package-path-b&gt; ...</span><br></pre></td></tr></table></figure>
+
+<p>执行这个命令会创建一个指向包的软链接而不是全局安装。这种行为就和我们使用<code>npm link</code>进行测试包的初衷差不多了。 加上<code>--no-save</code>是为了防止包的路径保存在<code>package.json</code>中</p>
+<p>但是<code>npm install</code>也是有缺点的。和<code>npm link</code>一样，执行<code>npm install</code>多次是会先移除之前的软链接。如果我们想一次链接多个包的话，必须一次将需要链接的多个包作为参数传入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --no-save &lt;package-path-a&gt; &lt;package-path-b&gt; ...</span><br></pre></td></tr></table></figure>
+
+<h2 id="npx-link"><a href="#npx-link" class="headerlink" title="npx link"></a><code>npx link</code></h2><p><a target="_blank" rel="noopener" href="https://github.com/privatenumber/link" title="`npx link`"><code>npx link</code></a>，一个小工具用来替代<code>npm link</code>，并且能解决上面提到的<code>npm link</code>的缺点</p>
+<p>使用起来也很简单</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npx <span class="built_in">link</span> &lt;package-path&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>[npm link](https://github.com/privatenumber/link &quot;npm link&quot;)</code>不会全局安装链接的包或二进制执行文件，并且也不会删除以前的软链接，可以在不同版本的 Node.js 中使用。当不能解析包路径时，也会有一个执行失败报错</p>
+<p>如果需要执行链接包的二进制文件，执行通过<a target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v8/commands/npx" title="`npx`"><code>npx</code></a>命令或者通过<a class="link"   target="_blank" rel="noopener" href="https://docs.npmjs.com/cli/v8/using-npm/scripts"  title="package scripts">package scripts<i class="fas fa-external-link-alt"></i></a></p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：4个避免使用npm link的理由</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2022-04-30 11:14:15</li>
+        <li>
+            Post link：https://blog.flytam.vip/4个避免使用npm link的理由.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node/">#node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/JavaScript%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81%E5%86%99void%200%E4%BA%86.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JavaScript不再需要写void 0了</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E4%BD%BF%E7%94%A8TypeScript%E5%B9%B6%E5%8D%87%E7%BA%A7%E5%88%B0React%2018.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">使用TypeScript并升级到React 18</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E6%8A%9B%E7%BB%93%E8%AE%BA"><span class="nav-text">先抛结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#npm-link%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-text">npm link是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#npm-link-lt-package-path-gt"><span class="nav-text">npm link &lt;package-path&gt;</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E4%B8%AA%E4%BD%BF%E7%94%A8npm-link%E7%9A%84%E7%BC%BA%E7%82%B9"><span class="nav-text">4 个使用npm link的缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BD%9C%E5%9C%A8%E9%A3%8E%E9%99%A9"><span class="nav-text">潜在风险</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8npm-install%E4%BD%9C%E4%B8%BA%E6%9B%BF%E4%BB%A3"><span class="nav-text">使用npm install作为替代</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#npx-link"><span class="nav-text">npx link</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

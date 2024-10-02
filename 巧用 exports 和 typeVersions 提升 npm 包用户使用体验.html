@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            巧用 exports 和 typeVersions 提升 npm 包用户使用体验 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">巧用 exports 和 typeVersions 提升 npm 包用户使用体验</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2023-05-07 10:39:08</span>
+        <span class="mobile">2023-05-07 10:39</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h2 id="默认导出"><a href="#默认导出" class="headerlink" title="默认导出"></a>默认导出</h2><p>对于开发一个 JavaScript 三方库供外部使用而言，<code>package.json</code>是其中不可缺少的一部分</p>
+<p>一般而言，对于库开发者来说，我们会在<code>package.json</code>中指定我们的导出入口。一般而言会涉及两个字段<code>main</code>和<code>export</code>，它们会涉及到当前模块在被导入的行为。通常我们会将<code>main</code>字段指向 cjs 产物，<code>module</code>字段指向 ES 产物</p>
+<h3 id="main"><a href="#main" class="headerlink" title="main"></a><code>main</code></h3><p><code>main</code>字段指定了该模块的主入口文件，即 require 该模块时加载的文件。该字段的值应为相对于模块根目录的路径或者是一个模块名（如<code>index.js</code>或<code>lib/mymodule.js</code>，如果是模块名，则需要保证在该模块根目录下存在该模块）。主入口文件可以是 JavaScript 代码、JSON 数据或者是 Node.js C++扩展</p>
+<h3 id="module"><a href="#module" class="headerlink" title="module"></a><code>module</code></h3><p><code>module</code>字段是 ES 模块规范下的入口文件，它被用于支持 import 语法。当使用 esm 或 webpack 等工具打包时，会优先采用 module 字段指定的入口文件。如果没有指定 module 字段，则会使用 main 字段指定的入口文件作为默认的 ES 模块入口文件</p>
+<h2 id="指定导出"><a href="#指定导出" class="headerlink" title="指定导出"></a>指定导出</h2><p>一般情况下，我们使用<code>main</code>和<code>module</code>在大部分场景下对于开发一个库来说已经足够。但是如果想实现更精细化的导出控制就无法满足</p>
+<p>当我们一个库本身同时包含运行时和编译时的导出时，如果我们导出的模块在编译时（node 环境）包含副作用，如果运行时模块也从同一入口导出就会出现问题</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 例如编译时入口存在以下编译时副作用</span></span><br><span class="line"><span class="comment">// buildtime.ts</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(process.<span class="property">env</span>.<span class="property">xxx</span>)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">buildLog</span> = (<span class="params"></span>) =&gt; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;build time&quot;</span>)</span><br><span class="line"><span class="comment">// runtime.ts</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> <span class="title function_">runLog</span> = (<span class="params"></span>) =&gt; <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;run time&quot;</span>)</span><br><span class="line"><span class="comment">// index.ts</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&quot;./buildtime.ts&quot;</span></span><br><span class="line"><span class="keyword">export</span> * <span class="keyword">from</span> <span class="string">&quot;./runtime.ts&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>当前，可以通过解决掉副作用规避这个问题，但是很可能我们依赖的第三方模块也是有复作用的这个时候就无解了。此时最好的办法是将这个库的运行时和编译时从两个入口进行导出，这样子就不存在某一方影响到另一方。库使用者也不需关心从统一入口导入的方法到底是编译时方法还是运行时方法</p>
+<p>这个时候就可以利用<code>package.json</code>的<code>exports</code>字段进行导出，当存在该字段时会忽略<code>main</code>和<code>module</code>字段。该字段在 Node.js 12 版本中引入，可用来大幅简化模块的导出方式，支持同时支持多个环境下的导出方式，提供了更好的可读性和可维护性</p>
+<p>支持以下用法</p>
+<ol>
+<li>多文件导出</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;name&quot;</span>: <span class="string">&quot;pkg&quot;</span>,</span><br><span class="line"><span class="string">&quot;exports&quot;</span>: &#123;</span><br><span class="line">  <span class="string">&quot;.&quot;</span>: <span class="string">&quot;./dist/index.js&quot;</span>,</span><br><span class="line">  <span class="string">&quot;./runtime&quot;</span>: <span class="string">&quot;./dist/runtime.js&quot;</span>,</span><br><span class="line">  <span class="string">&quot;./buildtime&quot;</span>: <span class="string">&quot;./dist/buildtime.js&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样当运行<code>require(&#39;pkg&#39;)</code> 时会加载<code>dist/index.js</code>，而当运行 <code>require(&#39;pkg/runtime&#39;)</code>时会加载<code>dist/runtime.js</code>，<code>require(&#39;pkg/buildtime&#39;)</code> 则会加载 <code>dist/buildtime.js</code></p>
+<ol start="2">
+<li>多条件导出</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;name&quot;</span>: <span class="string">&quot;pkg&quot;</span>,</span><br><span class="line">  <span class="string">&quot;version&quot;</span>: <span class="string">&quot;1.0.0&quot;</span>,</span><br><span class="line">  <span class="string">&quot;main&quot;</span>: <span class="string">&quot;dist/index.js&quot;</span>,</span><br><span class="line">  <span class="string">&quot;exports&quot;</span>: &#123;</span><br><span class="line">    <span class="string">&quot;.&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;require&quot;</span>: <span class="string">&quot;./dist/index.cjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;import&quot;</span>: <span class="string">&quot;./dist/index.mjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;node&quot;</span>: <span class="string">&quot;./dist/index.cjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;default&quot;</span>: <span class="string">&quot;./dist/index.js&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;./runtime&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;require&quot;</span>: <span class="string">&quot;./dist/runtime.cjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;import&quot;</span>: <span class="string">&quot;./dist/runtime.mjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;node&quot;</span>: <span class="string">&quot;./dist/runtime.cjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;default&quot;</span>: <span class="string">&quot;./dist/runtime.js&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;./buildtime&quot;</span>: &#123;</span><br><span class="line">      <span class="string">&quot;require&quot;</span>: <span class="string">&quot;./dist/buildtime.cjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;import&quot;</span>: <span class="string">&quot;./dist/buildtime.mjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;node&quot;</span>: <span class="string">&quot;./dist/buildtime.cjs&quot;</span>,</span><br><span class="line">      <span class="string">&quot;default&quot;</span>: <span class="string">&quot;./dist/buildtime.js&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于条件，目前 node 支持<code>import</code>、<code>require</code>、 <code>node</code>、<code>node-addons</code>和<code>default</code>。同时社区对于其它环境也定义了如<code>types</code>、<code>deno</code>、<code>browser</code>等供不同环境使用。具体规范<a class="link"   target="_blank" rel="noopener" href="https://github.com/nodejs/node/blob/HEAD/doc/api/packages.md#conditions-definitions" >可见<i class="fas fa-external-link-alt"></i></a></p>
+<ol start="3">
+<li>目录导出<br>支持目录的整体导出</li>
+</ol>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;exports&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;./lib/*&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./lib/*.js&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h2><p>按照上述操作完成后，打包就能符合相关预期，但是对于 typescript 文件的导入如果使用<code>runtime</code>路径是会找不到相应的类型文件，typescript 并不会去识别该字段，已有的讨论<a class="link"   target="_blank" rel="noopener" href="https://github.com/microsoft/TypeScript/issues/33079" >issues<i class="fas fa-external-link-alt"></i></a></p>
+<blockquote>
+<p>注：对于配置 <code>tsconfig.json</code> <code>&quot;compilerOptions.moduleResolution&quot;: &quot;Node16&quot;</code>的项目可以在 <code>exports</code> 命名导出配置相应的 types 字段指向 ts 声明文件</p>
+</blockquote>
+<p><img src="https://files.mdnice.com/user/8265/83877d4d-5682-4044-bbd2-3b2bd598fd6b.png"></p>
+<p>此时需要借助<code>package.json</code>的<code>typeVersions</code>字段进行声明供 ts 识别</p>
+<p>对于这个例子，我们在库的<code>package.json</code>中增加如下，表示各路径分别导出的类型文件路径</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;typesVersions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;*&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;.&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;./dist/index.d.ts&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;runtime&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;dist/runtime.d.ts&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;buildtime&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;dist/dist/runtime.d.ts&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br></pre></td></tr></table></figure>
+
+<p>此时我们就能看见能正确找到相应的类型提示</p>
+<p><img src="https://files.mdnice.com/user/8265/6ac120fe-f6ce-4977-bb98-1eaa438943ff.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/5c0c70c2-24ed-4a99-bfb1-8385c9753796.png"></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>目前 Node.js 12+和主流的打包工具都已经支持<code>exports</code>字段的解析，下面来简单看下 webpack 的实现</p>
+<h3 id="Webpack"><a href="#Webpack" class="headerlink" title="Webpack"></a>Webpack</h3><p>webpack 已经内置支持对于<code>exports</code>的解析，它的解析由<a target="_blank" rel="noopener" href="https://github.com/webpack/enhanced-resolve"><code>enhance-resolve</code></a>实现</p>
+<p><img src="https://files.mdnice.com/user/8265/e9bf71e5-a59a-42fe-8d45-e5fc565cbe2a.png"></p>
+<p><code>createResolver</code>是<code>enhance-resolve</code>导出的<code>create</code>函数，用法如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/webpack/enhanced-resolve/blob/main/README.md</span></span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; <span class="title class_">CachedInputFileSystem</span>, <span class="title class_">ResolverFactory</span> &#125; = <span class="built_in">require</span>(<span class="string">&quot;enhanced-resolve&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// create a resolver</span></span><br><span class="line"><span class="keyword">const</span> myResolver = <span class="title class_">ResolverFactory</span>.<span class="title function_">createResolver</span>(&#123;</span><br><span class="line">	<span class="comment">// Typical usage will consume the `fs` + `CachedInputFileSystem`, which wraps Node.js `fs` to add caching.</span></span><br><span class="line">	<span class="attr">fileSystem</span>: <span class="keyword">new</span> <span class="title class_">CachedInputFileSystem</span>(fs, <span class="number">4000</span>),</span><br><span class="line">	<span class="attr">extensions</span>: [<span class="string">&quot;.js&quot;</span>, <span class="string">&quot;.json&quot;</span>]</span><br><span class="line">	<span class="comment">/* any other resolver options here. Options/defaults can be seen below */</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// resolve a file with the new resolver</span></span><br><span class="line"><span class="keyword">const</span> context = &#123;&#125;;</span><br><span class="line"><span class="keyword">const</span> lookupStartPath = <span class="string">&quot;/Users/webpack/some/root/dir&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> request = <span class="string">&quot;./path/to-look-up.js&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> resolveContext = &#123;&#125;;</span><br><span class="line">myResolver.<span class="title function_">resolve</span>(context, lookupStartPath, request, resolveContext, <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">	err <span class="comment">/*Error*/</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">	filepath <span class="comment">/*string*/</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="comment">// Do something with the path</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>通过创建一个自定义 resolver 函数后可调用<code>resolve</code>函数根据当前的模块路径和一些配置查找一个模块的绝对路径</p>
+<p>相关自定义 resolver 选项含义</p>
+<ul>
+<li><code>extensions</code> 查找的文件扩展名</li>
+<li><code>conditionNames</code> 对应<code>package.json</code>中的<code>exports</code>条件</li>
+<li><code>exportsFields</code> 指定从 package.json 哪个字段读取<code>exports</code>条件</li>
+<li><code>fullySpecified</code> 为 true 时，解析器会优先尝试使用完全指定的路径来解析模块请求，而忽略其他任何条件。如果找到了对应的模块文件，则直接返回该路径；否则抛出错误</li>
+</ul>
+<p>通过相关上述代码我们可以知道</p>
+<ul>
+<li>对于解析<code>es</code>导入，webpack 会尝试读取<code>exports</code>字段的导出，依次读取<code>import</code>和<code>node</code>字段。并且这里也是直接配置了<code>fullySpecified</code>。即处理相对路径的导入如<code>import foo from &#39;./foo&#39;;</code>时，Webpack 在解析模块请求时会直接将 ./foo.js 当作完整路径来处理，而不进行路径的拼接和解析</li>
+<li>对于解析<code>cjs</code>导入，webpack 会尝试读取<code>exports</code>字段的导出，依次读取<code>require</code>和<code>node</code>字段。并且会尝试使用各种解析策略来解析该路径</li>
+</ul>
+<p>由于<code>enhance-resolve</code>是一个完全独立于 webpack 的模块，当我们自己实现一个三方打包器或者插件时，如果想实现类似的模块解析能力，也可以完全独立使用<code>enhance-resolve</code>来实现</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>为了实现一个库更友好的导出，我们可以借助 package.json 的<code>exports</code>字段指定多条件的导出方式，主流打包工具以及 Node.js 都已经支持；对于 ts 类型，我们可以结合<code>typeVersions</code>进行配置</p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：巧用 exports 和 typeVersions 提升 npm 包用户使用体验</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2023-05-07 10:39:08</li>
+        <li>
+            Post link：https://blog.flytam.vip/巧用 exports 和 typeVersions 提升 npm 包用户使用体验.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">#工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E5%9C%A8ES%E6%A8%A1%E5%9D%97%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8%20__dirname%20.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">在ES模块中的使用 __dirname</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/React%20Labs%EF%BC%9A%20%E6%88%91%E4%BB%AC%E6%9C%80%E8%BF%91%E5%9C%A8%E5%81%9A%E4%BB%80%E4%B9%88%E2%80%94%E2%80%942023%20%E5%B9%B4%203%20%E6%9C%88.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">React Labs： 我们最近在做什么——2023 年 3 月</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E5%AF%BC%E5%87%BA"><span class="nav-text">默认导出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#main"><span class="nav-text">main</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#module"><span class="nav-text">module</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%AF%BC%E5%87%BA"><span class="nav-text">指定导出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%9E%8B"><span class="nav-text">类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0"><span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Webpack"><span class="nav-text">Webpack</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-text">总结</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

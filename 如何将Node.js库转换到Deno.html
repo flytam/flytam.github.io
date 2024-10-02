@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            如何将Node.js库转换到Deno |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">如何将Node.js库转换到Deno</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2022-05-28 15:29:54</span>
+        <span class="mobile">2022-05-28 15:29</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/deno/">deno</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/deno/">deno</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"><br>由于Node和Deno的一些差异，一个库要想同时支持Node和Deno是需要一些改造的</p>
+<blockquote>
+<p>本文翻译自EdgeDb博客：<a class="link"   target="_blank" rel="noopener" href="https://www.edgedb.com/blog/how-we-converted-our-node-js-library-to-deno-using-deno" >https://www.edgedb.com/blog/how-we-converted-our-node-js-library-to-deno-using-deno<i class="fas fa-external-link-alt"></i></a><br>如果需要将Deno项目直接迁移为Node项目可参考笔者另一篇文章<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/blog/issues/19" >deno 初体验，实战记录一个node项目迁移到deno需要做什么<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<p><img src="https://files.mdnice.com/user/8265/73e25c5a-6705-4f55-b5b4-a7a656cb25e3.png"></p>
+<p>Deno是一个新的JavaScript运行时，无需编译即原生支持TypeScript。它是由Node.js作者Ryan Dahl创建的，为了解决Node的一些基本设计、安全漏洞问题并集成了当前的一些开发实践如ES Module和TypeScript</p>
+<p>在EdgeDb中，我们建立和维护了一个<a class="link"   target="_blank" rel="noopener" href="https://github.com/edgedb/edgedb-js" >官方的npm上的Node.js客户端<i class="fas fa-external-link-alt"></i></a>。然而，Deno使用了一套完全不同的实践来处理依赖，即直接从公共包库(如<a target="_blank" rel="noopener" href="https://deno.land/x"><code>deno.land/x</code></a>)<code>import</code>路径。我们将寻找一种简单的方法来<code>Deno化</code>我们的代码库。也就是用最简单的重构从现有的Node.js实现中生成一个Deno兼容的模块。这解决维护和同步两个几乎相同的代码库的重复工作带来的问题</p>
+<p>我们采用了一种“运行时适配器”模式。这是一种通用的解决方法对其他希望支持Deno库的作者也会有用</p>
+<h2 id="Node-js-vs-Deno"><a href="#Node-js-vs-Deno" class="headerlink" title="Node.js vs Deno"></a>Node.js vs Deno</h2><p>Node.js和Deno有一些重要的区别</p>
+<ol>
+<li><p><strong>TypeScript支持：</strong><br>Deno可以直接执行TypeScript而Node.js只能运行JavaScript代码</p>
+</li>
+<li><p><strong>模块解析：</strong><br>默认情况下，Node.js使用CommonJS导入模块并使用<code>require/module.exports</code>语法。它也有一个复杂的解析算法，会从<code>node_modules</code>加载像<code>react</code>这样的普通模块名，并在无额外扩展名导入时尝试添加<code>.js</code>或<code>.json</code>。如果导入路径是一个目录，则导入<code>index.js</code>文件</p>
+</li>
+</ol>
+<p>Deno模块解析逻辑简化了很多。它使用了ECMAScript模块语法进行导入和导出。该语法也被TypeScript使用。所有导入必须是有显式文件扩展名的相对路径或者是一个URL</p>
+<p>这意味着不存在像npm或yarn那样有<code>node_module</code>或<code>包管理器</code>。外部模块可以通过URL直接从公开代码库导入，比如<a target="_blank" rel="noopener" href="https://deno.land/x/"><code>deno.land/x</code></a>或GitHub</p>
+<ol start="3">
+<li><p><strong>标准库：</strong><br>Node.js有一些内置的<a class="link"   target="_blank" rel="noopener" href="https://www.w3schools.com/nodejs/ref_modules.asp" >标准模块<i class="fas fa-external-link-alt"></i></a>如<code>fs</code>、<code>crypto</code>、<code>http</code>。这些包名由Node.js保留。相比之下Deno标准库是通过<code>https://deno.land/std/</code>URL导入的。Node和Deno标准库的功能也不同，Deno放弃了一些旧的或过时的Node.js api，引入了一个新的标准库(受Go的启发)，并统一支持现代JavaScript特性如<code>Promise</code>(而许多Node.js api仍然使用老的回调风格)</p>
+</li>
+<li><p><strong>内置全局变量：</strong><br>Deno所有的核心api都在全局变量Deno中，其它全局变量则只有标准的web api。和Node.js不同的是，Deno没有<code>Buffer</code>或<code>process</code>这些全局变量</p>
+</li>
+</ol>
+<p>所以需要如何做才能让我们的Node.js库尽可能容易地在Deno中运行呢？下面将一步一步进行改造</p>
+<h2 id="TypeScript和模块语法"><a href="#TypeScript和模块语法" class="headerlink" title="TypeScript和模块语法"></a>TypeScript和模块语法</h2><p>幸运的是，我们无需考虑将CommonJS的<code>require/module.exports</code>语法转换到到ESM<code>import/export</code>。我们使用用TypeScript编写<code>edgedb-js</code>，它已经使用了ESM语法。在编译过程中，<code>tsc</code>将我们的文件转换成普通的=CommonJS语法的JavaScript文件。Node.js可以直接运行编译后的文件</p>
+<p>本文下面将讨论如何将TypeScript源文件修改为Deno可以直接使用的格式</p>
+<h2 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h2><p><code>edgedb-js</code>没有任何第三方依赖，所以这里不必担心任何三方库的Deno兼容性问题。但仍需要将所有从Node.js标准库中导入(例如<code>path</code>、<code>fs</code>等)替换为等价的Deno文件</p>
+<blockquote>
+<p>注意：如果你的包确实依赖于外部包，可在<code>deno.land/x</code>中查看是否有Deno版本</p>
+</blockquote>
+<p>由于Deno标准库提供了<a class="link"   target="_blank" rel="noopener" href="https://deno.land/std@0.140.0/node" >Node.js兼容模块<i class="fas fa-external-link-alt"></i></a>，这个改造比较简单。Deno的标准库上提供了一个包装器并尽可能和Node的api保持一致</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">&quot;crypto&quot;</span>;</span><br><span class="line">+ <span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/crypto.ts&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>为了简化问题，将所有Node.js api导入移到一个名为<code>adapter.node.ts</code>的文件中，并只重新导出我们需要的功能</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// adapter.node.ts</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> path <span class="keyword">from</span> <span class="string">&quot;path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> util <span class="keyword">from</span> <span class="string">&quot;util&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">&quot;crypto&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;path, net, crypto&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>然后在一个名为<code>adapter.deno.ts</code>的文件中为Deno实现相同的适配器</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// adapter.deno.ts</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> crypto <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/crypto.ts&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> path <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/path.ts&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> util <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/util.ts&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> &#123;path, util, crypto&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>当需要使用Node.js的特定功能时，直接从<code>adapter.node.ts</code>导入这些功能。通过这种方式，可以通过简单地将所有<code>adapter.node.ts</code>导入重写为<code>adapter.deno.ts</code>即可使<code>edgedb-js</code>兼容Deno。只要确保这些文件重新导出相同的功能就能符合预期</p>
+<p>但实际上应该如何重写这些导入呢。这里我们需要开发一个简单的codemod脚本。下面将使用Deno来开发这个脚本</p>
+<h2 id="开发Deno-ifier"><a href="#开发Deno-ifier" class="headerlink" title="开发Deno-ifier"></a>开发Deno-ifier</h2><p>在开发之前，列举下需要做的事情：</p>
+<ul>
+<li><p>将Node.js风格的导入重写为更显式的Deno风格。包括添加<code>.ts</code>扩展名和目录导入添加<code>/index.ts</code></p>
+</li>
+<li><p>将<code>adapter.node.ts</code>的导入替换成从<code>adapter.deno.ts</code>的导入</p>
+</li>
+<li><p>注入Node.js全局变量（如<code>process</code>和<code>Buffer</code>）到Deno的代码中。虽然可以简单地从适配器导出这些变量，但我们必须重构Node.js文件以显式地导入它们。为了简化处理，将检测代码中使用了Node.js全局变量的时候注入一个导入</p>
+</li>
+<li><p>将<code>src</code>目录重命名为<code>_src</code>，表示它只被<code>edgedb-js</code>内部使用不应该被外部直接导入使用</p>
+</li>
+<li><p>将主入口文件<code>src/index.ts</code>移动到项目根目录并重命名为<code>mod.ts</code>。这是Deno中的习惯用法（这里<code>index.node.ts</code>的命名并不表明它是只能给Node.js使用而是用来区别于<code>index.browser.ts</code>，<code>index.browser.ts</code>导出的是<code>edgedb-js</code>中浏览器兼容的部分代码）</p>
+</li>
+</ul>
+<h4 id="获取所有文件列表"><a href="#获取所有文件列表" class="headerlink" title="获取所有文件列表"></a>获取所有文件列表</h4><p>第一步先获取出源文件。Deno原生<code>fs</code>模块提供了<code>walk</code>函数可以实现：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;walk&#125; <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/fs/mod.ts&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceDir = <span class="string">&quot;./src&quot;</span>;</span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> <span class="title function_">walk</span>(sourceDir, &#123;<span class="attr">includeDirs</span>: <span class="literal">false</span>&#125;)) &#123;</span><br><span class="line">  <span class="comment">// 遍历源文件</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：这里使用的是Deno原生的<code>std/fs</code>模块而不是Node兼容版本的<code>std/node/fs</code></p>
+</blockquote>
+<p>声明一个重写规则集合并初始化一个<code>Map</code>对象表示源文件路径到需要重写的目标文件的路径</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sourceDir = <span class="string">&quot;./src&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> destDir = <span class="string">&quot;./edgedb-deno&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> pathRewriteRules = [</span><br><span class="line">  &#123;<span class="attr">match</span>: <span class="regexp">/^src\/index.node.ts$/</span>, <span class="attr">replace</span>: <span class="string">&quot;mod.ts&quot;</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">match</span>: <span class="regexp">/^src\//</span>, <span class="attr">replace</span>: <span class="string">&quot;_src/&quot;</span>&#125;,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceFilePathMap = <span class="keyword">new</span> <span class="title class_">Map</span>&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> entry <span class="keyword">of</span> <span class="title function_">walk</span>(sourceDir, &#123;<span class="attr">includeDirs</span>: <span class="literal">false</span>&#125;)) &#123;</span><br><span class="line">  <span class="keyword">const</span> sourcePath = entry.<span class="property">path</span>;</span><br><span class="line">  sourceFilePathMap.<span class="title function_">set</span>(sourcePath, <span class="title function_">resolveDestPath</span>(sourcePath));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">resolveDestPath</span>(<span class="params">sourcePath: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">let</span> destPath = sourcePath;</span><br><span class="line">  <span class="comment">// 使用重写规则</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> rule <span class="keyword">of</span> pathRewriteRules) &#123;</span><br><span class="line">    destPath = destPath.<span class="title function_">replace</span>(rule.<span class="property">match</span>, rule.<span class="property">replace</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">join</span>(destDir, destPath);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这非常简单，下面开始开发修改源代码部分</p>
+<h4 id="重写import和export"><a href="#重写import和export" class="headerlink" title="重写import和export"></a>重写import和export</h4><p>要重写导入路径需要知道它们在文件中的位置。我们将使用TypeScript的<a class="link"   target="_blank" rel="noopener" href="https://github.com/Microsoft/TypeScript/wiki/Using-the-Compiler-API" >Compiler API<i class="fas fa-external-link-alt"></i></a>来将源文件解析为抽象语法树并找到导入语句</p>
+<p>为了实现这个功能我们需要用到<code>typescript</code> NPM包的<code>compile API</code>。Deno的兼容模块提供了一个直接从CommonJS模块导入的方式。需要在执行Deno代码的时候使用<code>--unstable</code>标识，对于构建阶段这不是什么问题</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;createRequire&#125; <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/module.ts&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">require</span> = <span class="title function_">createRequire</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br><span class="line"><span class="keyword">const</span> ts = <span class="built_in">require</span>(<span class="string">&quot;typescript&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>下面遍历文件并依次解析</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;walk, ensureDir&#125; <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/fs/mod.ts&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123;createRequire&#125; <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/module.ts&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">require</span> = <span class="title function_">createRequire</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br><span class="line"><span class="keyword">const</span> ts = <span class="built_in">require</span>(<span class="string">&quot;typescript&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> [sourcePath, destPath] <span class="keyword">of</span> sourceFilePathMap) &#123;</span><br><span class="line">  <span class="title function_">compileFileForDeno</span>(sourcePath, destPath);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">compileFileForDeno</span>(<span class="params">sourcePath: <span class="built_in">string</span>, destPath: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> file = <span class="keyword">await</span> <span class="title class_">Deno</span>.<span class="title function_">readTextFile</span>(sourcePath);</span><br><span class="line">  <span class="keyword">await</span> <span class="title function_">ensureDir</span>(<span class="title function_">dirname</span>(destPath));</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 如果文件以&#x27;.deno.ts&#x27;结尾则直接复制无需修改</span></span><br><span class="line">  <span class="keyword">if</span> (destPath.<span class="title function_">endsWith</span>(<span class="string">&quot;.deno.ts&quot;</span>)) <span class="keyword">return</span> <span class="title class_">Deno</span>.<span class="title function_">writeTextFile</span>(destPath, file);</span><br><span class="line">  <span class="comment">// 如果文件以`.node.ts`结尾则跳过</span></span><br><span class="line">  <span class="keyword">if</span> (destPath.<span class="title function_">endsWith</span>(<span class="string">&quot;.node.ts&quot;</span>)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 使用typescript Compiler API解析源文件</span></span><br><span class="line">  <span class="keyword">const</span> parsedSource = ts.<span class="title function_">createSourceFile</span>(</span><br><span class="line">    <span class="title function_">basename</span>(sourcePath),</span><br><span class="line">    file,</span><br><span class="line">    ts.<span class="property">ScriptTarget</span>.<span class="property">Latest</span>,</span><br><span class="line">    <span class="literal">false</span>,</span><br><span class="line">    ts.<span class="property">ScriptKind</span>.<span class="property">TS</span></span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于每个AST，我们通过遍历顶层节点找出<code>import</code>和<code>export</code>语句。这里无需深层查找，因为<code>import/export</code>只会出现在顶级作用域（也无需处理动态<code>import()</code>，因为<code>edgedb-js</code>中也没有使用）</p>
+<p>从这些节点中，获取源文件中<code>export/import</code>路径的开始和结束偏移量。然后可以通过切片取代路径内容并插入修改后的路径来重写导入</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> parsedSource = ts.<span class="title function_">createSourceFile</span>(<span class="comment">/*...*/</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">rewrittenFile</span>: <span class="built_in">string</span>[] = [];</span><br><span class="line"><span class="keyword">let</span> cursor = <span class="number">0</span>;</span><br><span class="line">parsedSource.<span class="title function_">forEachChild</span>(<span class="function">(<span class="params">node: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    (node.<span class="property">kind</span> === ts.<span class="property">SyntaxKind</span>.<span class="property">ImportDeclaration</span> ||</span><br><span class="line">      node.<span class="property">kind</span> === ts.<span class="property">SyntaxKind</span>.<span class="property">ExportDeclaration</span>) &amp;&amp;</span><br><span class="line">    node.<span class="property">moduleSpecifier</span></span><br><span class="line">  ) &#123;</span><br><span class="line">    <span class="keyword">const</span> pos = node.<span class="property">moduleSpecifier</span>.<span class="property">pos</span> + <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">const</span> end = node.<span class="property">moduleSpecifier</span>.<span class="property">end</span> - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">const</span> importPath = file.<span class="title function_">slice</span>(pos, end);</span><br><span class="line"></span><br><span class="line">    rewrittenFile.<span class="title function_">push</span>(file.<span class="title function_">slice</span>(cursor, pos));</span><br><span class="line">    cursor = end;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 使用Deno版本的导入替换导入适配文件</span></span><br><span class="line">    <span class="keyword">let</span> resolvedImportPath = <span class="title function_">resolveImportPath</span>(importPath, sourcePath);</span><br><span class="line">    <span class="keyword">if</span> (resolvedImportPath.<span class="title function_">endsWith</span>(<span class="string">&quot;/adapter.node.ts&quot;</span>)) &#123;</span><br><span class="line">      resolvedImportPath = resolvedImportPath.<span class="title function_">replace</span>(</span><br><span class="line">        <span class="string">&quot;/adapter.node.ts&quot;</span>,</span><br><span class="line">        <span class="string">&quot;/adapter.deno.ts&quot;</span></span><br><span class="line">      );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    rewrittenFile.<span class="title function_">push</span>(resolvedImportPath);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">rewrittenFile.<span class="title function_">push</span>(file.<span class="title function_">slice</span>(cursor));</span><br></pre></td></tr></table></figure>
+<p>这里的关键部分是<code>resolveImportPath</code>函数。它通过试错查找的方式实现将Node.js风格的引入转化为Deno风格的导入。首先检查路径是否对应于实际文件；如果失败了会尝试添加<code>.ts</code>；如果再失败则尝试添加<code>/index.ts</code>；如果再失败则抛出一个错误。</p>
+<h4 id="注入Node-js全局变量"><a href="#注入Node-js全局变量" class="headerlink" title="注入Node.js全局变量"></a>注入Node.js全局变量</h4><p>最后一步是处理Node.js全局变量。首先在创建一个<code>global.deno.ts</code>文件。这个文件应该导出包中使用的所有Node.js全局变量的Deno兼容版本</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// global.deno.ts</span></span><br><span class="line"><span class="keyword">export</span> &#123;<span class="title class_">Buffer</span>&#125; <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/buffer.ts&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;process&#125; <span class="keyword">from</span> <span class="string">&quot;https://deno.land/std@0.114.0/node/process.ts&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>通过编译后的AST可以拿到源文件中所有全局变量的集合。将使用它在任何引用这些全局变量的文件中注入import语句</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> sourceDir = <span class="string">&quot;./src&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> destDir = <span class="string">&quot;./edgedb-deno&quot;</span>;</span><br><span class="line"><span class="keyword">const</span> pathRewriteRules = [</span><br><span class="line">  &#123;<span class="attr">match</span>: <span class="regexp">/^src\/index.node.ts$/</span>, <span class="attr">replace</span>: <span class="string">&quot;mod.ts&quot;</span>&#125;,</span><br><span class="line">  &#123;<span class="attr">match</span>: <span class="regexp">/^src\//</span>, <span class="attr">replace</span>: <span class="string">&quot;_src/&quot;</span>&#125;,</span><br><span class="line">];</span><br><span class="line"><span class="keyword">const</span> injectImports = &#123;</span><br><span class="line">  <span class="attr">imports</span>: [<span class="string">&quot;Buffer&quot;</span>, <span class="string">&quot;process&quot;</span>],</span><br><span class="line">  <span class="attr">from</span>: <span class="string">&quot;src/globals.deno.ts&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="attr">rewrittenFile</span>: <span class="built_in">string</span>[] = [];</span><br><span class="line"><span class="keyword">let</span> cursor = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">let</span> isFirstNode = <span class="literal">true</span>;</span><br><span class="line">parsedSource.<span class="title function_">forEachChild</span>(<span class="function">(<span class="params">node: <span class="built_in">any</span></span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">if</span> (isFirstNode) &#123;  <span class="comment">// 每个文件只执行一次</span></span><br><span class="line">    isFirstNode = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> neededImports = injectImports.<span class="property">imports</span>.<span class="title function_">filter</span>(<span class="function">(<span class="params">importName</span>) =&gt;</span></span><br><span class="line">      parsedSource.<span class="property">identifiers</span>?.<span class="title function_">has</span>(importName)</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (neededImports.<span class="property">length</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> imports = neededImports.<span class="title function_">join</span>(<span class="string">&quot;, &quot;</span>);</span><br><span class="line">      <span class="keyword">const</span> importPath = <span class="title function_">resolveImportPath</span>(</span><br><span class="line">        <span class="title function_">relative</span>(<span class="title function_">dirname</span>(sourcePath), injectImports.<span class="property">from</span>),</span><br><span class="line">        sourcePath</span><br><span class="line">      );</span><br><span class="line">      <span class="keyword">const</span> importDecl = <span class="string">`import &#123;<span class="subst">$&#123;imports&#125;</span>&#125; from &quot;<span class="subst">$&#123;importPath&#125;</span>&quot;;\n\n`</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">const</span> injectPos = node.<span class="property">getLeadingTriviaWidth</span>?.(parsedSource) ?? node.<span class="property">pos</span>;</span><br><span class="line">      rewrittenFile.<span class="title function_">push</span>(file.<span class="title function_">slice</span>(cursor, injectPos));</span><br><span class="line">      rewrittenFile.<span class="title function_">push</span>(importDecl);</span><br><span class="line">      cursor = injectPos;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="写入文件"><a href="#写入文件" class="headerlink" title="写入文件"></a>写入文件</h4><p>删除老文件的内容并依次写入每个文件</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  <span class="keyword">await</span> <span class="title class_">Deno</span>.<span class="title function_">remove</span>(destDir, &#123;<span class="attr">recursive</span>: <span class="literal">true</span>&#125;);</span><br><span class="line">&#125; <span class="keyword">catch</span> &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> sourceFilePathMap = <span class="keyword">new</span> <span class="title class_">Map</span>&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">const</span> [sourcePath, destPath] <span class="keyword">of</span> sourceFilePathMap) &#123;</span><br><span class="line">  <span class="comment">// 重写文件</span></span><br><span class="line">  <span class="keyword">await</span> <span class="title class_">Deno</span>.<span class="title function_">writeTextFile</span>(destPath, rewrittenFile.<span class="title function_">join</span>(<span class="string">&quot;&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h4><p>一个常见的做法是为包的Deno版本维护一个单独的自动生成的仓库。在我们的例子中，每当一个新的提交合并到master时，将在GitHub Actions中生成<code>edgedb-js</code>的Deno版本。然后生成的文件被发布到<a target="_blank" rel="noopener" href="https://github.com/edgedb/edgedb-deno"><code>edgedb-deno</code></a>仓库。下面是工作流的简化版本</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># .github/workflows/deno-release.yml</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Deno</span> <span class="string">Release</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">master</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">release:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">edgedb-js</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span> <span class="string">edgedb-deno</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="attr">repository:</span> <span class="string">edgedb/edgedb-deno</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">edgedb-deno</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/setup-node@v2</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">denoland/setup-deno@v1</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">deps</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">yarn</span> <span class="string">install</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Get</span> <span class="string">version</span> <span class="string">from</span> <span class="string">package.json</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">package-version</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">martinbeentjes/npm-get-version-action@v1.1.0</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Write</span> <span class="string">version</span> <span class="string">to</span> <span class="string">file</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">&quot;$<span class="template-variable">&#123;&#123; steps.package-version.outputs.current-version&#125;&#125;</span>&quot;</span> <span class="string">&gt;</span> <span class="string">edgedb-deno/version.txt</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Compile</span> <span class="string">for</span> <span class="string">Deno</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">deno</span> <span class="string">run</span> <span class="string">--unstable</span> <span class="string">--allow-env</span> <span class="string">--allow-read</span> <span class="string">--allow-write</span> <span class="string">tools/compileForDeno.ts</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Push</span> <span class="string">to</span> <span class="string">edgedb-deno</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">cd</span> <span class="string">edgedb-deno</span> <span class="string">&amp;&amp;</span> <span class="string">git</span> <span class="string">add</span> <span class="string">.</span> <span class="string">-f</span> <span class="string">&amp;&amp;</span> <span class="string">git</span> <span class="string">commit</span> <span class="string">-m</span> <span class="string">&quot;Build from $GITHUB_SHA&quot;</span> <span class="string">&amp;&amp;</span> <span class="string">git</span> <span class="string">push</span></span><br></pre></td></tr></table></figure>
+
+<p><code>edgedb-deno</code>内部的另一个工作流则会创建一个GitHub release并发布到<code>deno.land/x</code>。可<a class="link"   target="_blank" rel="noopener" href="https://github.com/edgedb/edgedb-deno/blob/main/.github/workflows/release.yml" >参考<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="封装"><a href="#封装" class="headerlink" title="封装"></a>封装</h2><p>这就是将现存Node.js模块转换到Deno的通常方法。具体可参考<a target="_blank" rel="noopener" href="https://github.com/edgedb/edgedb-js/blob/master/tools/compileForDeno.ts"><code>Deno编译脚本</code></a>和<a target="_blank" rel="noopener" href="https://github.com/edgedb/edgedb-js/blob/master/.github/workflows/deno-release.yml"><code>workflow</code></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：如何将Node.js库转换到Deno</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2022-05-28 15:29:54</li>
+        <li>
+            Post link：https://blog.flytam.vip/如何将Node.js库转换到Deno.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/deno/">#deno</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/AbortController%E7%9A%84%E4%BD%BF%E7%94%A8.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">AbortController的使用</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/JavaScript%E4%B8%8D%E5%86%8D%E9%9C%80%E8%A6%81%E5%86%99void%200%E4%BA%86.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">JavaScript不再需要写void 0了</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js-vs-Deno"><span class="nav-text">Node.js vs Deno</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TypeScript%E5%92%8C%E6%A8%A1%E5%9D%97%E8%AF%AD%E6%B3%95"><span class="nav-text">TypeScript和模块语法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96"><span class="nav-text">依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%8F%91Deno-ifier"><span class="nav-text">开发Deno-ifier</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%88%97%E8%A1%A8"><span class="nav-text">获取所有文件列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E5%86%99import%E5%92%8Cexport"><span class="nav-text">重写import和export</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5Node-js%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="nav-text">注入Node.js全局变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="nav-text">写入文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="nav-text">持续集成</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E8%A3%85"><span class="nav-text">封装</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

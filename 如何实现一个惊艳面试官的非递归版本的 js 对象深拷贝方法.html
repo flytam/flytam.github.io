@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            如何实现一个惊艳面试官的非递归版本的 js 对象深拷贝方法 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">如何实现一个惊艳面试官的非递归版本的 js 对象深拷贝方法</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2020-03-28 13:46:05</span>
+        <span class="mobile">2020-03-28 13:46</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<blockquote>
+<p>众所周知，js 语言本身是不提供对象的深拷贝的功能，无论是直接赋值、<code>Object.assign</code>、展开运算符<code>...</code>都只是浅拷贝，关于 js 的深浅拷贝的一些概念可以参考我比较久以前写过的一篇<a class="link"   target="_blank" rel="noopener" href="https://blog.csdn.net/flytam/article/details/78937619" >文章<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<p>关于如何实现深拷贝，网上有很多相关的文章和实现都非常完美，本文主要讲述的是用一种非常规的使用非递归方法实现深拷贝</p>
+<blockquote>
+<p>本文的深拷贝只考虑<code>数组</code>、<code>对象</code>、<code>简单值</code>三种数据类型</p>
+</blockquote>
+<p>要实现判断数据类型，先来实现这 3 个判断类型的工具方法。最通用的就是利用<code>Object.prototype.toString</code>的特性</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">getType</span> = v =&gt; &#123;</span><br><span class="line">    <span class="keyword">switch</span> (<span class="title class_">Object</span>.<span class="property"><span class="keyword">prototype</span></span>.<span class="property">toString</span>.<span class="title function_">call</span>(v)) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;[object Object]&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Object&quot;</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&quot;[object Array]&quot;</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;Array&quot;</span>;</span><br><span class="line">        <span class="attr">default</span>:</span><br><span class="line">            <span class="comment">// 只考虑数组和对象，其余都是简单值</span></span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h3><p>在讲述非递归实现之前，先看看递归版本的深拷贝实现，很简单，直接上代码</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">copy</span> = source =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">_cp</span> = source =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> dest;</span><br><span class="line">        <span class="keyword">const</span> type = <span class="title function_">getType</span>(source);</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">            dest = [];</span><br><span class="line">            source.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">                dest[index] = <span class="title function_">_cp</span>(item);</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">return</span> dest;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">&quot;Object&quot;</span>) &#123;</span><br><span class="line">            dest = &#123;&#125;;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(source)) &#123;</span><br><span class="line">                dest[k] = <span class="title function_">_cp</span>(v);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> dest;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> source;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">_cp</span>(source);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>当然，这种是处理不了循环引用的。处理循环引用也很简单，用个<code>WeakMap</code>记录遍历过的值，每次拷贝前查出<code>WeakMap</code>中存在这个值，就直接返回。所以加上处理循环引用后的代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">copy</span> = (<span class="params">source</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> map = <span class="keyword">new</span> <span class="title class_">WeakMap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">_cp</span> = (<span class="params">source</span>) =&gt; &#123;</span><br><span class="line">        <span class="keyword">let</span> dest;</span><br><span class="line">        <span class="keyword">if</span> (map.<span class="title function_">get</span>(source)) &#123;</span><br><span class="line">            <span class="keyword">return</span> map.<span class="title function_">get</span>(source);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> type = <span class="title function_">getType</span>(source);</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">            <span class="comment">// 数组</span></span><br><span class="line">            dest = [];</span><br><span class="line">            map.<span class="title function_">set</span>(source, dest);</span><br><span class="line">            source.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item, index</span>) =&gt;</span> &#123;</span><br><span class="line">                dest[index] = <span class="title function_">_cp</span>(item);</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">return</span> dest;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (type === <span class="string">&quot;Object&quot;</span>) &#123;</span><br><span class="line">            <span class="comment">// obj</span></span><br><span class="line">            dest = &#123;&#125;;</span><br><span class="line">            map.<span class="title function_">set</span>(source, dest);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(source)) &#123;</span><br><span class="line">                dest[k] = <span class="title function_">_cp</span>(v);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> dest;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> source;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">_cp</span>(source);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="非递归实现"><a href="#非递归实现" class="headerlink" title="非递归实现"></a>非递归实现</h3><p>其实几乎所有的函数递归，都可以使用非递归的方法实现。如果大家有使用 javascript 刷 leetcode 的经历，很多时候如果我们的代码使用递归去解决问题，没有进行尾调用优化（很多时候有的题目确实写不出尾调用优化的写法，也可能我太菜）的时候，是很容易出现 js 调用栈过深出错的情形，这个时候切回成非递归写法就可以，而且很简单</p>
+<p>我们简单先了解下 j s 递归的本质。j s 全局是有一个函数调用栈，当我们调用一个函数 a 时，这个函数 a 入栈，函数 a 内再次调用 a 时，一个新的函数 a 再次入栈。执行完毕依次弹出栈。多个函数的话也是类似的流程。用非递归解法的本质就是使用队列或者栈的数据结构来模拟 js 调用栈的执行过程</p>
+<p>伪代码如下，百分之 99 的递归都可以用如下的思想实现非递归</p>
+<ul>
+<li><p>声明一个<code>stack</code>变量模拟调用栈</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> stack = [];</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>初始参数入栈</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stack.<span class="title function_">push</span>(&#123; param1, param2 &#125;);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<ul>
+<li><p>栈非空，就一直取栈元素执行</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (stack.<span class="property">length</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> item = stack.<span class="title function_">pop</span>();</span><br><span class="line">    <span class="comment">//.......</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>如果需要继续下一次递归，将下一次递归调用的参数重新入栈</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(stack.<span class="property">length</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> item = stack.<span class="title function_">pop</span>()</span><br><span class="line">  <span class="comment">//继续下一次递归</span></span><br><span class="line">  <span class="comment">//  每次递归的执行流程</span></span><br><span class="line">  .....</span><br><span class="line">  <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">    stack.<span class="title function_">push</span>(&#123;&#123;<span class="attr">param1</span>:nextParam1,<span class="attr">param2</span>:nextParam2&#125;&#125;)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ....</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>当前递归终止条件，不入栈即可</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(stack.<span class="property">length</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> item = stack.<span class="title function_">pop</span>()</span><br><span class="line">  <span class="comment">//继续下一次递归</span></span><br><span class="line">  <span class="comment">//  每次递归的执行流程</span></span><br><span class="line">  .....</span><br><span class="line">  <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">//  递归终止条件。不入栈了</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>看完这里可能会有疑问，如果每次的递归调用，本次的结果需要是下一次递归的返回值怎么办呢。例如我们上面递归实现的深拷贝</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dest[index] = <span class="title function_">_cp</span>(item);</span><br></pre></td></tr></table></figure>
+
+<p>其实很好理解，递归的时候，当我们的下一级递归返回的时候，我们还能赋值说明在递归场景下，下一级返回后，我们当前级的执行变量还都在我们直接执行就可以，但是非递归情形下当前迭代执行完，是没有上一级的变量的了。这里就需要在每次迭代下一次的时候多传递一个指向当前迭代中需要获取下级结果的变量。（其实就是在递归场景中，下一级递归返回值的设置是在上一级中；非递归场景中，下一级的返回值，是在下一级中调用处理，很类似我们平时传递了一个回调函数的形式）</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(stack.<span class="property">length</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> item = stack.<span class="title function_">pop</span>()</span><br><span class="line">  <span class="comment">//继续下一次递归</span></span><br><span class="line">  <span class="comment">//  每次递归的执行流程</span></span><br><span class="line">  .....</span><br><span class="line">  <span class="comment">// 上一级传递的dest</span></span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">  dest[xx] = xxx</span><br><span class="line">  <span class="keyword">if</span> (condition) &#123;</span><br><span class="line">    <span class="comment">// 注意dest</span></span><br><span class="line">    stack.<span class="title function_">push</span>(&#123;&#123;<span class="attr">param1</span>:nextParam1,<span class="attr">param2</span>:nextParam2,<span class="attr">dest</span>: &#123;&#125;&#125;&#125;)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    ....</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>理解到这里，相信大家都知道将类似递归深拷贝转化成非递归实现的大致思路了，其实就是将一个对象，一级一级往下拆分<code>key</code>、<code>value</code>的形式进行处理。下面是详细分析</p>
+<ul>
+<li><p>首先，深拷贝是接收一个<code>value</code>然后返回一个拷贝值，所以需要一开始建立一个拷贝值的引用。在迭代的过程中，我们每一级都是对这个引用的子部分进行处理</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">copy</span> = source =&gt; &#123;</span><br><span class="line">    <span class="comment">// 简单值直接返回</span></span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_">getType</span>(source)) &#123;</span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 建立这个最终返回的深拷贝值的本体</span></span><br><span class="line">    <span class="keyword">let</span> dest = <span class="title class_">Array</span>.<span class="title function_">isArray</span>(source) ? [] : &#123;&#125;;</span><br><span class="line">    <span class="comment">//.....</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>进行上面提到的模拟调用栈的过程。在递归版本中，我们知道递归函数的入参其实就是这次访问的子节点的值，返回值是当前子节点的拷贝值。前面分析过，迭代调用我们需要传递上一级的创建的引用值进来设置。所以我们迭代调用，每次也有两个值，一个是当前访问节点的原值（和递归调用一样）、用于存储拷贝的引用值（在上一级迭代中创建的）</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用栈初始状态</span></span><br><span class="line"><span class="keyword">const</span> queue = [&#123; source, dest &#125;];</span><br><span class="line"><span class="keyword">while</span> (queue.<span class="property">length</span>) &#123;</span><br><span class="line">    <span class="comment">// source 当前访问的节点</span></span><br><span class="line">    <span class="comment">// dest 用于存储拷贝的引用值</span></span><br><span class="line">    <span class="keyword">const</span> &#123; dest, source &#125; = queue.<span class="title function_">shift</span>();</span><br><span class="line">    <span class="comment">// 判断访问节点类型</span></span><br><span class="line">    <span class="keyword">const</span> type = <span class="title function_">getType</span>(source);</span><br><span class="line">    <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>每次的迭代处理流程<br>  这里是需要分情况讨论</p>
+<ul>
+<li><p>访问节点是数组</p>
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (type === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">    <span class="comment">// ....</span></span><br><span class="line">    source.<span class="title function_">forEach</span>(<span class="function">(<span class="params">x, index</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> xType = <span class="title function_">getType</span>(x);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+<pre><code>- 数组项是对象 (1)
+
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (xType === <span class="string">&quot;Object&quot;</span>) &#123;</span><br><span class="line">   <span class="comment">// 生成一个对象引用，给下一次迭代的时候用</span></span><br><span class="line">            dest[index] = &#123;&#125;;</span><br><span class="line">   <span class="comment">// 入栈，需要下一次迭代</span></span><br><span class="line">            queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">                <span class="attr">source</span>: x,</span><br><span class="line">                <span class="attr">dest</span>: dest[index]</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+- 数组项是数组(2)
+
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (xType === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">  <span class="comment">// 生成一个数组引用，给下一次迭代的时候用</span></span><br><span class="line">    dest[index] = [];</span><br><span class="line">  <span class="comment">// 入栈，需要下一次迭代</span></span><br><span class="line">    queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">        <span class="attr">source</span>: x,</span><br><span class="line">        <span class="attr">dest</span>: dest[index]</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+- 数组项是简单值。直接设置这个值到dest上
+
+  <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!<span class="title function_">getType</span>(x)) &#123;</span><br><span class="line">      dest[index] = x;</span><br><span class="line">     <span class="keyword">return</span>;</span><br><span class="line">              &#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+<ul>
+<li><p>访问节点是对象。类似于数组处理</p>
+<ul>
+<li>  对象键是对象</li>
+<li>  对象键是数组</li>
+<li>  对象键是简单值</li>
+</ul>
+</li>
+</ul>
+<p>再加上循环引用处理也非常简单，每次迭代的最后将当前<code>source</code>添加到<code>WeakMap</code>中。在每次进行处理对象类型的<code>stack.push</code>的时候判断<code>push</code>的<code>source</code>是否在<code>WeakMap</code>中就可以了，若在<code>WeakMap</code>中说明是循环引用，直接设置值，不进行<code>push</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (stack.<span class="property">lenght</span>) &#123;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">     <span class="keyword">if</span> (xType === <span class="string">&quot;Object&quot;</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (map.<span class="title function_">get</span>(x)) &#123;</span><br><span class="line">                        dest[index] = map.<span class="title function_">get</span>(x);</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    dest[index] = &#123;&#125;;</span><br><span class="line">                    queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">                        <span class="attr">source</span>: x,</span><br><span class="line">                        <span class="attr">dest</span>: dest[index],</span><br><span class="line">                    &#125;);</span><br><span class="line">                    map.<span class="title function_">set</span>(x, dest[index]);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终我们的非递归版本的深拷贝就完成了。虽然花了一些力气，实现这个拷贝，代码也比递归版本复杂很多，性能可能也更差，但是如果能重头看到尾，并且自己实现一遍，相信会大大加深自己对深拷贝的理解和函数递归思想的的理解。下一次面试官让你写深拷贝的时候，你写一个非递归版本的，一定会大大惊艳面试官！</p>
+<p>完整代码如下</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">copy2</span> = (<span class="params">source</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_">getType</span>(source)) &#123;</span><br><span class="line">        <span class="comment">// 简单值</span></span><br><span class="line">        <span class="keyword">return</span> source;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> dest = <span class="title class_">Array</span>.<span class="title function_">isArray</span>(source) ? [] : &#123;&#125;;</span><br><span class="line">    <span class="keyword">const</span> queue = [&#123; source, dest &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> map = <span class="keyword">new</span> <span class="title class_">WeakMap</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (queue.<span class="property">length</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123; dest, source &#125; = queue.<span class="title function_">shift</span>();</span><br><span class="line">        <span class="keyword">const</span> type = <span class="title function_">getType</span>(source);</span><br><span class="line">        <span class="keyword">if</span> (type === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">            <span class="comment">// 数组</span></span><br><span class="line">            source.<span class="title function_">forEach</span>(<span class="function">(<span class="params">x, index</span>) =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">const</span> xType = <span class="title function_">getType</span>(x);</span><br><span class="line">                <span class="keyword">if</span> (!<span class="title function_">getType</span>(x)) &#123;</span><br><span class="line">                    dest[index] = x;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (xType === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">                    dest[index] = [];</span><br><span class="line">                    queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">                        <span class="attr">source</span>: x,</span><br><span class="line">                        <span class="attr">dest</span>: dest[index],</span><br><span class="line">                    &#125;);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (xType === <span class="string">&quot;Object&quot;</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (map.<span class="title function_">get</span>(x)) &#123;</span><br><span class="line">                        dest[index] = map.<span class="title function_">get</span>(x);</span><br><span class="line">                        <span class="keyword">return</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    dest[index] = &#123;&#125;;</span><br><span class="line">                    queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">                        <span class="attr">source</span>: x,</span><br><span class="line">                        <span class="attr">dest</span>: dest[index],</span><br><span class="line">                    &#125;);</span><br><span class="line">                    map.<span class="title function_">set</span>(x, dest[index]);</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// 对象</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> [k, v] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(source)) &#123;</span><br><span class="line">                <span class="keyword">const</span> vType = <span class="title function_">getType</span>(v);</span><br><span class="line">                <span class="keyword">if</span> (!vType) &#123;</span><br><span class="line">                    dest[k] = v;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (vType === <span class="string">&quot;Array&quot;</span>) &#123;</span><br><span class="line">                    dest[k] = [];</span><br><span class="line">                    queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">                        <span class="attr">source</span>: v,</span><br><span class="line">                        <span class="attr">dest</span>: dest[k],</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">if</span> (vType === <span class="string">&quot;Object&quot;</span>) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (map.<span class="title function_">get</span>(v)) &#123;</span><br><span class="line">                        dest[k] = map.<span class="title function_">get</span>(v);</span><br><span class="line">                        <span class="keyword">continue</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    dest[k] = &#123;&#125;;</span><br><span class="line">                    queue.<span class="title function_">push</span>(&#123;</span><br><span class="line">                        <span class="attr">source</span>: v,</span><br><span class="line">                        <span class="attr">dest</span>: dest[k],</span><br><span class="line">                    &#125;);</span><br><span class="line">                &#125;</span><br><span class="line">                map.<span class="title function_">set</span>(v, dest[k]);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dest;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>码字不易，如果觉得不错，求给个 <a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/blog/issues/18" >star<i class="fas fa-external-link-alt"></i></a> 或者赞吧！</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：如何实现一个惊艳面试官的非递归版本的 js 对象深拷贝方法</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2020-03-28 13:46:05</li>
+        <li>
+            Post link：https://blog.flytam.vip/如何实现一个惊艳面试官的非递归版本的 js 对象深拷贝方法.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%8E%9F%E7%94%9F/">#原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/deno%20%E5%88%9D%E4%BD%93%E9%AA%8C%EF%BC%8C%E5%AE%9E%E6%88%98%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%AAnode%E9%A1%B9%E7%9B%AE%E8%BF%81%E7%A7%BB%E5%88%B0deno%E9%9C%80%E8%A6%81%E5%81%9A%E4%BB%80%E4%B9%88.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">deno 初体验，实战记录一个node项目迁移到deno需要做什么</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/Go%E9%A1%B9%E7%9B%AE%E6%8E%A5%E5%85%A5travis%20CI%E6%80%BB%E7%BB%93.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Go项目接入travis CI总结</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0"><span class="nav-text">递归实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E9%80%92%E5%BD%92%E5%AE%9E%E7%8E%B0"><span class="nav-text">非递归实现</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

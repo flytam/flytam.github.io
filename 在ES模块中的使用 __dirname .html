@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            在ES模块中的使用 __dirname |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">在ES模块中的使用 __dirname</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-04-07 17:49:01</span>
+        <span class="mobile">2024-04-07 17:49</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>ECMAScript 模块是 JavaScript 的新标准格式。在 Node.js 中越来越多的库逐渐从从 CommonJS 转移到 ES 模块</p>
+<blockquote>
+<p>注：这里是指“真”ES 模块并不是指代码中 Node.js 中使用 import 写法但是实际被 tsc 转成 commonJS 的形式</p>
+</blockquote>
+<p>但是 Node.js ES 开发中此前有一个棘手的问题是获取当前文件目录、路径。不过这个问题在最近也已经解决</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>在 ES 模块中，现在可以使用以下方式而不是使用<code>__dirname</code>或<code>__filename</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">dirname</span>  <span class="comment">// 当前模块的目录名 (__dirname)</span></span><br><span class="line"><span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">filename</span> <span class="comment">//当前模块文件名 (__filename)</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="获取当前目录"><a href="#获取当前目录" class="headerlink" title="获取当前目录"></a>获取当前目录</h2><p>通过访问当前模块的目录路径，可以相对于代码所在位置遍历文件系统并在项目中读取或写入文件，或动态导入代码。相关的使用方式随着时间的推移而发生了一些变化，从 CommonJS 的实现到最新的 ES 模块更新</p>
+<h3 id="旧的-CommonJS-方式"><a href="#旧的-CommonJS-方式" class="headerlink" title="旧的 CommonJS 方式"></a>旧的 CommonJS 方式</h3><p>Node.js 最初使用 CommonJS 模块系统。CommonJS 提供了两个变量，返回当前模块的目录名称和文件名称，分别是<code>__dirname</code>和<code>__filename</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__dirname  <span class="comment">// 当前模块所在的目录</span></span><br><span class="line">__filename <span class="comment">// 当前模块文件名</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="旧的-ES-模块方式"><a href="#旧的-ES-模块方式" class="headerlink" title="旧的 ES 模块方式"></a>旧的 ES 模块方式</h3><p><code>__dirname</code>和<code>__filename</code>在 ES 模块中不可用。需要使用以下代码来实现获取</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> url <span class="keyword">from</span> <span class="string">&#x27;url&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> __dirname = url.<span class="title function_">fileURLToPath</span>(<span class="keyword">new</span> <span class="title function_">URL</span>(<span class="string">&#x27;.&#x27;</span>, <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>));</span><br><span class="line"><span class="keyword">const</span> __filename = url.<span class="title function_">fileURLToPath</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://files.mdnice.com/user/8265/b0f06c61-a3a7-4fb1-a7cd-93ae39425c85.png"></p>
+<h3 id="最新的-ES-模块方式"><a href="#最新的-ES-模块方式" class="headerlink" title="最新的 ES 模块方式"></a>最新的 ES 模块方式</h3><p>最终在经过许多讨论后，现在有了更好的方法。自从<a class="link"   target="_blank" rel="noopener" href="https://nodejs.org/en/blog/release/v20.11.0" >Node.js20.11.0<i class="fas fa-external-link-alt"></i></a>和<a class="link"   target="_blank" rel="noopener" href="https://deno.com/blog/v1.40#importmetafilename-and-importmetadirname" >Deno 1.40.0<i class="fas fa-external-link-alt"></i></a>和<a class="link"   target="_blank" rel="noopener" href="https://bun.sh/blog/bun-v1.0.23#import-meta-dirname-and-import-meta-filename-support" >Bun 1.0.23<i class="fas fa-external-link-alt"></i></a>之后可以调用<code>import.meta</code>对象的<code>dirname</code>和<code>filename</code>属性来获取了</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">dirname</span> <span class="comment">// 当前模块所在的目录</span></span><br><span class="line"><span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">filename</span><span class="comment">// 当前模块文件名</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="为什么需要一个新的-API"><a href="#为什么需要一个新的-API" class="headerlink" title="为什么需要一个新的 API"></a>为什么需要一个新的 API</h3><p>ES 模块是 JavaScript 的标准。然而 JavaScript 最初是作为在 Web 浏览器中运行的语言而诞生的。Node.js 流行起来后开始在服务器上运行 JavaScript，但必须使用一些约定来加载模块，Node.js 项目早期做出的一个选择是采用 CommonJS 模块系统及其相关内容</p>
+<p>ES 模块是为浏览器和服务器环境设计的。浏览器通常没有文件系统访问权限，因此提供对当前目录或文件名的访问是没有意义。然而对于浏览器处理 URL，可以使用<code>file://scheme</code>以 URL 格式提供文件路径。因此，ES 模块具有对模块的 URL 的引用。即<code>import.meta.ur</code>l。可以看看在 Node.js 中可以使用 URL 的相关使用</p>
+<p>假设一个名<code>为module.js</code>的 ES 模块包含以下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 Node.js 的服务器上运行此文件，则会得到以下结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ node module.js</span><br><span class="line">file:///path/to/module.js</span><br></pre></td></tr></table></figure>
+
+<p>如果 Web 浏览器中加载 module.js，则会得到以下结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://example.com/module.js</span><br></pre></td></tr></table></figure>
+
+<p>基于不同上下文会有不同的结果</p>
+<p><code>import.meta.url</code>是一个描述 URL 的字符串，而不是一个 URL 对象。可以通过将该字符串传递给<code>URL</code>构造函数将其转换为真正的 URL 对象：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fileUrl = <span class="keyword">new</span> <span class="title function_">URL</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(url.<span class="property">protocol</span>);</span><br><span class="line"><span class="comment">// Node.js: &quot;file:&quot;</span></span><br><span class="line"><span class="comment">// Browser: &quot;https:&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>使用 URL 对象，可以使用 Node.js 的 URL 模块将模块的 URL 转换为文件路径，等价于 <code>__filename</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> url <span class="keyword">from</span> <span class="string">&quot;url&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> fileUrl = <span class="keyword">new</span> <span class="title function_">URL</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br><span class="line"><span class="keyword">const</span> filePath = url.<span class="title function_">fileURLToPath</span>(fileUrl);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(filePath);</span><br><span class="line"></span><br><span class="line"><span class="comment">// /path/to/module.js</span></span><br></pre></td></tr></table></figure>
+
+<p>也可以操作 URL 来获取目录名，等价于<code>__dirname</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> url <span class="keyword">from</span> <span class="string">&quot;url&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> directoryUrl = <span class="keyword">new</span> <span class="title function_">URL</span>(<span class="string">&quot;.&quot;</span>, <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br><span class="line"><span class="keyword">const</span> directoryPath = url.<span class="title function_">fileURLToPath</span>(directoryUrl);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(directoryPath);</span><br><span class="line"></span><br><span class="line"><span class="comment">// /path/to</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-URL-而不是字符串"><a href="#使用-URL-而不是字符串" class="headerlink" title="使用 URL 而不是字符串"></a>使用 URL 而不是字符串</h3><p>大多数的代码可能都是需要使用路径字符串来在 Node.js 中执行常见的文件操作。但其实许多在字符串路径上工作的 Node.js API 也可以使用<code>URL</code>对象</p>
+<p><code>__dirname</code> 最常见的用途是遍历目录以查找要加载的数据文件。例如，如果 <code>module.js</code> 文件与名为 <code>data.json</code> 的文件位于同一目录中，并且想将数据加载到脚本中，则以前会像这样使用 <code>__dirname</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123; join &#125; = <span class="built_in">require</span>(<span class="string">&quot;node:path&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123; readFile &#125; = <span class="built_in">require</span>(<span class="string">&quot;node:fs/promises&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">readData</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> filePath = <span class="title function_">join</span>(__dirname, <span class="string">&quot;data.json&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">readFile</span>(filePath, &#123; <span class="attr">encoding</span>: <span class="string">&quot;utf8&quot;</span> &#125;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 ES 模块中可以直接使用<code>import.meta.dirname</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; join &#125; <span class="keyword">from</span> <span class="string">&quot;node:path&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; readFile &#125; <span class="keyword">from</span> <span class="string">&quot;node:fs/promises&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">readData</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> filePath = <span class="title function_">join</span>(<span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">dirname</span>, <span class="string">&quot;data.json&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">readFile</span>(filePath, &#123; <span class="attr">encoding</span>: <span class="string">&quot;utf8&quot;</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是也可以像如下使用 URL 对象：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; readFile &#125; <span class="keyword">from</span> <span class="string">&quot;node:fs/promises&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">readData</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> fileUrl = <span class="keyword">new</span> <span class="title function_">URL</span>(<span class="string">&quot;data.json&quot;</span>, <span class="keyword">import</span>.<span class="property">meta</span>.<span class="property">url</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">readFile</span>(fileUrl, &#123; <span class="attr">encoding</span>: <span class="string">&quot;utf8&quot;</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于 ES 模块为客户端和服务器编写的 JavaScript 带来了一致性，因此使用 URL 对象而不是路径字符串也可以实现相同的效果。更多关于替代<code>__dirname</code>可以<a class="link"   target="_blank" rel="noopener" href="https://blog.logrocket.com/alternatives-dirname-node-js-es-modules/#what-is-your-goal" >参考<i class="fas fa-external-link-alt"></i></a></p>
+<h2 id="如何找到-import-meta-dirname"><a href="#如何找到-import-meta-dirname" class="headerlink" title="如何找到 import.meta.dirname"></a>如何找到 <code>import.meta.dirname</code></h2><p><code>import.meta.dirname</code>和<code>import.meta.filename</code>可以在最新版本的 Node.js、Deno 和 Bun 中使用</p>
+<p>Bun 已经提前实现了<code>import.meta.dir</code>和<code>import.meta.pat</code>，它们是等效的，所以<code>dirname</code>和<code>filename</code>在 bun 其实是<code>dir</code>和<code>path</code>的别名</p>
+<p>由于这个属性仅涉及基础文件系统，因此仅在<code>import.meta.url</code>的 scheme 为<code>file:</code>时可用。也就是说在浏览器环境中不可用；在浏览器中尝试使用<code>import.meta.dirname</code>将仅返回 <code>undefined</code></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.sonarsource.com/blog/dirname-node-js-es-modules/" >__dirname is back in Node.js with ES modules<i class="fas fa-external-link-alt"></i></a></p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：在ES模块中的使用 __dirname</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-04-07 17:49:01</li>
+        <li>
+            Post link：https://blog.flytam.vip/在ES模块中的使用 __dirname .html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node/">#node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E5%89%8D%E7%AB%AF%20js%20%E5%BC%82%E5%B8%B8%E9%82%A3%E4%BA%9B%E4%BA%8B.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">前端 js 异常那些事</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E5%B7%A7%E7%94%A8%20exports%20%E5%92%8C%20typeVersions%20%E6%8F%90%E5%8D%87%20npm%20%E5%8C%85%E7%94%A8%E6%88%B7%E4%BD%BF%E7%94%A8%E4%BD%93%E9%AA%8C.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">巧用 exports 和 typeVersions 提升 npm 包用户使用体验</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E8%AE%BA"><span class="nav-text">结论</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E7%9B%AE%E5%BD%95"><span class="nav-text">获取当前目录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A7%E7%9A%84-CommonJS-%E6%96%B9%E5%BC%8F"><span class="nav-text">旧的 CommonJS 方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A7%E7%9A%84-ES-%E6%A8%A1%E5%9D%97%E6%96%B9%E5%BC%8F"><span class="nav-text">旧的 ES 模块方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E6%96%B0%E7%9A%84-ES-%E6%A8%A1%E5%9D%97%E6%96%B9%E5%BC%8F"><span class="nav-text">最新的 ES 模块方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84-API"><span class="nav-text">为什么需要一个新的 API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-URL-%E8%80%8C%E4%B8%8D%E6%98%AF%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-text">使用 URL 而不是字符串</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%89%BE%E5%88%B0-import-meta-dirname"><span class="nav-text">如何找到 import.meta.dirname</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

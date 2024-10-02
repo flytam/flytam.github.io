@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（上） |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（上）</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-08-28 21:17:47</span>
+        <span class="mobile">2024-08-28 21:17</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/LLM/">LLM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/LLM/">LLM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>Langchain 是一个大语言模型（LLM）应用开发的框架，提供了 LLM 开发中各个阶段很多非常强大的辅助工具支持。对于进行 LLM 开发是必不可少的工具库。</p>
+<p>本文将通过一个实际的开发例子来入门 LLM 开发基础工具链，并实现 langchain.js ChatModel 接入火山引擎大模型和基于 langchain 工具链实现一个简单的 CLI 聊天机器人</p>
+<p><img src="https://files.mdnice.com/user/8265/00fc94fb-de4c-4f74-9607-57ecb52f434f.png"></p>
+<h2 id="ChatModel-amp-LLM"><a href="#ChatModel-amp-LLM" class="headerlink" title="ChatModel &amp; LLM"></a>ChatModel &amp; LLM</h2><p>目前国内外有各种各样的大模型，而 langchain 作为一个通用 LLM 应用框架，它本身是和具体大模型无关的，是可以和任意模型进行交互的。要实现和模型的交互就要实例化使用相应的模型。</p>
+<p>一个以 OpenAI 为例子则是安装相应的<code>@langchain/openai</code>和配置相应的 API key 进行使用即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ChatOpenAI</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@langchain/openai&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HumanMessage</span>, <span class="title class_">SystemMessage</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@langchain/core/messages&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> messages = [</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">SystemMessage</span>(<span class="string">&#x27;Translate the following from English into Italian&#x27;</span>),</span><br><span class="line">  <span class="keyword">new</span> <span class="title class_">HumanMessage</span>(<span class="string">&#x27;hi!&#x27;</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> model = <span class="keyword">new</span> <span class="title class_">ChatOpenAI</span>(&#123; <span class="attr">model</span>: <span class="string">&#x27;gpt-4&#x27;</span> &#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">await</span> model.<span class="title function_">invoke</span>(messages)</span><br></pre></td></tr></table></figure>
+
+<p>由于 langchain 目前没有提供火山引擎模型的集成，这里我们需要实现一个对于火山引擎大模型的集成</p>
+<p>在 langchain 中有两个组件都可以实现模型的对接分别是 <a target="_blank" rel="noopener" href="https://js.langchain.com/v0.2/docs/concepts#chat-models"><code>ChatModel</code></a> 和 <a target="_blank" rel="noopener" href="https://js.langchain.com/v0.2/docs/concepts#llms"><code>LLM</code></a>。</p>
+<p>其中 <code>LLM</code> 实现由于只能接收字符串作为输入输出，对于新模型目前已经不再推荐使用。而是使用 <code>ChatModel</code>的实现来替代，<code>ChatModel</code> 是可以使用一系列消息作为输入并返回聊天消息作为输出的语言模型。支持将不同的角色分配给对话消息，有助于区分来自 AI、用户和系统消息等。</p>
+<p><strong>因此我们这里使用<code>ChatModel</code>来实现火山引擎的接入</strong></p>
+<h2 id="火山引擎大模型开通"><a href="#火山引擎大模型开通" class="headerlink" title="火山引擎大模型开通"></a>火山引擎大模型开通</h2><p>目前火山引擎对于每个大模型都提供了 50 万的白嫖 token 和部分模型的免费试用</p>
+<p><img src="https://files.mdnice.com/user/8265/239f4ff9-e6ae-40f5-91cb-3d97eb471958.png"></p>
+<h3 id="创建接入点"><a href="#创建接入点" class="headerlink" title="创建接入点"></a>创建接入点</h3><p>完成相关基础的注册认证后，前往<a class="link"   target="_blank" rel="noopener" href="https://console.volcengine.com/ark/region:ark+cn-beijing/endpoint" >火山方舟在线推理<i class="fas fa-external-link-alt"></i></a>新建接入点</p>
+<p><img src="https://files.mdnice.com/user/8265/f1c7d473-3c96-4abf-811c-e3e13b2709ba.png"></p>
+<p>记住我们的接入点<code>ep-xxx</code>作为下面初始化的 <code>model</code>参数</p>
+<h3 id="创建-API-key"><a href="#创建-API-key" class="headerlink" title="创建 API key"></a>创建 API key</h3><p>前往 <a class="link"   target="_blank" rel="noopener" href="https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey" >API key 管理<i class="fas fa-external-link-alt"></i></a> 创建 API key</p>
+<p><img src="https://files.mdnice.com/user/8265/b27cb32d-afb9-4c4c-a2ec-481942e5a537.png"></p>
+<h2 id="实现自定义-ChatModel"><a href="#实现自定义-ChatModel" class="headerlink" title="实现自定义 ChatModel"></a>实现自定义 ChatModel</h2><p>要实现 langchan 中的大模型对接需要实现<code>SimpleChatModel</code>基类，主要实现以下 3 个方法</p>
+<ul>
+<li><code>abstract _call(messages: BaseMessage[], options: this[&quot;ParsedCallOptions&quot;], runManager?: CallbackManagerForLLMRun): Promise&lt;string&gt;;</code></li>
+</ul>
+<p>大模型调用，传入对话消息返回大模型返回的字符串</p>
+<ul>
+<li><code>abstract _llmType(): string;</code></li>
+</ul>
+<p>返回模型名称，便于在日志中打印调试</p>
+<ul>
+<li><code>_streamResponseChunks(_messages: BaseMessage[], _options: this[&quot;ParsedCallOptions&quot;], _runManager?: CallbackManagerForLLMRun): AsyncGenerator&lt;ChatGenerationChunk&gt;;</code></li>
+</ul>
+<p>大模型交互时流式输出支持，调用 <code>model.stream</code>等方法时会调用该实现</p>
+<p>因此对接大模型的实现思路也是比较清晰，主要就是实现<code>_call</code>和<code>_streamResponseChunks</code>根据接收的参数来根据火山引擎的 Open API <a class="link"   target="_blank" rel="noopener" href="https://www.volcengine.com/docs/82379/1298454" >文档<i class="fas fa-external-link-alt"></i></a>进行调用</p>
+<h3 id="主要实现"><a href="#主要实现" class="headerlink" title="主要实现"></a>主要实现</h3><ul>
+<li>参数和类型定义</li>
+</ul>
+<p>我们对外导出<code>ChatVolcengine</code>类作为模型对接使用。按照火山引擎的文档将相关的模型参数作为构造类的入参</p>
+<p><img src="https://files.mdnice.com/user/8265/bacdcdc0-0827-438a-a49e-6ca58acff359.png"></p>
+<p><img src="https://files.mdnice.com/user/8265/26213b86-f230-48e4-b375-1a074f491583.png"></p>
+<p>为了提供良好的用户使用体验，并将火山引擎的<a class="link"   target="_blank" rel="noopener" href="https://www.volcengine.com/docs/82379/1298454#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-2" >数据结构<i class="fas fa-external-link-alt"></i></a>用相应的 ts 声明表示，<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/langchain-bytedance-volcengine/blob/main/src/types.ts" >详见<i class="fas fa-external-link-alt"></i></a></p>
+<ul>
+<li>Open API 请求封装</li>
+</ul>
+<p>一般大模型的接口返回都支持流式和非流式，这里我们实现<code>request</code>方法将和大模型 OpenApi 的非流式和流式调用作为统一的封装。将 langchain 的数据结构转化为火山引擎接收的数据结构并调用 Open API</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">_request</span>(<span class="attr">messages</span>: <span class="title class_">BaseMessage</span>[], <span class="attr">options</span>: <span class="variable language_">this</span>[<span class="string">&#x27;ParsedCallOptions&#x27;</span>], stream?: <span class="built_in">boolean</span>): <span class="title class_">Promise</span>&lt;<span class="title class_">Response</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> parameters = <span class="variable language_">this</span>.<span class="title function_">invocationParams</span>()</span><br><span class="line">  <span class="keyword">const</span> <span class="attr">messagesMapped</span>: <span class="title class_">MessageParam</span>[] = messages.<span class="title function_">map</span>(<span class="function"><span class="params">message</span> =&gt;</span> (&#123;</span><br><span class="line">    <span class="attr">role</span>: <span class="title function_">messageToRole</span>(message),</span><br><span class="line">    <span class="attr">content</span>: message.<span class="property">content</span> <span class="keyword">as</span> <span class="built_in">string</span>,</span><br><span class="line">  &#125;))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> <span class="attr">request</span>: <span class="title class_">ChatCompletionRequest</span> = &#123;</span><br><span class="line">    ...parameters,</span><br><span class="line">    ...options,</span><br><span class="line">    <span class="attr">messages</span>: messagesMapped,</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (stream) &#123;</span><br><span class="line">    request.<span class="property">stream</span> = stream</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">caller</span>.<span class="title function_">call</span>(<span class="keyword">async</span> () =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="title function_">fetch</span>(<span class="string">`<span class="subst">$&#123;<span class="variable language_">this</span>.volcengineApiHost&#125;</span>/api/v3/chat/completions`</span>, &#123;</span><br><span class="line">      <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">      <span class="attr">headers</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">`Bearer <span class="subst">$&#123;<span class="variable language_">this</span>.volcengineApiKey&#125;</span>`</span>,</span><br><span class="line">        <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(request),</span><br><span class="line">      <span class="attr">signal</span>: options.<span class="property">signal</span>,</span><br><span class="line">    &#125;)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!response.<span class="property">ok</span>) &#123;</span><br><span class="line">      <span class="keyword">const</span> <span class="attr">error</span>: <span class="title class_">SimpleChatCompletionResponse</span> | <span class="title class_">StreamChatCompletionResponse</span> = <span class="keyword">await</span> response.<span class="title function_">json</span>()</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(error.<span class="property">error</span>?.<span class="property">message</span> ?? <span class="string">&#x27;Unknown error&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>_call</code> 方法实现</li>
+</ul>
+<p><code>_call</code> 方法是在模型调用<code>invoke</code>等方法时被调用，返回的是模型返回的字符串回答。我们在该方法下也支持流式调用，如果是流式调用则把流式调用的结果拼接成完整的字符串后再返回</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="title function_">_call</span>(<span class="attr">messages</span>: <span class="title class_">BaseMessage</span>[], <span class="attr">options</span>: <span class="variable language_">this</span>[<span class="string">&#x27;ParsedCallOptions&#x27;</span>], runManager?: <span class="title class_">CallbackManagerForLLMRun</span>): <span class="title class_">Promise</span>&lt;<span class="built_in">string</span>&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (<span class="variable language_">this</span>.<span class="property">enableStream</span>) &#123;</span><br><span class="line">    <span class="comment">// 在该方法下也支持流式调用，如果是流式调用则把流式调用的结果拼接成完整的字符串后再返回</span></span><br><span class="line">    <span class="keyword">let</span> content = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="comment">// _streamResponseChunks 是下面提到的流式调用</span></span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> chunk <span class="keyword">of</span> <span class="variable language_">this</span>.<span class="title function_">_streamResponseChunks</span>(</span><br><span class="line">      messages,</span><br><span class="line">      options,</span><br><span class="line">      runManager,</span><br><span class="line">    )) &#123;</span><br><span class="line">      content += chunk.<span class="property">text</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> content</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> res = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="title function_">_request</span>(messages, options)</span><br><span class="line">    <span class="keyword">const</span> <span class="attr">data</span>: <span class="title class_">SimpleChatCompletionResponse</span> = <span class="keyword">await</span> res.<span class="title function_">json</span>()</span><br><span class="line">    <span class="keyword">return</span> data.<span class="property">choices</span>?.[<span class="number">0</span>]?.<span class="property">message</span>?.<span class="property">content</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>_streamResponseChunks</code> 方法实现</li>
+</ul>
+<p>该方法用于大模型交互时流式输出支持，例如调用 <code>model.stream</code>等。</p>
+<p>langchain 提供了工具函数<code>convertEventStreamToIterableReadableDataStream</code>。这里我们只需要将调用<code>_request</code>方法返回的响应传递给工具方法即可得到一个<code>IterableReadableDataStream</code>，对该流进行解析即可实现流式返回解析。</p>
+<p>每次接收到的数据进行 JSON 序列化后调用<code>ChatGenerationChunk</code>和<code>AIMessageChunk</code>构造出生成器函数的返回对象就完成了整个流式数据的读取。需要注意的是火山引擎流式接口使用 SSE 协议并以<code>[DONE]</code>作为结束标记，在<code>chunk</code> 为 <code>[DONE]</code> 时需要退出流的解析</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; convertEventStreamToIterableReadableDataStream &#125; <span class="keyword">from</span> <span class="string">&#x27;@langchain/core/utils/event_source_parse&#x27;</span></span><br><span class="line">  <span class="keyword">async</span> *<span class="title function_">_streamResponseChunks</span>(</span><br><span class="line">    <span class="attr">_messages</span>: <span class="title class_">BaseMessage</span>[],</span><br><span class="line">    <span class="attr">_options</span>: <span class="variable language_">this</span>[<span class="string">&#x27;ParsedCallOptions&#x27;</span>],</span><br><span class="line">    _runManager?: <span class="title class_">CallbackManagerForLLMRun</span>,</span><br><span class="line">  ): <span class="title class_">AsyncGenerator</span>&lt;<span class="title class_">ChatGenerationChunk</span>&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> response = <span class="keyword">await</span> <span class="variable language_">this</span>.<span class="title function_">_request</span>(_messages, _options, <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!response.<span class="property">body</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;No body in response&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 只需要将调用`_request`方法返回的响应传递给工具方法即可得到一个`IterableReadableDataStream`</span></span><br><span class="line">    <span class="keyword">const</span> stream = <span class="title function_">convertEventStreamToIterableReadableDataStream</span>(response.<span class="property">body</span>)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 对该流进行解析即可实现流式返回解析</span></span><br><span class="line">    <span class="keyword">for</span> <span class="keyword">await</span> (<span class="keyword">const</span> chunk <span class="keyword">of</span> stream) &#123;</span><br><span class="line">      <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 需要注意的是火山引擎流式接口使用 SSE 协议并以`[DONE]`作为结束标记，在`chunk` 为 `[DONE]` 时需要退出流的解析</span></span><br><span class="line">        <span class="keyword">if</span> (chunk === <span class="string">&#x27;[DONE]&#x27;</span>) &#123;</span><br><span class="line">          <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> <span class="attr">data</span>: <span class="title class_">StreamChatCompletionResponse</span> = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(chunk)</span><br><span class="line">        <span class="keyword">const</span> text = data.<span class="property">choices</span>?.[<span class="number">0</span>]?.<span class="property">delta</span>.<span class="property">content</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// 每次接收到的数据进行 JSON 序列化后调用`ChatGenerationChunk`和`AIMessageChunk`构造出生成器函数的返回对象就完成了整个流式数据的读取</span></span><br><span class="line">        <span class="keyword">yield</span> <span class="keyword">new</span> <span class="title class_">ChatGenerationChunk</span>(&#123;</span><br><span class="line">          text,</span><br><span class="line">          <span class="attr">message</span>: <span class="keyword">new</span> <span class="title class_">AIMessageChunk</span>(&#123;</span><br><span class="line">            <span class="attr">content</span>: text,</span><br><span class="line">            <span class="attr">additional_kwargs</span>: &#123;</span><br><span class="line">              <span class="attr">logprobs</span>: data.<span class="property">choices</span>?.[<span class="number">0</span>].<span class="property">logprobs</span>,</span><br><span class="line">              <span class="attr">finish_reason</span>: data.<span class="property">choices</span>?.[<span class="number">0</span>].<span class="property">finish_reason</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">usage_metadata</span>: &#123;</span><br><span class="line">              <span class="attr">input_tokens</span>: data.<span class="property">usage</span>?.<span class="property">prompt_tokens</span> ?? <span class="number">0</span>,</span><br><span class="line">              <span class="attr">output_tokens</span>: data.<span class="property">usage</span>?.<span class="property">completion_tokens</span> ?? <span class="number">0</span>,</span><br><span class="line">              <span class="attr">total_tokens</span>: data.<span class="property">usage</span>?.<span class="property">total_tokens</span> ?? <span class="number">0</span>,</span><br><span class="line">            &#125;,</span><br><span class="line">          &#125;),</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="keyword">await</span> _runManager?.<span class="title function_">handleLLMNewToken</span>(text)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(<span class="string">`Received a non-JSON parseable chunk: <span class="subst">$&#123;chunk&#125;</span>`</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>PS:</strong> 对于更加进一步实现模型调用 tracing 等能力，可以实现基类<code>BaseChatModel</code>。</p>
+<p>由于这里我们只作为聊天工具使用为了简单起见直接实现的<code>SimpleChatModel</code>，<code>SimpleChatModel</code>本身也是继承自<code>BaseChatModel</code>，只是自带实现了简单版本的<code>abstract _generate(messages: BaseMessage[], options: this[&quot;ParsedCallOptions&quot;], runManager?: CallbackManagerForLLMRun): Promise&lt;ChatResult&gt;;</code> 方法</p>
+<p>至此，我们即实现了 langchain 对火山引擎大模型的对接，代码验证</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">HumanMessage</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@langchain/core/messages&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">ChatVolcengine</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;../dist/index.mjs&#x27;</span></span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;dotenv/config&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> chatModel = <span class="keyword">new</span> <span class="title class_">ChatVolcengine</span>(&#123;</span><br><span class="line">  <span class="attr">volcengineApiHost</span>: process.<span class="property">env</span>.<span class="property">VOLCENGINE_HOST</span>,</span><br><span class="line">  <span class="attr">volcengineApiKey</span>: process.<span class="property">env</span>.<span class="property">VOLCENGINE_API_KEY</span>,</span><br><span class="line">  <span class="attr">model</span>: process.<span class="property">env</span>.<span class="property">VOLCENGINE_MODEL</span>,</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> res = <span class="keyword">await</span> chatModel.<span class="title function_">invoke</span>([<span class="keyword">new</span> <span class="title class_">HumanMessage</span>(&#123; <span class="attr">content</span>: <span class="string">&#x27;Hi! I\&#x27;m Bob&#x27;</span> &#125;)])</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;ans&#x27;</span>, res)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可见我们这里已经调用火山引擎大模型成功了</p>
+<p><img src="https://files.mdnice.com/user/8265/cf0e70c6-d9df-4828-822f-1609faeec689.png"></p>
+<p>该 langchain 火山引擎大模型集成代码同时发布了 npm 包 <a target="_blank" rel="noopener" href="https://github.com/flytam/langchain-bytedance-volcengine"><code>langchain-bytedance-volcengine</code></a></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a class="link"   target="_blank" rel="noopener" href="https://js.langchain.com/v0.2/docs/concepts" >Conceptual guide<i class="fas fa-external-link-alt"></i></a></li>
+<li><a class="link"   target="_blank" rel="noopener" href="https://js.langchain.com/v0.2/docs/how_to/custom_chat" >Create a custom chat model class<i class="fas fa-external-link-alt"></i></a></li>
+</ul>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（上）</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-08-28 21:17:47</li>
+        <li>
+            Post link：https://blog.flytam.vip/LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（上）.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/LLM/">#LLM</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/LLM%20%E5%BA%94%E7%94%A8%E5%BC%80%E5%8F%91%E5%85%A5%E9%97%A8%20-%20%E5%AE%9E%E7%8E%B0%20langchain.js%20ChatModel%20%E6%8E%A5%E5%85%A5%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%92%8C%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA%20CLI%20%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%EF%BC%88%E4%B8%8B%EF%BC%89.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">LLM 应用开发入门 - 实现 langchain.js ChatModel 接入火山引擎大模型和实现一个 CLI 聊天机器人（下）</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/TypeScript%20Project%20References%20npm%20%E5%8C%85%E5%B0%8F%E5%AE%9E%E8%B7%B5.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">TypeScript Project References npm 包小实践</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChatModel-amp-LLM"><span class="nav-text">ChatModel &amp; LLM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%81%AB%E5%B1%B1%E5%BC%95%E6%93%8E%E5%A4%A7%E6%A8%A1%E5%9E%8B%E5%BC%80%E9%80%9A"><span class="nav-text">火山引擎大模型开通</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%8E%A5%E5%85%A5%E7%82%B9"><span class="nav-text">创建接入点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-API-key"><span class="nav-text">创建 API key</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E8%87%AA%E5%AE%9A%E4%B9%89-ChatModel"><span class="nav-text">实现自定义 ChatModel</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%AE%9E%E7%8E%B0"><span class="nav-text">主要实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

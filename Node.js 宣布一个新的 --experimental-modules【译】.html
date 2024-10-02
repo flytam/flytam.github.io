@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            Node.js 宣布一个新的 --experimental-modules【译】 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">Node.js 宣布一个新的 --experimental-modules【译】</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2019-05-06 15:17:34</span>
+        <span class="mobile">2019-05-06 15:17</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node/">node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+<p>在2017年，Node.js 8.9.0发布了对ECMAScript模块的实验性支持。这种ECMAScript模块的支持是需要在后面加上<code>--experimental-modules</code>标识来运行。</p>
+<p>现在，主流浏览器都能通过<code>&lt;script type=”module”&gt;</code>标签支持ECMAScript 模块 (ES modules) 。各种项目npm包都使用了ES模块编写，并且可以通过<code>&lt;script type= &quot; module &quot; &gt;</code>在浏览器中直接使用。支持导入映射（import maps）即将登陆Chrome。import map将让浏览器支持node.js风格的包名导入。</p>
+<p>这些采用ES模块方面的进展大大加快了Node.js对ES模块的支持速度。既然已经有其他运行时和环境在使用ES模块，那么Node.js支持这个JavaScript标准就更重要了。</p>
+<p>Nodejs最初将ES模块作为一个保留实验特性的原因是为了提供时间让社区去讨论和反馈这种设计。Modules Team建立出来就是为了对这些反馈提供支持，最终导致了一个ES模块的新实现。我们很高兴地宣布它将作为Node.js 12版本的一部分发布。它将取代旧的实验模块实现，并且将使用相同的标志（<code>--experimental-modules</code>）。我们希望这个新实现能够解决社区的许多问题，并且能够在2019年10月Node.js 12达到LTS状态之前作为Node.js的一部分正式发布（不需要再带<code>--experimental-modules</code>）</p>
+<h4 id="experimental-modules包含了什么"><a href="#experimental-modules包含了什么" class="headerlink" title="--experimental-modules包含了什么"></a><code>--experimental-modules</code>包含了什么</h4><p>与之前的版本一样，这个新的实验性模块为Node.js增加了以下支持:</p>
+<ul>
+<li><p>ES2015 import语句可以引用那些使用ES模块语法编写的Javascript文件。文件可以被引用为相对url (<code>&#39;./file.mjs &#39;</code>)、绝对file:// url (<code>&#39;file:///opt/app/file.mjs &#39;</code>)、包名(<code>&#39; es-module-package &#39;</code>)或包名路径(<code>&#39;es-module-package/lib/file.mjs &#39;</code>)的形式。</p>
+</li>
+<li><p>import语句引用的ES模块文件可以指定默认导出(<code>import _ from ‘es-module-package’</code>)、命名导出(<code>import &#123; shuffle &#125; from ‘es-module-package’</code>) 和命名空间导出(<code>import * as fs from ‘fs’</code>)。所有的Node.js内置模块(如fs和path)都支持这三种类型的导出。</p>
+</li>
+<li><p>import语句引用CommonJS文件（当前所有使用require、module.exports编写的Node.js模块）只能使用CommonJS默认导出(<code>import _ from ‘commonjs-package’</code>)。这项工作在进展中并且未来可能会发生改变</p>
+</li>
+<li><p>ES模块文件中的export语句可以指定引用的导入语句为默认导出或命名导出。</p>
+</li>
+<li><p>动态<code>import()</code>表达式可以用来从CommonJS或者ES模块导入ES模块文件。需要注意的是，这个语句返回的是一个promise</p>
+</li>
+<li><p><code>import.meta.url</code>的值为当前ES模块文件的绝对url。</p>
+</li>
+<li><p>可以编写<a class="link"   target="_blank" rel="noopener" href="http://nodejs.cn/latest-api/esm.html#esm_experimental_loader_hooks" >加载器<i class="fas fa-external-link-alt"></i></a>（Loaders）来修改Node.Js对于ES模块的行为。这项工作仍然在进行中</p>
+</li>
+<li><p>Node.js可以将ES模块文件作为程序的初始入口运行</p>
+</li>
+<li><p>文件作为ES模块被加载是在严格模式下的，如果是CommonJS的话需要在每个文件的最头部加上<code>&#39;use strict&#39;</code></p>
+</li>
+<li><p><code>.mjs</code>结尾的文件在import语句和通过node命令行运行时都将被显式当作ES模块</p>
+</li>
+</ul>
+<p>并且，新版本的 <code>--experimental-modules</code> 添加了以下特性：</p>
+<h4 id="js文件中的import和export语法"><a href="#js文件中的import和export语法" class="headerlink" title=".js文件中的import和export语法"></a>.js文件中的import和export语法</h4><p>我们听到了一些非常强烈的反馈Nodejs需要提供一种方式在.js文件中使用import和export语法</p>
+<p>新的<code>--experimental-modules</code>提供了两种方式实现，一种是通过<code>package.json</code>中的<code>type</code>字段，另一种是输入通过传入参数<code>--eval, --print or STDIN</code>添加一个<code>--input-type</code>标示</p>
+<h4 id="package-json-type-字段"><a href="#package-json-type-字段" class="headerlink" title="package.json type 字段"></a><code>package.json</code> <code>type</code> 字段</h4><p><strong>在你的项目package.json中添加’type’:’module’字段，Node.js就会把项目中所有的.js文件当作ES模块</strong></p>
+<p>如果项目中的一些文件使用了CommonJS并且你不能立即转换它们，你可以把那些文件重命名为.mjs或者把它们放到一个子文件夹然后添加一个<code>package.json</code>包含<code>&#123; “type”: “commonjs” &#125;</code>,这样那些.js文件会被当作CommonJS处理</p>
+<p>当Node.js想要加载任何文件的时候，它将会查找文件当前目录下的<code>package.json</code>文件，找不到的话将向上查找直到根目录。这种行为非常类似于babel的<code>.babelrc</code>文件。这种新的方式允许nodejs使用package级别的元数据和配置，类似于babel和其它工具目前使用的样子</p>
+<h4 id="input-type-flag"><a href="#input-type-flag" class="headerlink" title="--input-type flag"></a><code>--input-type</code> flag</h4><p>使用<code>-—input-type=module</code>作为ES模块运行字符串输入(<code>-—eval、-—print</code>或<code>STDIN</code>)。<code>—-input-type</code>的值为-—<code>input-type=module</code>或<code>—input-type=commonjs</code>。</p>
+<h4 id="cjs扩展名"><a href="#cjs扩展名" class="headerlink" title=".cjs扩展名"></a>.cjs扩展名</h4><p>只有.mjs文件扩展名被当作ES模块，新的.cjs文件扩展名将被当作CommonJS模块。.cjs扩展名是当.mjs和.js当作es模块的时候，保留项目中的CommonJS文件用到的。</p>
+<h4 id="显式文件名"><a href="#显式文件名" class="headerlink" title="显式文件名"></a>显式文件名</h4><p>默认情况下在新的<code>--experimental-modules</code>下，import语句中的文件扩展名是强制性的：<code>import ‘./file.js’</code>并不同于 <code>import ‘./file’</code>。但是，CommonJS风格的自动扩展名处理行为可以通过<code>--es-module-specifier-resolution=node</code>来开启（默认是<code>es-module-specifier-resolution=explicit</code>）。包名引入仍然不变，例如<code>import fs from ‘fs</code></p>
+<p>我们提供了<code>--es-module-specifier-resolution=node</code>可选使用Commonjs风格扩展名和的解析。但是我们默认关闭了它，在我们去除<code>--experimental-modules</code>之前，用于收集用户对于完全指定路径(fully specified paths)的反馈。<br>你可以在<a class="link"   target="_blank" rel="noopener" href="https://github.com/nodejs/modules/issues/268" >这里<i class="fas fa-external-link-alt"></i></a>找到关于这个话题的讨论。</p>
+<p>这种设计的主要原因是，通过我们提供的特定解决办法，去鼓励开发者们编写浏览器和node共享的代码</p>
+<h4 id="module-createRequireFromPath"><a href="#module-createRequireFromPath" class="headerlink" title="module.createRequireFromPath"></a><a class="link"   target="_blank" rel="noopener" href="https://nodejs.org/api/modules.html#modules_module_createrequirefrompath_filename" >module.createRequireFromPath<i class="fas fa-external-link-alt"></i></a></h4><p>CommonJS的全局变量（如<code>require, exports, module, __filename, __dirname</code>）在ES模块中将不会定义。但是可以使用<code>module.createRequireFromPath() </code>去创造一个commonJS require函数在ES模块上下文中使用</p>
+<h4 id="只能引入Javascript"><a href="#只能引入Javascript" class="headerlink" title="只能引入Javascript"></a>只能引入Javascript</h4><p>以前的<code>--experimental-modules</code> 允许导入JSON语句和原生模块。现在这个已经删除了，默认不能导入JSON语句和原生模块，您可以使用<a target="_blank" rel="noopener" href="https://nodejs.org/api/modules.html#modules_module_createrequirefrompath_filename"><code>module.createRequireFromPath()</code></a>来实现原先的功能。</p>
+<p>实验性标记<code>--experimental-json-modules</code>可以支持json文件的导入。我们正在用浏览器对这个特性进行标准化，并且Node.js希望我们的支持能与最终的标准保持一致。</p>
+<p>其它也有正在进行的工作，以涵盖WASM和其他未来潜在的模块类型。Node.js以后将以符合规范的方式增加对这些模块类型的支持。</p>
+<h4 id="npm包中的ES模块代码"><a href="#npm包中的ES模块代码" class="headerlink" title="npm包中的ES模块代码"></a>npm包中的ES模块代码</h4><p>这是一项正在进行的工作，可能会发生变化。通过<code>package.json</code>的<code>main</code>字段类型指定入口文件（这个文件是ES模块）。你可以使用ES模块创建一个包。如果文件扩展名是.mjs或者<code>package.json</code>包含<code>&#39;type&#39;:&#39;module&#39;</code>Node.js的话，Node.js将它作为ES模块加载。</p>
+<p>目前，无法创建一个既可以通过<code>require(&#39;pkg&#39;)</code>又可以<code>import ‘pkg’</code>来使用的npm包。我们正在努力解决这一问题，并且可能有对上述内容的修改。特别是，Node.js可能会选择<code>&#39;main&#39;</code>以外的字段来定义包的ES模块入口点。但我们意识到社区已经接受了<code>&#39;main&#39;</code>字段,所以这也不太可能这样做因为很多包已经使用了<code>module</code>去引入ES模块的javascript，但可能没有评估在node.js中使用(因为文件名的扩展缺省的,或者代码里面包含<code>require</code>表达式)。在解决这个问题之前，请不要发布任何打算给Node.js使用的ES模块的npm包。</p>
+<h4 id="工作进展"><a href="#工作进展" class="headerlink" title="工作进展"></a>工作进展</h4><p>上面所有的这些都是作为Node.js 12 <code>--experimental-modules</code>的一部分。在我们的规划中，在 2019年10月 Node.js 12 达到 LTS 并移除<code>--experimental-modules</code>标识之前，我们希望有一些潜在的改进：</p>
+<ul>
+<li>加载器（Loader）功能。加载器正在进一步开发以支持进程隔离、多加载器和具有较低级别hook的多领域支持。在标记移除之前，–loader API仍然会有很大的变化。</li>
+<li>双重的CommonJS/ES模块包。我们希望为包作者提供一种标准的方式来发布一个包，这个包既可以被<code>require</code>到CommonJS，也可以被<code>import</code>到ES模块中。</li>
+<li>更容易的require。使用<code>Module.createRequireFromPath()</code>包含许多的模版文件。我们希望提供一种更简单的方式在ES模块代码中进行<code>require</code></li>
+<li>包路径映射（原文：Package path maps）.我们想要提供一种包内路径到文件的映射。例如允许像<code>import sdk from ‘some-service/sdk’</code>从<code>‘some-service/sdk’</code>到<code>./src/sdk/public-api.mjs</code>的。</li>
+<li>自动入口点模块类型检查。这将提供一种方式来基于静态分析运行Javascript代码（CommonJS或ES模块）</li>
+</ul>
+<p>就是这样!我们希望你喜欢这个新的<code>--experimental-modules</code>，并期待您的反馈。模块团队的工作在<a class="link"   target="_blank" rel="noopener" href="https://github.com/nodejs/modules" >https://github.com/nodejs/modules<i class="fas fa-external-link-alt"></i></a>公开。</p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：Node.js 宣布一个新的 --experimental-modules【译】</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2019-05-06 15:17:34</li>
+        <li>
+            Post link：https://blog.flytam.vip/Node.js 宣布一个新的 --experimental-modules【译】.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node/">#node</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/%E7%AE%80%E6%9E%90redux%E6%8A%80%E6%9C%AF%E6%A0%88%EF%BC%88%E4%B8%80%EF%BC%89%EF%BC%9Aredux%E4%B8%AD%E9%97%B4%E4%BB%B6.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">简析redux技术栈（一）：redux中间件</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E4%B8%A4%E4%B8%AA%E5%B0%8F%E4%BC%98%E5%8C%96%EF%BC%8Cwebpack%E6%89%93%E5%8C%85%E9%80%9F%E5%BA%A6%E9%A3%9E%E8%B5%B7%E6%9D%A5.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">两个小优化，webpack打包速度飞起来</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#experimental-modules%E5%8C%85%E5%90%AB%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-text">--experimental-modules包含了什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#js%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84import%E5%92%8Cexport%E8%AF%AD%E6%B3%95"><span class="nav-text">.js文件中的import和export语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#package-json-type-%E5%AD%97%E6%AE%B5"><span class="nav-text">package.json type 字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#input-type-flag"><span class="nav-text">--input-type flag</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cjs%E6%89%A9%E5%B1%95%E5%90%8D"><span class="nav-text">.cjs扩展名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%BE%E5%BC%8F%E6%96%87%E4%BB%B6%E5%90%8D"><span class="nav-text">显式文件名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#module-createRequireFromPath"><span class="nav-text">module.createRequireFromPath</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AA%E8%83%BD%E5%BC%95%E5%85%A5Javascript"><span class="nav-text">只能引入Javascript</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#npm%E5%8C%85%E4%B8%AD%E7%9A%84ES%E6%A8%A1%E5%9D%97%E4%BB%A3%E7%A0%81"><span class="nav-text">npm包中的ES模块代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E8%BF%9B%E5%B1%95"><span class="nav-text">工作进展</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

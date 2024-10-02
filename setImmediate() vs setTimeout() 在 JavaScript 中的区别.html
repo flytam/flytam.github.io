@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            setImmediate() vs setTimeout() 在 JavaScript 中的区别 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">setImmediate() vs setTimeout() 在 JavaScript 中的区别</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-09-16 21:56:58</span>
+        <span class="mobile">2024-09-16 21:56</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/node-%E5%8E%9F%E7%94%9F/">node 原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/node-%E5%8E%9F%E7%94%9F/">node 原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<p>在 JavaScript 中，<code>setImmediate()</code> 和 <code>setTimeout()</code> 都用于调度任务，但它们的工作方式不同。</p>
+<h2 id="JavaScript-的异步特性"><a href="#JavaScript-的异步特性" class="headerlink" title="JavaScript 的异步特性"></a>JavaScript 的异步特性</h2><p>JavaScript 以其非阻塞、异步行为而闻名，尤其是在 Node.js 环境中。如果你曾经参与过涉及定时器或回调的项目，你可能遇到过 <code>setTimeout()</code>，甚至 <code>setImmediate()</code>。乍一看，这两个函数似乎做的是同一件事——调度任务以便稍后运行。但如果你曾经一起运行它们，你可能会注意到一些有趣的行为。</p>
+<p>尽管它们的目的相似，但 <code>setImmediate()</code> 和 <code>setTimeout()</code> 在底层的操作方式不同。如果你想知道为什么 <code>setImmediate()</code> 回调似乎一个接一个地运行，而 <code>setTimeout()</code> 回调则是间隔开的，本指南将为你解析其中的原因。</p>
+<p>这不仅仅是 JavaScript 的一个怪癖；它与 Node.js 如何管理异步任务密切相关。理解这两个函数之间的差异将帮助你更好地控制代码的时间和执行顺序，这对于大型应用程序尤其重要，因为即使是时间上的微小失误也可能导致难以发现的错误。</p>
+<p>我们将深入探讨事件循环，它如何处理这些定时器，以及为什么在一起使用它们时事情并不总是按预期发生。到最后，你将更清楚地了解何时使用 <code>setTimeout()</code> 或 <code>setImmediate()</code>，以满足你所需的时间行为。</p>
+<h2 id="行为差异"><a href="#行为差异" class="headerlink" title="行为差异"></a>行为差异</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setImmediate 1&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout 1&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout 2&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setImmediate 2&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>当你运行这段代码时，你可能期望 <code>setTimeout</code> 回调按定义的顺序执行，然后是 <code>setImmediate</code> 回调。但你在控制台中看到的是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span> <span class="number">1</span></span><br><span class="line">setImmediate <span class="number">1</span></span><br><span class="line">setImmediate <span class="number">2</span></span><br><span class="line"><span class="built_in">setTimeout</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
+
+<p>如果这让你感到困惑，不要担心。让我们解开其中的原因。</p>
+<h2 id="事件循环"><a href="#事件循环" class="headerlink" title="事件循环"></a>事件循环</h2><p>要理解这一点，我们需要快速了解 Node.js 如何管理异步操作。Node.js 的异步特性核心是事件循环。</p>
+<p>在 Node.js 中，事件循环处理不同的阶段，每个阶段负责执行某些类型的回调。它帮助管理非阻塞任务，确保函数可以异步执行。在这些阶段中，有不同的队列。对于本次讨论，有两个队列是重要的：</p>
+<ul>
+<li><strong>宏任务队列</strong>：这是 <code>setTimeout</code> 和 <code>setImmediate</code> 等任务所在的地方。</li>
+<li><strong>微任务队列</strong>：这是 promises (<code>Promise.then()</code>) 和 <code>process.nextTick()</code> 回调所在的地方。</li>
+</ul>
+<h3 id="事件循环的工作原理"><a href="#事件循环的工作原理" class="headerlink" title="事件循环的工作原理"></a>事件循环的工作原理</h3><p>要理解 <code>setTimeout()</code> 和 <code>setImmediate()</code> 的工作原理，我们需要看看 Node.js 中的事件循环。事件循环允许 Node.js 处理异步代码。它在不同的阶段处理不同类型的操作，每个阶段负责特定的任务。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">   ┌───────────────────────────┐</span><br><span class="line">┌─&gt;│           timers          │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │     pending callbacks     │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">│  │       idle, prepare       │</span><br><span class="line">│  └─────────────┬─────────────┘      ┌───────────────┐</span><br><span class="line">│  ┌─────────────┴─────────────┐      │   incoming:   │</span><br><span class="line">│  │           poll            │&lt;─────┤  connections, │</span><br><span class="line">│  └─────────────┬─────────────┘      │   data, etc.  │</span><br><span class="line">│  ┌─────────────┴─────────────┐      └───────────────┘</span><br><span class="line">│  │           check           │</span><br><span class="line">│  └─────────────┬─────────────┘</span><br><span class="line">│  ┌─────────────┴─────────────┐</span><br><span class="line">└──┤      close callbacks      │</span><br><span class="line">   └───────────────────────────┘</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><strong>定时器阶段</strong>：这是处理 <code>setTimeout()</code> 回调的地方。即使是 0 毫秒的延迟，它们也要等到下一次循环迭代才能执行。</li>
+<li><strong>待处理回调阶段</strong>：处理已完成的 I/O 事件，但我们的示例中没有，所以跳过这个阶段。</li>
+<li><strong>检查阶段</strong>：<code>setImmediate()</code> 回调在这里运行。它们在 I/O 任务之后立即执行，但在 <code>setTimeout()</code> 回调之前。</li>
+<li><strong>轮询阶段</strong>：处理新的传入 I/O 操作，如文件读取或网络请求。如果没有 I/O，事件循环会跳过这个阶段。</li>
+<li><strong>下一次循环迭代</strong>：在检查阶段之后，事件循环回到处理下一个定时器阶段，在那里 <code>setTimeout()</code> 回调最终运行。</li>
+</ol>
+<h3 id="setTimeout-的-0-延迟"><a href="#setTimeout-的-0-延迟" class="headerlink" title="setTimeout() 的 0 延迟"></a><code>setTimeout()</code> 的 0 延迟</h3><p>当你使用 <code>setTimeout()</code> 并设置延迟为 0 时，你实际上是在告诉 Node.js 在当前操作完成后尽快运行回调。然而，重要的是要记住，“尽快”仍然取决于事件循环的阶段。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout 1 with 0 delay&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setImmediate 1&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout 2 with 0 delay&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout 1 with 0 delay</span><br><span class="line">setImmediate 1</span><br><span class="line">setTimeout 2 with 0 delay</span><br></pre></td></tr></table></figure>
+
+<p>即使延迟为 0，<code>setTimeout()</code> 回调仍然需要等待定时器阶段的下一次循环，因此不会立即运行。相反，它被放置在宏任务队列中，以便在下一个可用机会执行。</p>
+<h3 id="setImmediate"><a href="#setImmediate" class="headerlink" title="setImmediate()"></a><code>setImmediate()</code></h3><p>另一方面，<code>setImmediate()</code> 设计用于在 I/O 事件完成后执行回调，在同一事件循环迭代中。这意味着 <code>setImmediate()</code> 回调在额外的定时器（如 <code>setTimeout()</code>）执行之前被处理，特别是在没有 I/O 的情况下。</p>
+<p>在我们的示例中，由于没有 I/O 发生，两个 <code>setImmediate()</code> 回调会一个接一个地执行，然后才轮到第二个 <code>setTimeout()</code> 回调。</p>
+<h3 id="为什么-setImmediate-回调会一起运行？"><a href="#为什么-setImmediate-回调会一起运行？" class="headerlink" title="为什么 setImmediate 回调会一起运行？"></a>为什么 <code>setImmediate</code> 回调会一起运行？</h3><ol>
+<li><strong>相同的事件循环周期</strong>：两个 <code>setImmediate</code> 调用在事件循环的同一个周期（或循环）中被放置到宏任务队列中。Node.js 按顺序处理这些任务。</li>
+<li>**优先于 <code>setTimeout()</code>**：即使 <code>setTimeout()</code> 设定了 0 延迟，这也不保证立即执行。<code>setImmediate()</code> 回调在当前周期中优先于 <code>setTimeout()</code> 任务。</li>
+</ol>
+<h3 id="现实世界的类比"><a href="#现实世界的类比" class="headerlink" title="现实世界的类比"></a>现实世界的类比</h3><p>想象一下在餐馆点餐和饮料。</p>
+<ol>
+<li>你点了一道菜（代表 <code>setTimeout(0)</code>）。</li>
+<li>厨师将其添加到订单队列中，一旦准备好就会送达。</li>
+<li>同时，你要了一杯水（<code>setImmediate()</code>），由于它快速且容易准备，服务员会在你的食物完成之前立即送达。</li>
+</ol>
+<p>在这个类比中，水（快速任务）首先被处理，即使两个订单几乎同时下达。菜（稍微复杂一些）稍后送达。</p>
+<h3 id="这种情况总是发生吗？"><a href="#这种情况总是发生吗？" class="headerlink" title="这种情况总是发生吗？"></a>这种情况总是发生吗？</h3><p>不一定。<code>setImmediate()</code> 和 <code>setTimeout()</code> 的行为可能取决于代码中发生的其他异步操作。如果有 I/O 操作，执行顺序可能会改变，因为 <code>setImmediate()</code> 只会在 I/O 事件完成后运行。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&quot;fs&quot;</span>);</span><br><span class="line"></span><br><span class="line">fs.<span class="title function_">readFile</span>(<span class="string">&quot;example.txt&quot;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout after I/O&quot;</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line">  <span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setImmediate after I/O&quot;</span>);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">setImmediate after I/O</span><br><span class="line">setTimeout after I/O</span><br></pre></td></tr></table></figure>
+
+<p>在这种情况下，<code>setImmediate()</code> 总是在 <code>setTimeout()</code> 之前运行，因为事件循环在 I/O 回调之后优先处理 <code>setImmediate()</code>。</p>
+<p>当没有 I/O 事件时，两个 <code>setImmediate()</code> 回调会一个接一个地运行，然后才轮到 <code>setTimeout()</code> 回调。</p>
+<h3 id="process-nextTick-和-Promises"><a href="#process-nextTick-和-Promises" class="headerlink" title="process.nextTick() 和 Promises"></a><code>process.nextTick()</code> 和 Promises</h3><p>以下示例展示了 Node.js 中各种异步操作的处理方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setTimeout&quot;</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">setImmediate</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;setImmediate&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="title class_">Promise</span>.<span class="title function_">resolve</span>().<span class="title function_">then</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Promise then&quot;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">process.<span class="title function_">nextTick</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;process.nextTick&quot;</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">process.nextTick</span><br><span class="line">Promise then</span><br><span class="line">setTimeout</span><br><span class="line">setImmediate</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>process.nextTick()</code>：这将在任何其他任务之前运行，甚至在微任务（如 Promises）之前。</li>
+<li><code>Promise.then()</code>：这是一个微任务，因此它在当前操作之后但在宏任务（如 <code>setTimeout()</code> 和 <code>setImmediate()</code>）之前运行。</li>
+<li><code>setTimeout()</code>：在微任务处理完之后运行。</li>
+<li><code>setImmediate()</code>：尽管它类似于 <code>setTimeout()</code>，但它在事件循环周期的后期运行，在当前 I/O 操作之后。</li>
+</ul>
+<p>Node.js 的异步行为有时可能会令人困惑，特别是在处理 <code>setTimeout()</code> 和 <code>setImmediate()</code> 时。关键是理解事件循环以及任务在不同阶段的调度方式。</p>
+<ul>
+<li><code>setImmediate()</code> 在 I/O 事件之后和当前事件循环周期内运行。</li>
+<li><code>setTimeout()</code> 在指定的延迟之后运行，即使延迟为 0，它也会为下一次事件循环迭代调度任务。</li>
+<li>当没有 I/O 操作时，<code>setImmediate()</code> 会在下一个 <code>setTimeout()</code> 之前连续执行。</li>
+</ul>
+<p>理解这些差异有助于你精确控制代码的运行时间，这在高性能应用程序中至关重要，因为时间和效率非常重要。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="https://www.trevorlasn.com/blog/setimmediate-vs-settimeout-in-javascript" >setImmediate() vs setTimeout() in JavaScript<i class="fas fa-external-link-alt"></i></a></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：setImmediate() vs setTimeout() 在 JavaScript 中的区别</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-09-16 21:56:58</li>
+        <li>
+            Post link：https://blog.flytam.vip/setImmediate() vs setTimeout() 在 JavaScript 中的区别.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/node-%E5%8E%9F%E7%94%9F/">#node 原生</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/ES5%20%E5%9C%A8%20Web%20%E4%B8%8A%E7%9A%84%E7%8E%B0%E7%8A%B6.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">ES5 在 Web 上的现状</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/Node.js%20%E4%B8%AD%E7%9A%84%E8%BF%9B%E7%A8%8B%E5%92%8C%E7%BA%BF%E7%A8%8B%E5%8E%9F%E7%90%86%E5%AD%A6%E4%B9%A0.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">Node.js 中的进程和线程原理学习</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript-%E7%9A%84%E5%BC%82%E6%AD%A5%E7%89%B9%E6%80%A7"><span class="nav-text">JavaScript 的异步特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E4%B8%BA%E5%B7%AE%E5%BC%82"><span class="nav-text">行为差异</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF"><span class="nav-text">事件循环</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF%E7%9A%84%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-text">事件循环的工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setTimeout-%E7%9A%84-0-%E5%BB%B6%E8%BF%9F"><span class="nav-text">setTimeout() 的 0 延迟</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#setImmediate"><span class="nav-text">setImmediate()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-setImmediate-%E5%9B%9E%E8%B0%83%E4%BC%9A%E4%B8%80%E8%B5%B7%E8%BF%90%E8%A1%8C%EF%BC%9F"><span class="nav-text">为什么 setImmediate 回调会一起运行？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%B0%E5%AE%9E%E4%B8%96%E7%95%8C%E7%9A%84%E7%B1%BB%E6%AF%94"><span class="nav-text">现实世界的类比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%99%E7%A7%8D%E6%83%85%E5%86%B5%E6%80%BB%E6%98%AF%E5%8F%91%E7%94%9F%E5%90%97%EF%BC%9F"><span class="nav-text">这种情况总是发生吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#process-nextTick-%E5%92%8C-Promises"><span class="nav-text">process.nextTick() 和 Promises</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

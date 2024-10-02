@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            React 19 升级指南 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">React 19 升级指南</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2024-05-04 10:23:01</span>
+        <span class="mobile">2024-05-04 10:23</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/react/">react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>React 已于近日发布了 <code>v19</code> 的 beta 版本，同时为了帮助后续的 <code>v19</code> 升级，也同时发布了 <code>v18.3.0</code>的正式版， 与 <code>v18.2</code> 版本完全相同，但添加了弃用 API 的警告和其他为 React 19 所需的更改</p>
+<p><img src="https://files.mdnice.com/user/8265/bca7f247-a515-499b-8337-0e7e29cc659a.png"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="使用新版-JSX-Transform"><a href="#使用新版-JSX-Transform" class="headerlink" title="使用新版 JSX Transform"></a>使用新版 JSX Transform</h3><p>为了改善打包体积和可以在 JSX 文件中无需手动引入 <code>React</code>，在 2020 年 React 引入了<a class="link"   target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/09/22/introducing-the-new-jsx-transform.html" >新的 JSX Transform<i class="fas fa-external-link-alt"></i></a>。如果在 React 19 中没有使用这个新的 JSX Transform 会有一个报错提示</p>
+<blockquote>
+<p><img src="https://files.mdnice.com/user/8265/f3621a5b-5dfd-441f-b54b-f516d5413ff3.png"></p>
+</blockquote>
+<p>如果已经使用了新版 JSX Transform 则可以忽略此步骤</p>
+<h3 id="安装最新版本的-React-和-ReactDom"><a href="#安装最新版本的-React-和-ReactDom" class="headerlink" title="安装最新版本的 React 和 ReactDom"></a>安装最新版本的 React 和 ReactDom</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react@beta react-dom@beta</span><br></pre></td></tr></table></figure>
+
+<p>如果使用 TypeScript，则还需要更新相关类型包。等到 React 19 发布 release 版本后可以就像往常一样从<code>@types/react</code>和<code>@types/react-dom</code>安装类型包。在当前 beta 版本中需要在<code>package.json</code>为类型包配置<code>overrides</code> 锁定版本以确保不同包中的类型是可用的</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@types/react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm:types-react@beta&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@types/react-dom&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm:types-react-dom@beta&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;overrides&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;@types/react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm:types-react@beta&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;@types/react-dom&quot;</span><span class="punctuation">:</span> <span class="string">&quot;npm:types-react-dom@beta&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Breaking-changes"><a href="#Breaking-changes" class="headerlink" title="Breaking changes"></a>Breaking changes</h2><h3 id="render-过程中的错误不再二次抛出"><a href="#render-过程中的错误不再二次抛出" class="headerlink" title="render 过程中的错误不再二次抛出"></a>render 过程中的错误不再二次抛出</h3><p>在之前的 React 版本中，渲染过程中抛出的错误会被捕获并重新抛出。在 DEV 模式下，我们还会记录到 console.error，导致出现重复的错误日志。</p>
+<p>在 React 19 中，<a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2024/04/25/react-19#error-handling" >改进了错误处理方式<i class="fas fa-external-link-alt"></i></a>，通过不重新抛出来减少重复信息：</p>
+<ul>
+<li>未捕获的错误：未被错误边界捕获的错误将调用给 <code>window.reportError</code></li>
+<li>已捕获的错误：被错误边界捕获的错误将报告将调用给 <code>console.error</code><br>这个改变不应该影响大多数应用，但如果生产错误报告依赖于错误被重新抛出，则可能需要更新错误处理。为了支持这一点，React 19 添加了新的<a target="_blank" rel="noopener" href="https://react.dev/reference/react-dom/client/createRoot"><code>createRoot</code></a>和<a target="_blank" rel="noopener" href="https://react.dev/reference/react-dom/client/hydrateRoot"><code>hydrateRoot</code></a>用于自定义错误处理：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> root = <span class="title function_">createRoot</span>(container, &#123;</span><br><span class="line">  <span class="attr">onUncaughtError</span>: <span class="function">(<span class="params">error, errorInfo</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ... log error report</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">onCaughtError</span>: <span class="function">(<span class="params">error, errorInfo</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// ... log error report</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="废弃-React-API-移除"><a href="#废弃-React-API-移除" class="headerlink" title="废弃 React API 移除"></a>废弃 React API 移除</h3><h4 id="移除propTypes和函数组件的defaultProps"><a href="#移除propTypes和函数组件的defaultProps" class="headerlink" title="移除propTypes和函数组件的defaultProps"></a>移除<code>propTypes</code>和函数组件的<code>defaultProps</code></h4><p><code>propTypes</code>是用于运行时校验组件 props 的属性，在 <a target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2017/04/07/react-v15.5.0.html#new-deprecation-warnings"><code>Reactv15.5.0</code></a>已经被标记为废弃，在 <code>v19</code>这个正式删除</p>
+<p>另外函数组件的<code>defaultProps</code>也已经移除（使用 ES6 默认参数替代），由于 class 组件没有相应的 ES6 语法替代因此仍会保留</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">PropTypes</span> <span class="keyword">from</span> <span class="string">&#x27;prop-types&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Heading</span>(<span class="params">&#123;text&#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;text&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title class_">Heading</span>.<span class="property">propTypes</span> = &#123;</span><br><span class="line">  <span class="attr">text</span>: <span class="title class_">PropTypes</span>.<span class="property">string</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title class_">Heading</span>.<span class="property">defaultProps</span> = &#123;</span><br><span class="line">  <span class="attr">text</span>: <span class="string">&#x27;Hello, world!&#x27;</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line">interface <span class="title class_">Props</span> &#123;</span><br><span class="line">  text?: string;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Heading</span>(<span class="params">&#123;text = <span class="string">&#x27;Hello, world!&#x27;</span>&#125;: Props</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>&#123;text&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除使用contextTypes和getChildContext的-Legacy-Context"><a href="#移除使用contextTypes和getChildContext的-Legacy-Context" class="headerlink" title="移除使用contextTypes和getChildContext的 Legacy Context"></a>移除使用<code>contextTypes</code>和<code>getChildContext</code>的 Legacy Context</h4><p>Legacy Context 在<a class="link"   target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2018/10/23/react-v-16-6.html" >2018.10（v16.6.0）<i class="fas fa-external-link-alt"></i></a>已被弃用</p>
+<p>Legacy Context 仅适用于使用<code>contextTypes</code>和<code>getChildContext</code> API 的类组件，并由于易于忽略的微妙错误而被<code>contextType</code>替换。在 React 19 中，将删除 Legacy Context 以使 React 更小更快。仍在类组件中使用 Legacy Context，则需要迁移到新的<code>contextType</code> API：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">import</span> <span class="title class_">PropTypes</span> <span class="keyword">from</span> <span class="string">&#x27;prop-types&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Parent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">static</span> childContextTypes = &#123;</span><br><span class="line">    <span class="attr">foo</span>: <span class="title class_">PropTypes</span>.<span class="property">string</span>.<span class="property">isRequired</span>,</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">getChildContext</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> &#123; <span class="attr">foo</span>: <span class="string">&#x27;bar&#x27;</span> &#125;;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">Child</span> /&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Child</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">static</span> contextTypes = &#123;</span><br><span class="line">    <span class="attr">foo</span>: <span class="title class_">PropTypes</span>.<span class="property">string</span>.<span class="property">isRequired</span>,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;this.context.foo&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">FooContext</span> = <span class="title class_">React</span>.<span class="title function_">createContext</span>();</span><br><span class="line"><span class="comment">//....</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Parent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      <span class="language-xml"><span class="tag">&lt;<span class="name">FooContext</span> <span class="attr">value</span>=<span class="string">&#x27;bar&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">Child</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;/<span class="name">FooContext</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Child</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="keyword">static</span> contextType = <span class="title class_">FooContext</span>;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span>&#123;this.context&#125;<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除字符串-refs"><a href="#移除字符串-refs" class="headerlink" title="移除字符串 refs"></a>移除字符串 refs</h4><p>字符串 refs 在<a class="link"   target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2018/03/27/update-on-async-rendering.html" >2018.3（v16.3.0）<i class="fas fa-external-link-alt"></i></a>被弃用</p>
+<p>在被替换为 ref 回调方式之前类组件支持字符串 refs，但存在多个<a class="link"   target="_blank" rel="noopener" href="https://github.com/facebook/react/issues/1373" >缺点<i class="fas fa-external-link-alt"></i></a>。在 React 19 中，将删除字符串引用以使 React 更简单易懂</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">refs</span>.<span class="property">input</span>.<span class="title function_">focus</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">ref</span>=<span class="string">&#x27;input&#x27;</span> /&gt;</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果仍在使用类组件中的字符串引用，则需要迁移到 refs 回调的形式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyComponent</span> <span class="keyword">extends</span> <span class="title class_ inherited__">React.Component</span> &#123;</span><br><span class="line">  <span class="title function_">componentDidMount</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">input</span>.<span class="title function_">focus</span>();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="title function_">render</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">ref</span>=<span class="string">&#123;input</span> =&gt;</span> this.input = input&#125; /&gt;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除模块模式工厂"><a href="#移除模块模式工厂" class="headerlink" title="移除模块模式工厂"></a>移除模块模式工厂</h4><p>模块模式工厂在<a class="link"   target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2019/08/08/react-v16.9.0.html#deprecating-module-pattern-factories" >2019.8（v16.9.0）<i class="fas fa-external-link-alt"></i></a>被弃用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">FactoryComponent</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="title function_">render</span>(<span class="params"></span>) &#123; <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> /&gt;</span></span>; &#125; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这种用法其实很少使用，支持它会使 React 比必要的更大和更慢。在 React 19 中，将删除对模块模式工厂的支持，需要迁移到常规函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">FactoryComponent</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> /&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除React-createFactory"><a href="#移除React-createFactory" class="headerlink" title="移除React.createFactory"></a>移除<code>React.createFactory</code></h4><p>createFactory 在<a class="link"   target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2020/02/26/react-v16.13.0.html#deprecating-createfactory" >2020.2（v16.13.0）<i class="fas fa-external-link-alt"></i></a>已被弃用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">import</span> &#123; createFactory &#125; <span class="keyword">from</span> <span class="string">&#x27;react&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> button = <span class="title function_">createFactory</span>(<span class="string">&#x27;button&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在 JSX 得到广泛支持之前使用 createFactory 很常见，但是现在已经可以用 JSX 替换。在 React 19 中，将删除 createFactory，需要迁移到 JSX</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">const</span> button = <span class="language-xml"><span class="tag">&lt;<span class="name">button</span> /&gt;</span></span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除react-test-renderer-shallow"><a href="#移除react-test-renderer-shallow" class="headerlink" title="移除react-test-renderer/shallow"></a>移除<code>react-test-renderer/shallow</code></h4><p>在 React 18 中，更新了<code>react-test-renderer/shallow</code>并重新导出<code>react-shallow-renderer</code>。在 React 19 中，将删除<code>react-test-render/shallow</code>，而直接安装该软件包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install react-shallow-renderer --save-dev</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="keyword">import</span> <span class="title class_">ShallowRenderer</span> <span class="keyword">from</span> <span class="string">&#x27;react-test-renderer/shallow&#x27;</span>;</span><br><span class="line">+ <span class="keyword">import</span> <span class="title class_">ShallowRenderer</span> <span class="keyword">from</span> <span class="string">&#x27;react-shallow-renderer&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="废弃-ReactDOM-API-移除"><a href="#废弃-ReactDOM-API-移除" class="headerlink" title="废弃 ReactDOM API 移除"></a>废弃 ReactDOM API 移除</h3><h4 id="移除react-dom-test-utils"><a href="#移除react-dom-test-utils" class="headerlink" title="移除react-dom/test-utils"></a>移除<code>react-dom/test-utils</code></h4><h4 id="移除ReactDOM-render"><a href="#移除ReactDOM-render" class="headerlink" title="移除ReactDOM.render"></a>移除<code>ReactDOM.render</code></h4><p><code>ReactDOM.render</code>在<a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2022/03/08/react-18-upgrade-guide" >2022 年 3 月（v18.0.0）<i class="fas fa-external-link-alt"></i></a>已被弃用。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">import</span> &#123;render&#125; <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"><span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>));</span><br></pre></td></tr></table></figure>
+
+<p>在 React 19 中，将删除 ReactDOM.render，需要迁移到使用<a target="_blank" rel="noopener" href="https://react.dev/reference/react-dom/client/createRoot"><code>ReactDOM.createRoot</code></a>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">import</span> &#123;createRoot&#125; <span class="keyword">from</span> <span class="string">&#x27;react-dom/client&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> root = <span class="title function_">createRoot</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>));</span><br><span class="line">root.<span class="title function_">render</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除ReactDOM-hydrate"><a href="#移除ReactDOM-hydrate" class="headerlink" title="移除ReactDOM.hydrate"></a>移除<code>ReactDOM.hydrate</code></h4><p><code>ReactDOM.hydrate</code>在<a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2022/03/08/react-18-upgrade-guide" >2022 年 3 月（v18.0.0）<i class="fas fa-external-link-alt"></i></a>已被弃用。在 React 19 中，将删除 ReactDOM.hydrate，需要迁移到使用<a target="_blank" rel="noopener" href="https://react.dev/reference/react-dom/client/hydrateRoot"><code>ReactDOM.hydrateRoot</code></a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">import</span> &#123;hydrate&#125; <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"><span class="title function_">hydrate</span>(<span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>, <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">import</span> &#123;hydrateRoot&#125; <span class="keyword">from</span> <span class="string">&#x27;react-dom/client&#x27;</span>;</span><br><span class="line"><span class="title function_">hydrateRoot</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>), <span class="language-xml"><span class="tag">&lt;<span class="name">App</span> /&gt;</span></span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除unmountComponentAtNode"><a href="#移除unmountComponentAtNode" class="headerlink" title="移除unmountComponentAtNode"></a>移除<code>unmountComponentAtNode</code></h4><p><code>ReactDOM.unmountComponentAtNode</code>在<a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2022/03/08/react-18-upgrade-guide" >2022.3（v18.0.0）<i class="fas fa-external-link-alt"></i></a>已被弃用。在 React 19 中需要迁移到使用<code>hydrateRoot</code>和<code>createRoot</code>对应的<code>root.unmount()</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="title function_">unmountComponentAtNode</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// After</span></span><br><span class="line">root.<span class="title function_">unmount</span>();</span><br></pre></td></tr></table></figure>
+
+<h4 id="移除ReactDOM-findDOMNode"><a href="#移除ReactDOM-findDOMNode" class="headerlink" title="移除ReactDOM.findDOMNode"></a>移除<code>ReactDOM.findDOMNode</code></h4><p>ReactDOM.findDOMNode 在<a class="link"   target="_blank" rel="noopener" href="https://legacy.reactjs.org/blog/2018/10/23/react-v-16-6.html#deprecations-in-strictmode" >2018 年 10 月（v16.6.0）<i class="fas fa-external-link-alt"></i></a>已被弃用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Before</span></span><br><span class="line"><span class="keyword">import</span> &#123;findDOMNode&#125; <span class="keyword">from</span> <span class="string">&#x27;react-dom&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">AutoselectingInput</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> input = <span class="title function_">findDOMNode</span>(<span class="variable language_">this</span>);</span><br><span class="line">    input.<span class="title function_">select</span>()</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">defaultValue</span>=<span class="string">&quot;Hello&quot;</span> /&gt;</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <a class="link"   target="_blank" rel="noopener" href="https://react.dev/learn/manipulating-the-dom-with-refs" >DOM 引用<i class="fas fa-external-link-alt"></i></a>替换 <code>ReactDOM.findDOMNode</code></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// After</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">AutoselectingInput</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> ref = <span class="title function_">useRef</span>(<span class="literal">null</span>);</span><br><span class="line">  <span class="title function_">useEffect</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    ref.<span class="property">current</span>.<span class="title function_">select</span>();</span><br><span class="line">  &#125;, []);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span> <span class="attr">defaultValue</span>=<span class="string">&quot;Hello&quot;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="新增废弃"><a href="#新增废弃" class="headerlink" title="新增废弃"></a>新增废弃</h3><h4 id="废弃element-ref属性"><a href="#废弃element-ref属性" class="headerlink" title="废弃element.ref属性"></a>废弃<code>element.ref</code>属性</h4><p>从 React 19 开始，现在可以将<code>ref</code>作为函数组件的 prop 访问</p>
+<p>如果直接访问 <code>element.ref</code>会出现警告</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">MyInput</span>(<span class="params">&#123;placeholder, ref&#125;</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">input</span> <span class="attr">placeholder</span>=<span class="string">&#123;placeholder&#125;</span> <span class="attr">ref</span>=<span class="string">&#123;ref&#125;</span> /&gt;</span></span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">&lt;<span class="title class_">MyInput</span> ref=&#123;ref&#125; /&gt;</span><br></pre></td></tr></table></figure>
+
+<img width="736" alt="image" src="https://github.com/flytam/blog/assets/20512530/0ce55ff6-c37e-480d-925c-1ac104356779">
+
+<p>新的函数组件将不再需要<code>forwardRef</code>，在未来的版本中，React 将弃用并删除<code>forwardRef</code></p>
+<p>但是传递给类的 <code>refs</code> 不会作为 props 传递，因为<code>refs</code>引用的是组件实例</p>
+<h4 id="废弃react-test-renderer"><a href="#废弃react-test-renderer" class="headerlink" title="废弃react-test-renderer"></a>废弃<code>react-test-renderer</code></h4><p>弃用<code>react-test-renderer</code>。<code>react-test-renderer</code>实现了自己的渲染器环境与用户使用的环境不匹配并依赖于 React 内部的实现细节</p>
+<p>在 React 19 中，<code>react-test-renderer</code>会打印了一个弃用警告，并切换到并发渲染。建议将测试迁移到<code>@testing-library/react</code>或<code>@testing-library/react-native</code>以获得更良好支持的测试体验</p>
+<h3 id="一些值得一提的变动"><a href="#一些值得一提的变动" class="headerlink" title="一些值得一提的变动"></a>一些值得一提的变动</h3><h4 id="StrictMode-变化"><a href="#StrictMode-变化" class="headerlink" title="StrictMode 变化"></a><code>StrictMode</code> 变化</h4><p>React 19 包括了对 Strict Mode 的几个修复和改进。在开发中，当在 Strict Mode 下进行双重渲染时，<code>useMemo</code>和<code>useCallback</code>将重用第一次渲染时的结果进行第二次渲染。已经兼容<code>Strict Mode</code>的组件也不会发生差异。与所有<code>Strict Mode</code>行为一样，这些功能为的是在开发过程中主动暴露组件中的错误，以便在它们被发布到生产环境之前修复。例如在开发过程中，<code>Strict Mode</code>将在初始挂载时双重调用<code>ref</code>回调函数，以模拟当挂载的组件被 Suspense 回退替换时的情况</p>
+<h4 id="移除-UMD-产物"><a href="#移除-UMD-产物" class="headerlink" title="移除 UMD 产物"></a>移除 UMD 产物</h4><p>UMD 曾经被广泛使用作为一种无需构建步骤即可加载 React 的便捷方式。现在有现代化的替代方案可以将模块作为脚本加载到 HTML 文档中。从 React 19 开始，React 将不再生成 UMD 构建，以减少其测试和发布过程的复杂性。</p>
+<p>为了使用脚本标签加载 React 19，可以使用基于 ESM 的 CDN，例如<code>esm.sh</code></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;module&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">import</span> <span class="title class_">React</span> <span class="keyword">from</span> <span class="string">&quot;https://esm.sh/react@19/?dev&quot;</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">import</span> <span class="title class_">ReactDOMClient</span> <span class="keyword">from</span> <span class="string">&quot;https://esm.sh/react-dom@19/client?dev&quot;</span></span></span><br><span class="line"><span class="language-javascript">  ...</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="依赖于-React-内部的库可能会影响升级"><a href="#依赖于-React-内部的库可能会影响升级" class="headerlink" title="依赖于 React 内部的库可能会影响升级"></a>依赖于 React 内部的库可能会影响升级</h4><p>此版本包含对 React 内部的更改，可能会影响那些忽略 React 官方警告不要使用像<code>SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED</code>这样的内部机制的库。这些更改是为了实现 React 19 中的一些优化，但不会破坏遵循官方指南使用的库。</p>
+<p>根据<a class="link"   target="_blank" rel="noopener" href="https://react.dev/community/versioning-policy#what-counts-as-a-breaking-change" >版本策略<i class="fas fa-external-link-alt"></i></a>，这些更新不被列为重大更改，并且不包括有关如何升级它们的文档。建议删除依赖于内部机制的任何代码。</p>
+<p>为了反映使用内部机制的影响，已将<code>SECRET_INTERNALS</code>后缀重命名为：</p>
+<p><code>_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE</code></p>
+<p>将来将使用更多方式阻止从 React 访问内部，以防止使用并确保用户不会被阻止升级</p>
+<h3 id="TypeScript-变化"><a href="#TypeScript-变化" class="headerlink" title="TypeScript 变化"></a>TypeScript 变化</h3><h4 id="移除废弃的-TypeScript-类型"><a href="#移除废弃的-TypeScript-类型" class="headerlink" title="移除废弃的 TypeScript 类型"></a>移除废弃的 TypeScript 类型</h4><p>根据 React 19 中删除的相关 API 清理了相关 TypeScript 类型。同时提供了一个<a target="_blank" rel="noopener" href="https://github.com/eps1lon/types-react-codemod/"><code>types-react-codemod</code></a>工具可以帮助迁移已有的类型</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx types-react-codemod@latest preset-19 ./path-to-app</span><br></pre></td></tr></table></figure>
+
+<h4 id="ref-返回内容必须是清理函数"><a href="#ref-返回内容必须是清理函数" class="headerlink" title="ref 返回内容必须是清理函数"></a><code>ref</code> 返回内容必须是清理函数</h4><p>由于引入了<code>ref</code>清理函数，从<code>ref</code>回调返回任何其他内容现在将被 TypeScript 报错。修复方法通常是停止使用隐式返回：</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">&#123;current</span> =&gt;</span> (instance = current)&#125; /&gt;</span></span><br><span class="line">+ <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ref</span>=<span class="string">&#123;current</span> =&gt;</span> &#123;instance = current&#125;&#125; /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原始代码返回<code>HTMLDivElement</code>的实例，TypeScript 无法确定是否清理函数。</p>
+<h4 id="useRef需要传递参数"><a href="#useRef需要传递参数" class="headerlink" title="useRef需要传递参数"></a><code>useRef</code>需要传递参数</h4><p>通过更改类型使得 <code>useRef</code> 现在需要接收一个参数。这显著简化了它的类型签名。现在它的行为更像 <code>createContext</code></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// @ts-expect-error: Expected 1 argument but saw none</span></span><br><span class="line"><span class="title function_">useRef</span>();</span><br><span class="line"><span class="comment">// Passes</span></span><br><span class="line"><span class="title function_">useRef</span>(<span class="literal">undefined</span>);</span><br><span class="line"><span class="comment">// @ts-expect-error: Expected 1 argument but saw none</span></span><br><span class="line"><span class="title function_">createContext</span>();</span><br><span class="line"><span class="comment">// Passes</span></span><br><span class="line"><span class="title function_">createContext</span>(<span class="literal">undefined</span>);</span><br></pre></td></tr></table></figure>
+
+<p>现在也意味着所有的引用都是可变的。不再会遇到以下的问题，传递 <code>number</code>类型但是使用 <code>null</code> 初始化</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// before</span></span><br><span class="line"><span class="keyword">const</span> ref = useRef&lt;<span class="built_in">number</span>&gt;(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Cannot assign to &#x27;current&#x27; because it is a read-only property</span></span><br><span class="line">ref.<span class="property">current</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+
+<p><code>MutableRef</code>现已弃用，建议使用单个<code>RefObject</code>类型，该类型将始终由<code>useRef</code>返回：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> <span class="title class_">RefObject</span>&lt;T&gt; &#123;</span><br><span class="line">  <span class="attr">current</span>: T</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">declare</span> <span class="keyword">function</span> useRef&lt;T&gt;: <span class="title class_">RefObject</span>&lt;T&gt;</span><br></pre></td></tr></table></figure>
+
+<p>useRef 仍然有一个方便的重载 useRef<T>(null)，它自动返回 RefObject&lt;T | null&gt;。为了简化由于 useRef 所需参数的迁移，添加了一个方便的重载 useRef(undefined)，它自动返回 RefObject&lt;T | undefined&gt;。</p>
+<h4 id="ReactElement类型变化"><a href="#ReactElement类型变化" class="headerlink" title="ReactElement类型变化"></a><code>ReactElement</code>类型变化</h4><p>如果元素被标记为<code>ReactElement</code>，则<code>ReactElement</code>的<code>props</code>现在默认为<code>unknown</code>而不是<code>any</code>。如果向<code>ReactElement</code>传递类型参数则不会受到影响</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Example2</span> = <span class="title class_">ReactElement</span>&lt;&#123; <span class="attr">id</span>: <span class="built_in">string</span> &#125;&gt;[<span class="string">&quot;props&quot;</span>];</span><br><span class="line"><span class="comment">//   ^? &#123; id: string &#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>但是如果依赖默认设置，则需要处理<code>unknown</code>：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Example</span> = <span class="title class_">ReactElement</span>[<span class="string">&quot;props&quot;</span>];</span><br><span class="line"><span class="comment">//   ^? Before, was &#x27;any&#x27;, now &#x27;unknown&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="TypeScript-中的-JSX-namespace-变化"><a href="#TypeScript-中的-JSX-namespace-变化" class="headerlink" title="TypeScript 中的 JSX namespace 变化"></a>TypeScript 中的 JSX namespace 变化</h4><p>类型中删除全局<code>JSX</code>命名空间转而使用<code>React.JSX</code>。防止全局类型的污染和不同 UI 库之间利用 JSX 产生冲突</p>
+<p>现在，需要在<code>declare module</code>中的<code>JSX</code>命名空间的模块进行修改</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// global.d.ts</span></span><br><span class="line">+ <span class="keyword">declare</span> <span class="variable language_">module</span> <span class="string">&quot;react&quot;</span> &#123;</span><br><span class="line">    <span class="keyword">namespace</span> JSX &#123;</span><br><span class="line">      <span class="keyword">interface</span> <span class="title class_">IntrinsicElements</span> &#123;</span><br><span class="line">        <span class="string">&quot;my-element&quot;</span>: &#123;</span><br><span class="line">          <span class="attr">myElementProps</span>: <span class="built_in">string</span>;</span><br><span class="line">        &#125;;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">+ &#125;</span><br></pre></td></tr></table></figure>
+
+<p>准确的模块说明符取决于在<code>tsconfig.json</code>的<code>compilerOptions</code>中指定的 JSX 运行时：</p>
+<ul>
+<li>对于<code>&quot;jsx&quot;: &quot;react-jsx&quot;</code>，将是 <code>react/jsx-runtime</code>。</li>
+<li>对于 <code>&quot;jsx&quot;: &quot;react-jsxdev&quot;</code>，将是 <code>react/jsx-dev-runtime</code>。</li>
+<li>对于 <code>&quot;jsx&quot;: &quot;react&quot;</code> 和 <code>&quot;jsx&quot;: &quot;preserve&quot;</code>，它将是 <code>react</code>。</li>
+</ul>
+<h4 id="更好的useReducer类型"><a href="#更好的useReducer类型" class="headerlink" title="更好的useReducer类型"></a>更好的<code>useReducer</code>类型</h4><p><code>useReducer</code>类型推断得到了改善。然而这需要一个破坏性的变化，其中<code>useReducer</code>不再接受完整的<code>reducer</code>类型作为类型参数，而是需要接收<code>State</code>和<code>Action</code>的类型</p>
+<p>新的最佳实践是不要向 useReducer 传递类型参数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- useReducer&lt;<span class="title class_">React</span>.<span class="property">Reducer</span>&lt;<span class="title class_">State</span>, <span class="title class_">Action</span>&gt;&gt;(reducer)</span><br><span class="line">+ <span class="title function_">useReducer</span>(reducer)</span><br></pre></td></tr></table></figure>
+
+<p>这可能在边缘情况下无法正常工作，例如可以通过在元组中传递<code>Action</code>来显式输入状态和操作：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- useReducer&lt;<span class="title class_">React</span>.<span class="property">Reducer</span>&lt;<span class="title class_">State</span>, <span class="title class_">Action</span>&gt;&gt;(reducer)</span><br><span class="line">+ useReducer&lt;<span class="title class_">State</span>, [<span class="title class_">Action</span>]&gt;(reducer)</span><br></pre></td></tr></table></figure>
+
+<p>如果内联定义 reducer，建议注释函数参数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- useReducer&lt;<span class="title class_">React</span>.<span class="property">Reducer</span>&lt;<span class="title class_">State</span>, <span class="title class_">Action</span>&gt;&gt;(<span class="function">(<span class="params">state, action</span>) =&gt;</span> state)</span><br><span class="line">+ <span class="title function_">useReducer</span>(<span class="function">(<span class="params">state: State, action: Action</span>) =&gt;</span> state)</span><br></pre></td></tr></table></figure>
+
+<p>这也是如果将 reducer 移动到<code>useReducer</code>调用之外需要做的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">reducer</span> = (<span class="params">state: State, action: Action</span>) =&gt; state;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2024/04/25/react-19#whats-new-in-react-19" >React 19 Beta Upgrade Guide<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link"   target="_blank" rel="noopener" href="https://react.dev/blog/2024/04/25/react-19#whats-new-in-react-19" >React 19 Beta<i class="fas fa-external-link-alt"></i></a></p>
+<p><img src="https://files.mdnice.com/user/8265/9ce83ec3-ddde-4d7f-b2af-86503a93f507.png"></p>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：React 19 升级指南</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2024-05-04 10:23:01</li>
+        <li>
+            Post link：https://blog.flytam.vip/React 19 升级指南.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/react/">#react</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/TypeScript%20Project%20References%20npm%20%E5%8C%85%E5%B0%8F%E5%AE%9E%E8%B7%B5.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">TypeScript Project References npm 包小实践</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/%E5%89%8D%E7%AB%AF%20js%20%E5%BC%82%E5%B8%B8%E9%82%A3%E4%BA%9B%E4%BA%8B.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">前端 js 异常那些事</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B0%E7%89%88-JSX-Transform"><span class="nav-text">使用新版 JSX Transform</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%E7%9A%84-React-%E5%92%8C-ReactDom"><span class="nav-text">安装最新版本的 React 和 ReactDom</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Breaking-changes"><span class="nav-text">Breaking changes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#render-%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E9%94%99%E8%AF%AF%E4%B8%8D%E5%86%8D%E4%BA%8C%E6%AC%A1%E6%8A%9B%E5%87%BA"><span class="nav-text">render 过程中的错误不再二次抛出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%9F%E5%BC%83-React-API-%E7%A7%BB%E9%99%A4"><span class="nav-text">废弃 React API 移除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4propTypes%E5%92%8C%E5%87%BD%E6%95%B0%E7%BB%84%E4%BB%B6%E7%9A%84defaultProps"><span class="nav-text">移除propTypes和函数组件的defaultProps</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E4%BD%BF%E7%94%A8contextTypes%E5%92%8CgetChildContext%E7%9A%84-Legacy-Context"><span class="nav-text">移除使用contextTypes和getChildContext的 Legacy Context</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E5%AD%97%E7%AC%A6%E4%B8%B2-refs"><span class="nav-text">移除字符串 refs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E6%A8%A1%E5%9D%97%E6%A8%A1%E5%BC%8F%E5%B7%A5%E5%8E%82"><span class="nav-text">移除模块模式工厂</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4React-createFactory"><span class="nav-text">移除React.createFactory</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4react-test-renderer-shallow"><span class="nav-text">移除react-test-renderer&#x2F;shallow</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%9F%E5%BC%83-ReactDOM-API-%E7%A7%BB%E9%99%A4"><span class="nav-text">废弃 ReactDOM API 移除</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4react-dom-test-utils"><span class="nav-text">移除react-dom&#x2F;test-utils</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4ReactDOM-render"><span class="nav-text">移除ReactDOM.render</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4ReactDOM-hydrate"><span class="nav-text">移除ReactDOM.hydrate</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4unmountComponentAtNode"><span class="nav-text">移除unmountComponentAtNode</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4ReactDOM-findDOMNode"><span class="nav-text">移除ReactDOM.findDOMNode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%A2%9E%E5%BA%9F%E5%BC%83"><span class="nav-text">新增废弃</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%9F%E5%BC%83element-ref%E5%B1%9E%E6%80%A7"><span class="nav-text">废弃element.ref属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BA%9F%E5%BC%83react-test-renderer"><span class="nav-text">废弃react-test-renderer</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E5%80%BC%E5%BE%97%E4%B8%80%E6%8F%90%E7%9A%84%E5%8F%98%E5%8A%A8"><span class="nav-text">一些值得一提的变动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#StrictMode-%E5%8F%98%E5%8C%96"><span class="nav-text">StrictMode 变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4-UMD-%E4%BA%A7%E7%89%A9"><span class="nav-text">移除 UMD 产物</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E4%BA%8E-React-%E5%86%85%E9%83%A8%E7%9A%84%E5%BA%93%E5%8F%AF%E8%83%BD%E4%BC%9A%E5%BD%B1%E5%93%8D%E5%8D%87%E7%BA%A7"><span class="nav-text">依赖于 React 内部的库可能会影响升级</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeScript-%E5%8F%98%E5%8C%96"><span class="nav-text">TypeScript 变化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E5%BA%9F%E5%BC%83%E7%9A%84-TypeScript-%E7%B1%BB%E5%9E%8B"><span class="nav-text">移除废弃的 TypeScript 类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ref-%E8%BF%94%E5%9B%9E%E5%86%85%E5%AE%B9%E5%BF%85%E9%A1%BB%E6%98%AF%E6%B8%85%E7%90%86%E5%87%BD%E6%95%B0"><span class="nav-text">ref 返回内容必须是清理函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#useRef%E9%9C%80%E8%A6%81%E4%BC%A0%E9%80%92%E5%8F%82%E6%95%B0"><span class="nav-text">useRef需要传递参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ReactElement%E7%B1%BB%E5%9E%8B%E5%8F%98%E5%8C%96"><span class="nav-text">ReactElement类型变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TypeScript-%E4%B8%AD%E7%9A%84-JSX-namespace-%E5%8F%98%E5%8C%96"><span class="nav-text">TypeScript 中的 JSX namespace 变化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E5%A5%BD%E7%9A%84useReducer%E7%B1%BB%E5%9E%8B"><span class="nav-text">更好的useReducer类型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-text">参考</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>

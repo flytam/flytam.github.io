@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="utf-8">
+    <meta name="baidu-site-verification" content="code-dIcFuFl2mE" >
+    <meta name="google-site-verification" content="wape3ytOwC3RowSpyEC2hv0xY_nFeiO84AUG5pB1j_c">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="referrer" content="no-referrer" />
+    <meta name="keywords" content="fe,web,node.js,react.js,frontend">
+    <meta name="description" content="一个关于web开发知识的博客/A blog about web development">
+    <meta name="author" content="flytam">
+    
+    <title>
+        
+            从一个webpack打包bug到探索resolve背后的机制 |
+        
+        Geek技术前线
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/fe.svg">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/css/font-awesome.min.css">
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {};
+    KEEP.hexo_config = {"hostname":"blog.flytam.vip","root":"/","language":"zh-Hans","path":"search.json"};
+    KEEP.theme_config = {"toc":{"enable":true,"number":false,"expand_all":false,"init_open":true},"style":{"primary_color":"#888888","avatar":"https://avatars.githubusercontent.com/u/20512530?v=4","favicon":"images/fe.svg","article_img_align":"left","left_side_width":"260px","content_max_width":"920px","hover":"scale","first_screen":{"enable":false,"background_img":"/images/bg.svg","description":"Keep writing and Keep loving."},"scroll":{"progress_bar":true,"percent":{"enable":false}}},"local_search":{"enable":true,"preload":true},"code_copy":{"enable":true,"style":"mac"},"pjax":{"enable":false},"lazyload":{"enable":false},"version":"3.4.5"};
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"};
+  </script>
+<meta name="generator" content="Hexo 5.4.2"><link rel="alternate" href="/atom.xml" title="flytam's blog" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            <header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+            <a class="logo-title" href="/">
+                Geek技术前线
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/about"
+                            >
+                                ABOUT
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               target="_blank" rel="noopener" href="https://github.com/flytam"
+                            >
+                                GITHUB
+                            </a>
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="fas fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/about">ABOUT</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       target="_blank" rel="noopener" href="https://github.com/flytam">GITHUB</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="article-content-container">
+
+        <div class="article-title">
+            <span class="title-hover-animation">从一个webpack打包bug到探索resolve背后的机制</span>
+        </div>
+
+        
+            <div class="article-header">
+                <div class="avatar">
+                    <img src="https://avatars.githubusercontent.com/u/20512530?v=4">
+                </div>
+                <div class="info">
+                    <div class="author">
+                        <span class="name">flytam</span>
+                        
+                            <span class="author-label">Lv4</span>
+                        
+                    </div>
+                    <div class="meta-info">
+                        <div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        <i class="fas fa-edit"></i>&nbsp;
+        <span class="pc">2021-11-03 09:00:20</span>
+        <span class="mobile">2021-11-03 09:00</span>
+    </span>
+    
+        <span class="article-categories article-meta-item">
+            <i class="fas fa-folder"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/categories/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+    
+        <span class="article-tags article-meta-item">
+            <i class="fas fa-tags"></i>&nbsp;
+            <ul>
+                
+                    <li>
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        </span>
+    
+
+    
+    
+    
+    
+        <span class="article-pv article-meta-item">
+            <i class="fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+        </span>
+    
+</div>
+
+                    </div>
+                </div>
+            </div>
+        
+
+        <div class="article-content markdown-body">
+            <span id="more"></span>
+
+<p><img src="https://files.mdnice.com/user/8265/6f96e402-5262-4969-b58a-699a0ac57f95.png"></p>
+<h4 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h4><p>最近在业务项目配置升级改造的时候遇到了一个诡异的运行时报错</p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139970490-e5715fb6-8b27-4e58-afa4-c577a4b7dab5.png" alt="image"></p>
+<p>经过进一步调试发现，原因是在业务代码的<code>lib/axios.ts</code>的<code>import axios, &#123; AxiosError, AxiosRequestConfig, AxiosResponse &#125; from &#39;axios&#39;;</code>这行代码的引入居然是引入的 业务代码的<code>lib/``axios``.ts</code>而不是<code>node_modules</code>中的axios</p>
+<p>由于项目使用的是司内一个二次封装webpack的框架，找相关同学排查后发现是<code>tsconfig-paths-webpack-plugin</code>的一个bug导致。可以看到网上也有人提出了这个issue，并且可以看到有人也提了一个MR去修复这个问题。但是由于提出MR修复的老哥也表示不了解为啥这样改就好了，所作者也表示需要等有足够的单元测试才能将这个进行合并</p>
+<blockquote>
+<p><a class="link"   target="_blank" rel="noopener" href="https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/83" >https://github.com/dividab/tsconfig-paths-webpack-plugin/issues/83<i class="fas fa-external-link-alt"></i></a><br><a class="link"   target="_blank" rel="noopener" href="https://github.com/dividab/tsconfig-paths-webpack-plugin/pull/85" >https://github.com/dividab/tsconfig-paths-webpack-plugin/pull/85<i class="fas fa-external-link-alt"></i></a></p>
+</blockquote>
+<p><img src="https://user-images.githubusercontent.com/20512530/139970618-a584e2ff-aeb7-43f2-b4b7-b72eb180217c.png" alt="image"></p>
+<p>来都来了，不如就研究清楚这个bug是如何发生的，以及如何去修复</p>
+<h4 id="webpack-resolve-plugin原理"><a href="#webpack-resolve-plugin原理" class="headerlink" title="webpack resolve plugin原理"></a>webpack resolve plugin原理</h4><p>首先<code>tsconfig-paths-webpack-plugin</code>这个plugin是做啥的？</p>
+<blockquote>
+<p>Use this to load modules whose location is specified in the paths section of tsconfig.json when using webpack. This package provides the functionality of the tsconfig-paths package but as a webpack plug-in.</p>
+</blockquote>
+<blockquote>
+<p>Using this plugin means that you should no longer need to add alias entries in your webpack.config.js which correspond to the paths entries in your tsconfig.json. This plugin creates those alias entries for you, so you don’t have to!</p>
+</blockquote>
+<p>简单说，就是我们使用ts开发项目的时候通常需要配置<code>tsconfig.compilerOptions.paths</code>。默认情况下webpack是不认识这个配置的，通过配置这个webpack插件，即可实现无需在webpack中配置<code>resolve.alias</code> 即可让webpack打包时根据tsconfig的paths找到对应的文件。它底层是是依赖了<code>tsconfig-path</code>的<code>createMatchPathAsync</code>函数实现这个模块路径的查找功能</p>
+<p>还需要注意一点的是<code>tsconfig-paths-webpack-plugin</code> 是webpack的resolve plugin而不是常规的webpack plugin。两者的区别在于webpack plugin是配置在webpack的<a target="_blank" rel="noopener" href="https://webpack.js.org/configuration/plugins/#plugins"><code>config.plugins</code></a>字段，而webpack resolve plugin是配置在<a target="_blank" rel="noopener" href="https://webpack.js.org/configuration/resolve/#resolveplugins"><code>config.resolve.plugins</code></a>字段。两种插件对应的api也不太一样，webpack plugin一般通过complier/compilation去监听生命周期处理webpack打包整个过程的一些行为；而resolve plugin则专注于处理模块resolve的过程。而webpack配置文件的<a target="_blank" rel="noopener" href="https://webpack.js.org/configuration/resolve/#resolve"><code>config.resolve</code></a>字段基本是都传递给<code>enhanced-resolve</code>这个库是实例化resolver的。webpack内部的模块解析打包的路径处理就是由enhanced-resolve去实现。</p>
+<p>下图来自webpack源码的createResolver就是<code>enhanced-resolve</code>提供的</p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139970857-afabb432-f9dd-438e-9c95-b3955406946b.png" alt="image"></p>
+<p>在查看<code>tsconfig-paths-webpack-plugin</code>的实现之前了解下<code>enhanced-resolver</code>的架构有助于我们更好地去查bug。</p>
+<p><code>enhanced-resolver</code> 是一种基于<code>core</code>+<code>plugin</code>的运行机制。<code>enhanced-resolver</code>主要提供一个基础的<code>resolver</code>对象通过其<code>resolve</code>方法去处理模块路径查找；提供plugin的机制，基于<code>tapable</code>实现事件通信串联起webpack内部和<code>resolver</code> plugin之间的关系。resolver通过调用<code>resolve/doResolve</code>方法即可串联起来各个plugin进而实现模块查找。</p>
+<p>resolver基本用法：可参考<a class="link"   target="_blank" rel="noopener" href="https://github.com/webpack/enhanced-resolve#creating-a-resolver" >https://github.com/webpack/enhanced-resolve#creating-a-resolver<i class="fas fa-external-link-alt"></i></a></p>
+<p>resolver的插件机制：</p>
+<p>resolver对象在实例化时内部注册了4个hook对象，hook都是<a class="link"   target="_blank" rel="noopener" href="https://github.com/webpack/tapable" >tabable<i class="fas fa-external-link-alt"></i></a>的实例，用到的hook类型如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">resolve <span class="title class_">AsyncSeriesBailHook</span>  tapAsync/tapPromise/callAsync/promise 执行过程中注册的回调返回非 <span class="literal">undefined</span> 时就会直接执行 callAsync 或者 promise 中的函数，并且注册的后续回调都不会执行</span><br><span class="line">resolveStep <span class="title class_">SyncHook</span> 同步hook。call/tap</span><br><span class="line">noResolve <span class="title class_">SyncHook</span> 同步hook。call/tap</span><br><span class="line">result <span class="title class_">AsyncSeriesHook</span> tapAsync/tapPromise/callAsync/promise 顺序的执行注册的异步</span><br><span class="line"></span><br><span class="line">回调</span><br></pre></td></tr></table></figure>
+
+<p>resolver的plugin其实就是遵循着从<code>source</code>来<code>target</code>去的一直执行流程。每个Plugin都是通过hook监听<code>source</code>事件触发，执行完本插件的逻辑后触发<code>target</code>事件到下一个对应的hook去。resolver的plugin之间的通信监听回调函数都是符合<code>(request, resolveContext, callback: (err?: any, result: any) =&gt; void) =&gt; void</code> 签名的格式</p>
+<ul>
+<li>  request：resolver模块请求对象，包含当前需要查找的文件的一些信息</li>
+</ul>
+<p><img src="https://user-images.githubusercontent.com/20512530/139970931-700584e7-c06d-42ab-88db-14896e8fad7e.png" alt="image"></p>
+<ul>
+<li>  <code>resolveContext</code> 贯穿整个流程的上下文对象</li>
+<li>  <code>callback</code> 函数，当前plugin执行完成后传递给下一个plugin的一些信息。<code>result</code>就是下一个plugin接收到的<code>request</code></li>
+</ul>
+<p>如一个最简单的<code>NextPlugin</code>的代码如下。按照约定，每个resolve plugin都有一个source和target属性。source表示当前plugin是在source事件触发后执行；target表示当前plugin执行后会触发target事件</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/webpack/enhanced-resolve/blob/main/lib/NextPlugin.js</span></span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="keyword">class</span> <span class="title class_">NextPlugin</span> &#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &#123;<span class="type">string | ResolveStepHook</span>&#125; source source</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &#123;<span class="type">string | ResolveStepHook</span>&#125; target target</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">source, target</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">source</span> = source;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">target</span> = target;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> &#123;<span class="type">Resolver</span>&#125; resolver the resolver</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@returns</span> &#123;<span class="type">void</span>&#125;</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="title function_">apply</span>(<span class="params">resolver</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> target = resolver.<span class="title function_">ensureHook</span>(<span class="variable language_">this</span>.<span class="property">target</span>);</span><br><span class="line">        resolver</span><br><span class="line">            .<span class="title function_">getHook</span>(<span class="variable language_">this</span>.<span class="property">source</span>)</span><br><span class="line">            .<span class="title function_">tapAsync</span>(<span class="string">&quot;NextPlugin&quot;</span>, <span class="function">(<span class="params">request, resolveContext, callback</span>) =&gt;</span> &#123;</span><br><span class="line">                resolver.<span class="title function_">doResolve</span>(target, request, <span class="literal">null</span>, resolveContext, callback);</span><br><span class="line">            &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>这个插件的逻辑就是监听<code>source</code>对应的事件，执行resolver对象的<code>doResolve</code>方法去查找模块，将结果传递给监听<code>target</code>事件的plugin</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/webpack/enhanced-resolve/blob/main/lib/ResolverFactory.js</span></span><br><span class="line"><span class="comment">//...</span></span><br><span class="line">    plugins.<span class="title function_">push</span>(</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">NextPlugin</span>(<span class="string">&quot;after-undescribed-resolve-in-package&quot;</span>, <span class="string">&quot;resolve-in-package&quot;</span>)</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>如上代码表示监听<code>undescribed-resolve-in-package</code> 触发完成后，执行<code>doResolve</code> 后触发<code>resolve-in-package</code>事件。而enhanced-resolve本身基础功能的实现就是由若干个内置plugin一起实现</p>
+<p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/67d3bc0f186444d987e0d30621019d6e~tplv-k3u1fbpfcp-zoom-1.image" alt="image"></p>
+<p>整体的resolve的架构图如下</p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139971052-d3b0c1da-ca73-4f0b-9308-ad503fa36904.png"></p>
+<h4 id="tsconfig-paths-webpack-plugin原理"><a href="#tsconfig-paths-webpack-plugin原理" class="headerlink" title="tsconfig-paths-webpack-plugin原理"></a>tsconfig-paths-webpack-plugin原理</h4><p>经过上面的分析，这是一个resolve plugin，该plugin总体流程如下：</p>
+<ol>
+<li> hook是由监听的<code>described-resolve</code>事件后触发，将结果传递给<code>resolve</code>事件。</li>
+<li> 如果request请求的文件路径是<code>.</code>或者<code>..</code>前缀，则为相对路径，plugin不作处理。直接跳过处理流程，应用webpack默认resolve流程</li>
+<li> 如果是非相对路径，则通过<code>matchPath</code>函数查找实际模块路径，若实际模块路径不存在直接跳过处理流程，应用webpack默认resolve流程；若存在将结果传递给<code>resolve</code> hook进而找到模块</li>
+</ol>
+<p>简化后主要逻辑伪代码如下</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// https://github.com/dividab/tsconfig-paths-webpack-plugin/blob/master/src/plugin.ts#L230</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">createPluginCallback</span>(<span class="params"></span></span><br><span class="line"><span class="params">  matchPath: TsconfigPaths.MatchPathAsync,</span></span><br><span class="line"><span class="params">  resolver: Resolver,</span></span><br><span class="line"><span class="params">  absoluteBaseUrl: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">  hook: Tapable,</span></span><br><span class="line"><span class="params">  extensions: ReadonlyArray&lt;<span class="built_in">string</span>&gt;</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">TapAsyncCallback</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    request: ResolveRequest,</span></span></span><br><span class="line"><span class="params"><span class="function">    resolveContext: ResolveContext,</span></span></span><br><span class="line"><span class="params"><span class="function">    callback: TapAsyncInnerCallback</span></span></span><br><span class="line"><span class="params"><span class="function">  </span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 锚点1</span></span><br><span class="line">    <span class="keyword">const</span> innerRequest = <span class="title function_">getInnerRequest</span>(resolver, request);</span><br><span class="line">    <span class="comment">// 锚点2</span></span><br><span class="line">    <span class="keyword">if</span> (</span><br><span class="line">      !innerRequest ||</span><br><span class="line">      innerRequest.<span class="title function_">startsWith</span>(<span class="string">&quot;.&quot;</span>) ||</span><br><span class="line">      innerRequest.<span class="title function_">startsWith</span>(<span class="string">&quot;..&quot;</span>)</span><br><span class="line">    ) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">callback</span>();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 锚点3</span></span><br><span class="line">    <span class="title function_">matchPath</span>(</span><br><span class="line">      innerRequest,</span><br><span class="line">      readJsonAsync,</span><br><span class="line">      fileExistAsync,</span><br><span class="line">      extensions,</span><br><span class="line">      <span class="function">(<span class="params">err, foundMatch</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="title function_">callback</span>(err);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (!foundMatch) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="title function_">callback</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> newRequest = &#123;</span><br><span class="line">          ...request,</span><br><span class="line">          <span class="attr">request</span>: foundMatch,</span><br><span class="line">          <span class="attr">path</span>: absoluteBaseUrl,</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">return</span> resolver.<span class="title function_">doResolve</span>(</span><br><span class="line">          hook,</span><br><span class="line">          newRequest,</span><br><span class="line">          &#123;&#125;,</span><br><span class="line">          &#123;&#125;,</span><br><span class="line">          (<span class="attr">err2</span>: <span class="title class_">Error</span>, <span class="attr">result2</span>: <span class="title class_">ResolveRequest</span>): <span class="function"><span class="params">void</span> =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">callback</span>(<span class="literal">undefined</span>, result2);</span><br><span class="line">          &#125;</span><br><span class="line">        );</span><br><span class="line">      &#125;</span><br><span class="line">    );</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="出现bug的原因"><a href="#出现bug的原因" class="headerlink" title="出现bug的原因"></a>出现bug的原因</h4><blockquote>
+<p>最简复现<a class="link"   target="_blank" rel="noopener" href="https://github.com/flytam/tsconfig-paths-webpack-plugin-err" >demo<i class="fas fa-external-link-alt"></i></a></p>
+<ol>
+<li> 配置`compilerOptions.baseUrl = “./src”</li>
+<li> 建一个<code>src/lib/axios</code>文件</li>
+<li> <code>src/index</code>中<code>import axios from &#39;axios&#39;</code></li>
+</ol>
+</blockquote>
+<p>BUG表现，index中import的axios居然是<code>lib/axios</code>！而不是node_modules中的，就会导致了错误。</p>
+<p>通过断点调试加上面的代码逻辑解读可以找出bug的原因</p>
+<ol>
+<li> 我们在<code>index.ts</code> import了axios，而axios的入口文件<code>node_modules/axios/index.js</code>有以下代码</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="built_in">require</span>(<span class="string">&#x27;./lib/axios&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>此时，到了resolve查找<code>./lib/axios</code>的流程。进入到锚点1的<code>getInnerRequest</code>函数，该函数做了一个处理并返回。而此时的<code>request.relativePath</code>值为<code>.</code> ， <code>innerRequest</code>值为<code>./lib/axios</code>。它们join后的结果就是<code>lib/axios</code>。</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">innerRequest = resolver.<span class="title function_">join</span>(request.<span class="property">relativePath</span>, innerRequest);</span><br></pre></td></tr></table></figure>
+
+<p>通过锚点3的<code>matchPath</code>函数传入<code>lib/axios</code> 参数进行查找，显然这个时候查找的结果就是<code>src/lib/axios</code>文件了，此时这个文件在项目中又是存在的。于是，import <code>axios</code>最终就是import了<code>src/lib/axios</code>，这就产生了开头提的bug。这里的根本原因是axios入口文件内部的<code>./lib/axios</code>被错误处理了，按道理说这种相对路径导入是不应该被alias插件处理的。我们可以看到锚点2是有判断<code>innerRequest</code>是否相对路径，但是基于上面的分析可以知道<code>getInnerRequest</code>的结果必然是非相对路径的(<code>resolver.join</code>的背后其实是<code>path.join</code>的封装)。</p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139971311-964aeffe-cce7-4afe-bf85-856b38a24bda.png" alt="image"></p>
+<p>至于为何<code>request.relativePath</code>是<code>.</code>，通过上面的分析可知，<code>tsconfig-paths-webpack-plugin</code>是由<code>described-resolve</code> hook事件触发，在<code>enhanced-resolve</code>中可以找到触发<code>described-resolve</code>的是<code>DescriptionFilePlugin</code></p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139971348-c432d5a4-a7d5-4236-95e1-ab5a21abebdd.png" alt="image"></p>
+<p>对应的<code>relativePath</code>其实含义就是当前被request文件相对于所在包的路径，对于<code>node_modules/axios</code>的index.js来说就是<code>.</code></p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139971472-9decdc6d-38de-4b94-9f27-3482bfe94d02.png" alt="image"></p>
+<p>因此，锚点2用<code>getInnerRequest</code>的返回值来判断是否相对路径是个bug。<code>getInnerRequest</code>会将相对路径的<code>request</code>和<code>relativePath</code> 进行join导致丢失了前面的相对路径前缀</p>
+<p>正确的解法则是应该用<code>request.request</code>去判断，对于相对路径则plugin跳过处理。<code>request.request</code>对应就是源代码中的引入路径的部分</p>
+<p><img src="https://user-images.githubusercontent.com/20512530/139971274-3b7e5b64-e902-4c2f-a5a5-c670d5a34ac5.png" alt="image"></p>
+<h4 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h4><p>解决的PR已经有了。但是维护者暂时还没合进。直接通过暴力修改文件名的方式虽然能暂时解决这个问题，但是这难免以后会再次踩坑。这时候可以通过<code>patch-package</code>方式来解决<code>node_modules</code>带来的问题</p>
+<ol>
+<li> <code>package.json</code>添加<code>&quot;postinstall&quot;: &quot;patch-package&quot;</code></li>
+</ol>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D patch-package</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li> 直接到<code>node_modules/tsconfig-paths-webpack-plugin/lib/plugin.js</code>对应位置修改为正确的代码</li>
+<li> 执行<code>npx patch-package tsconfig-paths-webpack-plugin</code></li>
+<li> 此时会生成一个patch文件，将这个文件一同提交到git仓库</li>
+</ol>
+<p><img src="https://user-images.githubusercontent.com/20512530/139971227-74517877-824b-4175-a69b-6131915ace1f.png" alt="image"></p>
+<ol start="5">
+<li> 运行代码，没有再出现开头所示的报错，bug解除</li>
+</ol>
+
+        </div>
+
+        
+            <div class="post-copyright-info">
+                <div class="article-copyright-info-container">
+    <ul>
+        <li>Post title：从一个webpack打包bug到探索resolve背后的机制</li>
+        <li>Post author：flytam</li>
+        <li>Create time：2021-11-03 09:00:20</li>
+        <li>
+            Post link：https://blog.flytam.vip/从一个webpack打包bug到探索resolve背后的机制.html
+        </li>
+        <li>
+            Copyright Notice：All articles in this blog are licensed under <a class="license" target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">BY-NC-SA</a> unless stating additionally.
+        </li>
+    </ul>
+</div>
+
+            </div>
+        
+
+        
+            <ul class="post-tags-box">
+                
+                    <li class="tag-item">
+                        <a href="/tags/%E5%B7%A5%E7%A8%8B%E5%8C%96/">#工程化</a>&nbsp;
+                    </li>
+                
+            </ul>
+        
+
+        
+            <div class="article-nav">
+                
+                    <div class="article-prev">
+                        <a class="prev"
+                           rel="prev"
+                           href="/javascript%E8%A3%85%E9%A5%B0%E5%99%A8%E8%BF%9B%E5%85%A5stage3%E4%BA%86.html"
+                        >
+                            <span class="left arrow-icon flex-center">
+                              <i class="fas fa-chevron-left"></i>
+                            </span>
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">javascript装饰器进入stage3了</span>
+                                <span class="post-nav-item">Prev posts</span>
+                            </span>
+                        </a>
+                    </div>
+                
+                
+                    <div class="article-next">
+                        <a class="next"
+                           rel="next"
+                           href="/React%20Native%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%9A%E5%BA%94%E8%AF%A5%E5%81%9A%E5%92%8C%E4%B8%8D%E5%BA%94%E8%AF%A5%E5%81%9A%E7%9A%84.html"
+                        >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">React Native性能优化：应该做和不应该做的</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                            <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                        </a>
+                    </div>
+                
+            </div>
+        
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            <footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+              <span>2016</span>
+              -
+            
+            2024&nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;<a href="/">flytam</a>
+        </div>
+        
+            <script async  src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+            <div class="website-count info-item">
+                
+                    <span id="busuanzi_container_site_uv">
+                        Visitor Count&nbsp;<span id="busuanzi_value_site_uv"></span>&ensp;
+                    </span>
+                
+                
+                    <span id="busuanzi_container_site_pv">
+                        Totalview&nbsp;<span id="busuanzi_value_site_pv"></span>
+                    </span>
+                
+            </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.4.5</a>
+        </div>
+        <div class="info-item">
+          <a target="_blank" href="https://github.com/flytam/github-issue-to-hexo">Generated by github-issue-to-hexo</a>
+        </div>
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+            <li class="tools-item page-aside-toggle">
+                <i class="fas fa-outdent"></i>
+            </li>
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-expand-width flex-center">
+            <i class="fas fa-arrows-alt-h"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+            <li class="tools-item rss flex-center">
+                <a class="flex-center"
+                   href="/atom.xml"
+                   target="_blank"
+                >
+                    <i class="fas fa-rss"></i>
+                </a>
+            </li>
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    
+        <aside class="page-aside">
+            <div class="post-toc-wrap">
+    <div class="post-toc">
+        <ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#webpack-resolve-plugin%E5%8E%9F%E7%90%86"><span class="nav-text">webpack resolve plugin原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tsconfig-paths-webpack-plugin%E5%8E%9F%E7%90%86"><span class="nav-text">tsconfig-paths-webpack-plugin原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BA%E7%8E%B0bug%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-text">出现bug的原因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3"><span class="nav-text">解决</span></a></li></ol>
+    </div>
+</div>
+        </aside>
+    
+
+    <div class="image-viewer-container">
+    <img src="">
+</div>
+
+
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="popup-btn-close">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+</main>
+
+
+
+<script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/utils.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/main.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/header-shrink.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/back2top.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/dark-light-toggle.js"></script>
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/local-search.js"></script>
+
+
+
+    <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/code-copy.js"></script>
+
+
+
+
+<div class="post-scripts">
+    
+        <script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/left-side-toggle.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/libs/anime.min.js"></script><script src="//cdn.jsdelivr.net/npm/hexo-theme-keep@3.4.5/source/js/toc.js"></script>
+    
+</div>
+
+
+
+</body>
+</html>
